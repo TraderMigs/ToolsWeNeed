@@ -3,8 +3,10 @@
  * Provides type-safe access to environment variables
  */
 
+// SECURITY FIX: Enhanced environment variable validation
 import { z } from 'zod';
 
+// Define schema for environment variables
 const envSchema = z.object({
   SUPABASE_URL: z.string().url('Invalid Supabase URL'),
   SUPABASE_ANON_KEY: z.string().min(1, 'Supabase anon key is required'),
@@ -21,6 +23,7 @@ interface EnvVariables {
   GA_TRACKING_ID?: string;
 }
 
+// Parse and validate environment variables
 const parseEnv = () => {
   const rawEnv = {
     SUPABASE_URL: import.meta.env.VITE_SUPABASE_URL,
@@ -38,11 +41,15 @@ const parseEnv = () => {
   }
 };
 
+// Get environment variables with validation
 export const env: EnvVariables = parseEnv();
 
+// Validate required environment variables
 export const validateEnv = (): boolean => {
   try {
     parseEnv();
+    
+    // Additional production checks
     if (env.APP_ENV === 'production') {
       if (!env.STRIPE_PUBLISHABLE_KEY) {
         console.warn('Stripe not configured - payment features will be disabled');
@@ -51,6 +58,7 @@ export const validateEnv = (): boolean => {
         console.warn('Google Analytics not configured - analytics will be disabled');
       }
     }
+    
     return true;
   } catch (error) {
     console.error('Environment validation failed:', error);
@@ -58,10 +66,16 @@ export const validateEnv = (): boolean => {
   }
 };
 
+// Check if we're in production
 export const isProduction = (): boolean => env.APP_ENV === 'production';
+
+// Check if we're in development
 export const isDevelopment = (): boolean => env.APP_ENV === 'development';
+
+// Check if we're in test
 export const isTest = (): boolean => env.APP_ENV === 'test';
 
+// Debug function to log environment status
 export const debugEnvironment = (): void => {
   if (isDevelopment()) {
     console.log('Environment Debug:', {

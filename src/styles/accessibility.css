@@ -73,12 +73,12 @@ button, a, input, select, textarea {
   .no-print {
     display: none !important;
   }
-
+  
   body {
     background: white !important;
     color: black !important;
   }
-
+  
   .bg-gray-800, .bg-gray-900 {
     background: white !important;
     color: black !important;
