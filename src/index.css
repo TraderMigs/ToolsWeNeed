@@ -1,24 +1,23 @@
+@import './styles/accessibility.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import './styles/accessibility.css';
 
 /* Mobile-first responsive design enhancements */
 @layer base {
   html {
     font-size: 16px;
   }
-  
+
   body {
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent;
   }
-  
-  /* Ensure minimum font sizes on mobile */
+
   input, button, select, textarea {
     font-size: 16px;
   }
-  
+
   @media (min-width: 640px) {
     input, button, select, textarea {
       font-size: 14px;
@@ -27,57 +26,38 @@
 }
 
 @layer utilities {
-  /* Line clamp utilities for text truncation */
-  .line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  
-  .line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  
-  /* Ensure minimum touch targets */
-  .touch-target {
-    min-height: 44px;
-    min-width: 44px;
-  }
-  
-  /* Improved contrast for accessibility */
-  .text-contrast {
-    color: #e5e7eb; /* gray-200 for better contrast */
-  }
-  
-  /* Mobile-optimized scrolling */
-  .mobile-scroll {
-    -webkit-overflow-scrolling: touch;
-    overflow-y: auto;
-  }
-  
-  /* Line clamp utilities */
   .line-clamp-1 {
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  
+
   .line-clamp-2 {
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  
+
   .line-clamp-3 {
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .text-contrast {
+    color: #e5e7eb;
+  }
+
+  .mobile-scroll {
+    -webkit-overflow-scrolling: touch;
+    overflow-y: auto;
   }
 }
