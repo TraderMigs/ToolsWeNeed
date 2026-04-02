@@ -1,0 +1,9 @@
+# Allow all web crawlers
+User-agent: *
+Allow: /
+Disallow: /payment-success.html
+Disallow: /payment-canceled.html
+Disallow: /admin
+
+# Sitemap location
+Sitemap: https://www.toolsweneed.com/sitemap.xml
