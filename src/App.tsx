@@ -20,6 +20,8 @@ import { FeedbackButton } from './components/FeedbackButton';
 import { CategoryFilter } from './components/CategoryFilter';
 import { SortingDropdown } from './components/SortingDropdown';
 import { TrendingToolsSection } from './components/TrendingToolsSection';
+
+// Financial tools
 import { BudgetCardConveyor } from './components/tools/BudgetCardConveyor';
 import { SelfEmployedTaxEstimator } from './components/tools/SelfEmployedTaxEstimator';
 import { DebtSnowballTracker } from './components/tools/DebtSnowballTracker';
@@ -27,29 +29,57 @@ import { NetWorthSnapshot } from './components/tools/NetWorthSnapshot';
 import { SavingsGoalTracker } from './components/tools/SavingsGoalTracker';
 import { HourlyRateCalculator } from './components/tools/HourlyRateCalculator';
 import { FreelanceProposalEstimator } from './components/tools/FreelanceProposalEstimator';
+import { LoanComparisonTool } from './components/tools/LoanComparisonTool';
+import { SubscriptionPurgeTool } from './components/tools/SubscriptionPurgeTool';
+import { CostOfLivingCalculator } from './components/tools/CostOfLivingCalculator';
+
+// Business tools
 import { MeetingCostEstimator } from './components/tools/MeetingCostEstimator';
+import { ResumeScanner } from './components/tools/ResumeScanner';
+import { ResumeBuilderPro } from './components/tools/ResumeBuilderPro';
+
+// Health tools
 import { HealthHub } from './components/tools/HealthHub';
 import { SleepDebtCalculator } from './components/tools/SleepDebtCalculator';
+import { FastingPlanner } from './components/tools/FastingPlanner';
+
+// Planning tools
 import { EventCostEstimator } from './components/tools/EventCostEstimator';
 import { BillSplitterPro } from './components/tools/BillSplitterPro';
 import { PackingChecklistGenerator } from './components/tools/PackingChecklistGenerator';
 import { TimeBlockingScheduler } from './components/tools/TimeBlockingScheduler';
 import { WeddingBudgetPlanner } from './components/tools/WeddingBudgetPlanner';
-import { SubscriptionPurgeTool } from './components/tools/SubscriptionPurgeTool';
-import { LoanComparisonTool } from './components/tools/LoanComparisonTool';
-import { CostOfLivingCalculator } from './components/tools/CostOfLivingCalculator';
-import { ResumeScanner } from './components/tools/ResumeScanner';
-import { ResumeBuilderPro } from './components/tools/ResumeBuilderPro';
+
+// Trading tools
 import { TradeProfitRiskCalculator } from './components/tools/TradeProfitRiskCalculator';
+
+// Search/finder tools
 import { SubscriptionSwapFinder } from './components/tools/SubscriptionSwapFinder';
-import { FastingPlanner } from './components/tools/FastingPlanner';
+
+// NEW - Utility tools
+import { PomodoroTimer } from './components/tools/PomodoroTimer';
+import { CountdownTimer } from './components/tools/CountdownTimer';
+import { UnitConverter } from './components/tools/UnitConverter';
+import { PasswordGenerator } from './components/tools/PasswordGenerator';
+import { ColorPicker } from './components/tools/ColorPicker';
+import { WordCharacterCounter } from './components/tools/WordCharacterCounter';
+import { TextCaseConverter } from './components/tools/TextCaseConverter';
+
+// NEW - Developer tools
+import { QRCodeGenerator } from './components/tools/QRCodeGenerator';
+import { Base64Tool } from './components/tools/Base64Tool';
+import { JSONFormatter } from './components/tools/JSONFormatter';
+
+// Shared components
 import { PersonalizedInsights } from './components/PersonalizedInsights';
 import { EnhancedToolRecommendations } from './components/EnhancedToolRecommendations';
 import { AccessibilityTour } from './components/AccessibilityTour';
 import { PaymentSuccessPage } from './components/PaymentSuccessPage';
 import { SponsorCard } from './components/SponsorCard';
+import { PaymentTestButton } from './components/PaymentTestButton';
 
 const toolComponents: Record<string, React.ComponentType<any>> = {
+  // Financial
   'budget-card-conveyor': BudgetCardConveyor,
   'self-employed-tax-estimator': SelfEmployedTaxEstimator,
   'debt-snowball-tracker': DebtSnowballTracker,
@@ -57,23 +87,41 @@ const toolComponents: Record<string, React.ComponentType<any>> = {
   'savings-goal-tracker': SavingsGoalTracker,
   'hourly-rate-calculator': HourlyRateCalculator,
   'freelance-proposal-estimator': FreelanceProposalEstimator,
+  'loan-comparison-tool': LoanComparisonTool,
+  'subscription-purge-tool': SubscriptionPurgeTool,
+  'cost-of-living-calculator': CostOfLivingCalculator,
+  // Business
   'meeting-cost-estimator': MeetingCostEstimator,
+  'resume-scanner': ResumeScanner,
+  'resume-builder-pro': ResumeBuilderPro,
+  // Health
   'health-hub': HealthHub,
   'fasting-planner': HealthHub,
   'fasting-planner-standalone': FastingPlanner,
   'sleep-debt-calculator': SleepDebtCalculator,
+  // Planning
   'event-cost-estimator': EventCostEstimator,
   'bill-splitter-pro': BillSplitterPro,
   'packing-checklist-generator': PackingChecklistGenerator,
   'time-blocking-scheduler': TimeBlockingScheduler,
   'wedding-budget-planner': WeddingBudgetPlanner,
-  'subscription-purge-tool': SubscriptionPurgeTool,
-  'loan-comparison-tool': LoanComparisonTool,
-  'cost-of-living-calculator': CostOfLivingCalculator,
-  'resume-scanner': ResumeScanner,
-  'resume-builder-pro': ResumeBuilderPro,
+  // Trading
   'trade-profit-risk-calculator': TradeProfitRiskCalculator,
+  // Search
   'subscription-swap-finder': SubscriptionSwapFinder,
+  // Utility (NEW)
+  'pomodoro-timer': PomodoroTimer,
+  'countdown-timer': CountdownTimer,
+  'unit-converter': UnitConverter,
+  'password-generator': PasswordGenerator,
+  'color-picker': ColorPicker,
+  'word-counter': WordCharacterCounter,
+  'text-case-converter': TextCaseConverter,
+  // Developer (NEW)
+  'qr-code-generator': QRCodeGenerator,
+  'base64-tool': Base64Tool,
+  'json-formatter': JSONFormatter,
+  // Fallback
   'default': () => <div className="text-center py-8 text-gray-400">Tool loading...</div>
 };
 
@@ -90,7 +138,7 @@ class ToolErrorBoundary extends React.Component<
     return { hasError: true, error };
   }
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+  componentDidCatch(error: Error) {
     if (typeof gtag !== 'undefined') {
       gtag('event', 'tool_error', {
         'event_category': 'error',
@@ -150,8 +198,7 @@ function App() {
 
   React.useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const paymentCanceled = urlParams.get('payment_canceled');
-    if (paymentCanceled === 'true') {
+    if (urlParams.get('payment_canceled') === 'true') {
       window.history.replaceState({}, document.title, window.location.pathname);
     }
 
@@ -175,9 +222,7 @@ function App() {
 
   const debouncedSearch = React.useMemo(
     () => debounce((term: string) => {
-      if (!term && !showAdvancedSearch) {
-        setSearchResults([]);
-      }
+      if (!term && !showAdvancedSearch) setSearchResults([]);
     }, 300),
     [debounce, showAdvancedSearch]
   );
@@ -284,10 +329,9 @@ function App() {
       <AccessibilityTour />
       <PWAInstallPrompt />
 
-      {/* Header */}
       <header className="py-10 px-4 text-center">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 mb-4">
-          <span className="text-xs font-semibold text-blue-400 uppercase tracking-wider">22 Free Tools & Counting</span>
+          <span className="text-xs font-semibold text-blue-400 uppercase tracking-wider">{tools.length} Free Tools & Counting</span>
         </div>
         <h1 className="text-4xl sm:text-5xl font-bold mb-3 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
           Tools We Need
@@ -300,7 +344,6 @@ function App() {
         </div>
       </header>
 
-      {/* Search & Filters */}
       <div className="max-w-6xl mx-auto px-4 mb-4">
         <div className="flex flex-col sm:flex-row gap-4 mb-4">
           <input
@@ -321,7 +364,6 @@ function App() {
         <CategoryFilter activeCategory={activeCategory} onSelectCategory={setActiveCategory} />
       </div>
 
-      {/* Tools Grid */}
       <div className="max-w-6xl mx-auto px-4 pb-16" id="main-content">
         {!searchTerm && !activeCategory && (
           <PersonalizedInsights onSelectTool={(toolId) => {
@@ -359,20 +401,17 @@ function App() {
         />
       )}
 
-      {/* Footer */}
       <footer className="py-8 px-4 text-center text-gray-400 border-t border-gray-800">
-        <div className="max-w-4xl mx-auto mt-8 mb-8 text-left" role="region" id="seo-content">
+        <div className="max-w-4xl mx-auto mt-8 mb-8 text-left" id="seo-content">
           <h2 className="text-xl font-bold text-white mb-4">Free Online Tools for Finance, Health, and Productivity</h2>
-          <div className="text-gray-400 text-sm space-y-4">
-            <p>
-              Tools We Need offers a comprehensive collection of free online tools designed to help you manage your finances,
-              improve your health, and boost your productivity — all without requiring signup or installation.
-              Access premium tools without premium pricing.
-            </p>
-          </div>
+          <p className="text-gray-400 text-sm">
+            Tools We Need offers {tools.length}+ free online tools designed to help you manage your finances,
+            improve your health, and boost your productivity — all without requiring signup or installation.
+            Access premium tools without premium pricing.
+          </p>
 
           <div className="mt-8">
-            <h3 className="text-lg font-bold text-white mb-4">Available Free Online Tools</h3>
+            <h3 className="text-lg font-bold text-white mb-4">All Free Online Tools</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-sm">
               {tools.map(tool => (
                 <button

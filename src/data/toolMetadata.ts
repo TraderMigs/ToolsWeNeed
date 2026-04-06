@@ -121,9 +121,9 @@ export const toolMetadata: Record<string, ToolMetadata> = {
   },
   'resume-builder-pro': {
     id: 'resume-builder-pro',
-    title: 'Resume Builder Pro | AI Resume Generator | GPT-4 Powered',
-    metaDescription: 'AI-crafted, ATS-optimized resume & cover letter powered by GPT-4. Create professional resumes and cover letters in minutes.',
-    toolDescription: 'Create professional, ATS-optimized resumes and matching cover letters with our AI-powered resume builder. Choose from multiple templates and customize to your needs.',
+    title: 'Resume Builder Pro | AI Resume Generator | Claude-Powered',
+    metaDescription: 'AI-crafted, ATS-optimized resume & cover letter powered by Claude AI. Create professional resumes and cover letters in minutes on SexyResume.',
+    toolDescription: 'Create professional, ATS-optimized resumes and matching cover letters powered by Claude AI. Access the full suite on SexyResume.com.',
     relatedTools: ['resume-scanner', 'freelance-proposal-estimator', 'hourly-rate-calculator']
   },
   'freelance-proposal-estimator': {
@@ -133,33 +133,26 @@ export const toolMetadata: Record<string, ToolMetadata> = {
     toolDescription: 'Create winning proposals with accurate pricing. Break down projects into milestones and generate professional estimates for clients.',
     relatedTools: ['hourly-rate-calculator', 'self-employed-tax-estimator']
   },
-  'macro-micronutrient-tracker': {
-    id: 'macro-micronutrient-tracker',
-    title: 'Macro Tracker | Free Nutrition Calculator',
-    metaDescription: 'Track meals, calories, and macros with visual breakdowns. Free macro and micronutrient tracker for healthy eating goals.',
-    toolDescription: 'Reach your nutrition goals with precision tracking. Monitor calories, macros, and micronutrients with visual progress indicators.',
-    relatedTools: ['sleep-debt-calculator', 'fasting-planner']
-  },
   'sleep-debt-calculator': {
     id: 'sleep-debt-calculator',
     title: 'Sleep Debt Calculator | Sleep Tracker Free',
     metaDescription: 'Track sleep patterns and calculate recovery time needed. Free sleep debt calculator to improve your sleep health.',
     toolDescription: 'Improve your sleep health with data-driven insights. Track sleep patterns, calculate debt, and get personalized recovery recommendations.',
-    relatedTools: ['macro-micronutrient-tracker', 'fasting-planner']
+    relatedTools: ['health-hub', 'fasting-planner']
+  },
+  'health-hub': {
+    id: 'health-hub',
+    title: 'Health Hub | Fasting + Nutrition Tracker Free',
+    metaDescription: 'Complete health tracking with intermittent fasting timer and nutrition logging. Free tool for 16:8, OMAD fasting plus macro tracking.',
+    toolDescription: 'Your complete health companion. Track intermittent fasting with live timers and log nutrition with comprehensive food database.',
+    relatedTools: ['sleep-debt-calculator', 'budget-card-conveyor']
   },
   'fasting-planner': {
     id: 'fasting-planner',
     title: 'Health Hub | Fasting + Nutrition Tracker Free',
     metaDescription: 'Complete health tracking with intermittent fasting timer and nutrition logging. Free tool for 16:8, OMAD fasting plus macro tracking.',
     toolDescription: 'Your complete health companion. Track intermittent fasting with live timers and log nutrition with comprehensive food database.',
-    relatedTools: ['sleep-debt-calculator', 'macro-micronutrient-tracker']
-  },
-  'macro-micronutrient-tracker': {
-    id: 'macro-micronutrient-tracker',
-    title: 'Health Hub | Fasting + Nutrition Tracker Free',
-    metaDescription: 'Complete health tracking with intermittent fasting timer and nutrition logging. Free tool for 16:8, OMAD fasting plus macro tracking.',
-    toolDescription: 'Your complete health companion. Track intermittent fasting with live timers and log nutrition with comprehensive food database.',
-    relatedTools: ['sleep-debt-calculator', 'fasting-planner']
+    relatedTools: ['sleep-debt-calculator', 'health-hub']
   },
   'trade-profit-risk-calculator': {
     id: 'trade-profit-risk-calculator',
@@ -184,7 +177,7 @@ export const getToolMetadata = (toolId: string): ToolMetadata | null => {
 export const getRelatedToolsData = (toolId: string, allTools: any[]) => {
   const metadata = getToolMetadata(toolId);
   if (!metadata) return [];
-  
+
   return metadata.relatedTools
     .map(relatedId => allTools.find(tool => tool.id === relatedId))
     .filter(Boolean);

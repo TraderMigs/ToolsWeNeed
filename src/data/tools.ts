@@ -20,7 +20,14 @@ import {
   Moon,
   Timer,
   RefreshCw,
-  Search
+  Search,
+  Type,
+  Lock,
+  QrCode,
+  ArrowLeftRight,
+  AlarmClock,
+  Palette,
+  Code2
 } from 'lucide-react';
 import { optimizeToolPlacement, trackToolCoUsage } from './toolRelationships';
 
@@ -31,7 +38,7 @@ export interface Tool {
   icon: any;
   color: string;
   tags: string;
-  category: 'financial' | 'business' | 'wellness' | 'planning' | 'trading' | 'search';
+  category: 'financial' | 'business' | 'wellness' | 'planning' | 'trading' | 'search' | 'utility' | 'developer';
   sortWeight: number;
   usageCount?: number;
   exportCount?: number;
@@ -68,11 +75,23 @@ export const toolCategories = {
     color: 'bg-emerald-600',
     priority: 1
   },
-  search: {
-    name: '🧰 Utilities & Converters',
-    description: 'Productivity and utility tools',
+  utility: {
+    name: '🧰 Productivity & Utilities',
+    description: 'Timers, converters, and everyday utilities',
     color: 'bg-indigo-600',
     priority: 5
+  },
+  developer: {
+    name: '💻 Developer Tools',
+    description: 'Encoding, formatting, and developer utilities',
+    color: 'bg-gray-600',
+    priority: 6
+  },
+  search: {
+    name: '🔍 Finders & Comparisons',
+    description: 'Find alternatives and compare options',
+    color: 'bg-cyan-600',
+    priority: 7
   }
 };
 
@@ -297,7 +316,111 @@ export const tools: Tool[] = [
     sortWeight: 280
   },
 
-  // 🧰 UTILITIES
+  // 🧰 PRODUCTIVITY & UTILITIES (NEW)
+  {
+    id: 'pomodoro-timer',
+    title: 'Pomodoro Timer',
+    description: 'Boost focus with timed work sessions and breaks using the Pomodoro Technique',
+    icon: AlarmClock,
+    color: 'bg-red-600',
+    tags: 'productivity,timer,focus,pomodoro,work',
+    category: 'utility',
+    sortWeight: 270
+  },
+  {
+    id: 'countdown-timer',
+    title: 'Countdown Timer',
+    description: 'Set a custom countdown timer with hours, minutes, and seconds',
+    icon: AlarmClock,
+    color: 'bg-blue-600',
+    tags: 'productivity,timer,countdown,clock,utility',
+    category: 'utility',
+    sortWeight: 260
+  },
+  {
+    id: 'unit-converter',
+    title: 'Unit Converter',
+    description: 'Convert length, weight, temperature, area, volume, speed, and data',
+    icon: ArrowLeftRight,
+    color: 'bg-indigo-500',
+    tags: 'utility,convert,length,weight,temperature,metric,imperial',
+    category: 'utility',
+    sortWeight: 250
+  },
+  {
+    id: 'password-generator',
+    title: 'Password Generator',
+    description: 'Generate strong, secure passwords with custom options and strength meter',
+    icon: Lock,
+    color: 'bg-gray-600',
+    tags: 'security,password,generator,utility,strong',
+    category: 'utility',
+    sortWeight: 240
+  },
+  {
+    id: 'color-picker',
+    title: 'Color Picker',
+    description: 'Pick colors and copy HEX, RGB, HSL, and CMYK values instantly',
+    icon: Palette,
+    color: 'bg-pink-500',
+    tags: 'design,color,hex,rgb,hsl,picker,utility',
+    category: 'utility',
+    sortWeight: 230
+  },
+  {
+    id: 'word-counter',
+    title: 'Word & Character Counter',
+    description: 'Count words, characters, sentences, paragraphs, and estimate reading time',
+    icon: Type,
+    color: 'bg-teal-600',
+    tags: 'text,word,counter,character,reading,productivity',
+    category: 'utility',
+    sortWeight: 220
+  },
+  {
+    id: 'text-case-converter',
+    title: 'Text Case Converter',
+    description: 'Convert text between uppercase, lowercase, title case, camelCase, and more',
+    icon: Type,
+    color: 'bg-violet-600',
+    tags: 'text,case,convert,uppercase,lowercase,camelcase,utility',
+    category: 'utility',
+    sortWeight: 210
+  },
+
+  // 💻 DEVELOPER TOOLS (NEW)
+  {
+    id: 'qr-code-generator',
+    title: 'QR Code Generator',
+    description: 'Generate QR codes from any text or URL and download as PNG',
+    icon: QrCode,
+    color: 'bg-gray-700',
+    tags: 'developer,qr,code,generator,url,link',
+    category: 'developer',
+    sortWeight: 200
+  },
+  {
+    id: 'base64-tool',
+    title: 'Base64 Encoder / Decoder',
+    description: 'Encode text to Base64 or decode Base64 strings back to plain text',
+    icon: Code2,
+    color: 'bg-slate-600',
+    tags: 'developer,base64,encode,decode,utility',
+    category: 'developer',
+    sortWeight: 190
+  },
+  {
+    id: 'json-formatter',
+    title: 'JSON Formatter & Validator',
+    description: 'Format, minify, and validate JSON data with syntax highlighting',
+    icon: Code2,
+    color: 'bg-yellow-600',
+    tags: 'developer,json,formatter,validator,code,utility',
+    category: 'developer',
+    sortWeight: 180
+  },
+
+  // 🔍 FINDERS
   {
     id: 'subscription-swap-finder',
     title: 'Subscription Swap Finder',
