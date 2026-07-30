@@ -92,7 +92,7 @@ export const ToolRequestModal: React.FC<ToolRequestModalProps> = ({ isOpen, onCl
     } catch (error) {
       console.error('Error submitting tool request:', error);
       setSubmitStatus('error');
-      setErrorMessage(error instanceof Error ? error.message : 'An unknown error occurred');
+      setErrorMessage('Something went wrong sending your request. Please check your connection and try again in a moment.');
     } finally {
       setIsSubmitting(false);
     }

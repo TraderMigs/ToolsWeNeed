@@ -410,7 +410,7 @@ function App({ initialToolId }: AppProps) {
           <FeedbackButton toolId="homepage" toolName="Homepage" variant="secondary" />
         </div>
         <p>
-          &copy; {new Date().getFullYear()} ToolsWeNeed.com &nbsp;&bull;&nbsp;
+          &copy; {new Date().getFullYear()}{' '}ToolsWeNeed.com &nbsp;&bull;&nbsp;
           <a href="/privacy" className="hover:text-blue-400 transition-colors">Privacy</a> &nbsp;&bull;&nbsp;
           <a href="/terms" className="hover:text-blue-400 transition-colors">Terms</a> &nbsp;&bull;&nbsp;
           <a href="mailto:hello@toolsweneed.com" className="hover:text-blue-400 transition-colors">Advertise</a>

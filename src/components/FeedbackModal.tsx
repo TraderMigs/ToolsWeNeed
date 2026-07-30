@@ -93,7 +93,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
     } catch (error) {
       console.error('Error submitting feedback:', error);
       setSubmitStatus('error');
-      setErrorMessage(error instanceof Error ? error.message : 'An unknown error occurred');
+      setErrorMessage('Something went wrong sending your feedback. Please check your connection and try again in a moment.');
     } finally {
       setIsSubmitting(false);
     }

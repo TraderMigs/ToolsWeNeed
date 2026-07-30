@@ -115,7 +115,7 @@ export const getSmartSuggestions = (toolName: string, userContext?: any) => {
         filingStatus: 'single',
         selfEmployed: true,
         healthInsurance: userContext?.hasHealthInsurance ? Math.min(incomeLevel * 0.08, 6000) : 0,
-        retirementContributions: Math.min(incomeLevel * 0.20, 66000), // 2024 SEP-IRA limit
+        retirementContributions: Math.min(incomeLevel * 0.20, 72000), // 2026 SEP-IRA limit
         homeOfficeDeduction: userContext?.hasHomeOffice ? 1500 : 0
       };
 

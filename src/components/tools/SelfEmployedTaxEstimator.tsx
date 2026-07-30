@@ -42,15 +42,75 @@ interface SelfEmployedTaxEstimatorProps {
   toolId?: string;
 }
 
-// Helper function to get marginal tax rate
-const getMarginalRate = (taxableIncome: number): number => {
-  if (taxableIncome <= 11000) return 10;
-  if (taxableIncome <= 44725) return 12;
-  if (taxableIncome <= 95375) return 22;
-  if (taxableIncome <= 182050) return 24;
-  if (taxableIncome <= 231250) return 32;
-  if (taxableIncome <= 578125) return 35;
+// ---- 2026 federal tax data (IRS figures, verified 2026-07-30) ----
+export const TAX_YEAR = 2026;
+
+type FilingStatus = 'single' | 'married' | 'head';
+
+// [upper bound of bracket, rate] per filing status
+const TAX_BRACKETS: Record<FilingStatus, Array<[number, number]>> = {
+  single: [
+    [12400, 0.10], [50400, 0.12], [105700, 0.22], [201775, 0.24],
+    [256225, 0.32], [640600, 0.35], [Infinity, 0.37],
+  ],
+  married: [
+    [24800, 0.10], [100800, 0.12], [211400, 0.22], [403550, 0.24],
+    [512450, 0.32], [768700, 0.35], [Infinity, 0.37],
+  ],
+  head: [
+    [17700, 0.10], [67450, 0.12], [105700, 0.22], [201775, 0.24],
+    [256200, 0.32], [640600, 0.35], [Infinity, 0.37],
+  ],
+};
+
+const STANDARD_DEDUCTION: Record<FilingStatus, number> = {
+  single: 16100,
+  married: 32200,
+  head: 24150,
+};
+
+// Self-employment tax: 92.35% of net SE earnings is taxable; 12.4% Social
+// Security up to the wage base, 2.9% Medicare on all of it, plus 0.9%
+// Additional Medicare above the filing-status threshold.
+const SE_EARNINGS_FACTOR = 0.9235;
+const SS_WAGE_BASE = 184500;
+const ADDITIONAL_MEDICARE_THRESHOLD: Record<FilingStatus, number> = {
+  single: 200000,
+  married: 250000,
+  head: 200000,
+};
+
+const CHILD_TAX_CREDIT_PER_CHILD = 2200;
+
+const formatMoney = (n: number): string =>
+  n.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+
+const getMarginalRate = (taxableIncome: number, filingStatus: FilingStatus): number => {
+  for (const [cap, rate] of TAX_BRACKETS[filingStatus]) {
+    if (taxableIncome <= cap) return rate * 100;
+  }
   return 37;
+};
+
+const calculateProgressiveTax = (taxableIncome: number, filingStatus: FilingStatus): number => {
+  let tax = 0;
+  let lower = 0;
+  for (const [cap, rate] of TAX_BRACKETS[filingStatus]) {
+    if (taxableIncome <= lower) break;
+    tax += (Math.min(taxableIncome, cap) - lower) * rate;
+    lower = cap;
+  }
+  return tax;
+};
+
+const calculateSelfEmploymentTax = (netSEEarnings: number, filingStatus: FilingStatus): number => {
+  if (netSEEarnings <= 0) return 0;
+  const taxableSE = netSEEarnings * SE_EARNINGS_FACTOR;
+  const socialSecurity = Math.min(taxableSE, SS_WAGE_BASE) * 0.124;
+  const medicare = taxableSE * 0.029;
+  const additionalMedicare =
+    Math.max(0, taxableSE - ADDITIONAL_MEDICARE_THRESHOLD[filingStatus]) * 0.009;
+  return socialSecurity + medicare + additionalMedicare;
 };
 
 // Main tax calculation function
@@ -67,53 +127,29 @@ const calculateTaxes = (taxData: TaxData) => {
     const totalIncome = total1099Income + totalW2Income + totalOtherIncome;
     
     const totalItemizedDeductions = taxData.itemizedDeductions.reduce((sum, ded) => sum + ded.amount, 0);
-    const totalBusinessDeductions = deductions + totalItemizedDeductions + healthInsurance + homeOfficeDeduction + 
-                                   vehicleExpenses + equipmentExpenses + professionalServices;
+    // Business expenses reduce self-employment earnings; the self-employed
+    // health-insurance deduction reduces income tax but not SE tax.
+    const businessExpenses = deductions + totalItemizedDeductions + homeOfficeDeduction +
+                             vehicleExpenses + equipmentExpenses + professionalServices;
+    const totalBusinessDeductions = businessExpenses + healthInsurance;
     const netIncome = Math.max(0, totalIncome - totalBusinessDeductions);
-    
-    // Self-employment tax (Social Security + Medicare)
-    const selfEmploymentTax = selfEmployed ? total1099Income * 0.1413 : 0;
+
+    // Self-employment tax (Social Security + Medicare) on net 1099 earnings
+    const netSEEarnings = Math.max(0, total1099Income - businessExpenses);
+    const selfEmploymentTax = selfEmployed
+      ? calculateSelfEmploymentTax(netSEEarnings, filingStatus)
+      : 0;
     const seDeduction = selfEmploymentTax * 0.5; // Half of SE tax is deductible
-    
-    // Federal tax brackets for 2024
-    let federalTax = 0;
-    let standardDeduction = 0;
-    
-    switch (filingStatus) {
-      case 'single':
-        standardDeduction = 14600;
-        break;
-      case 'married':
-        standardDeduction = 29200;
-        break;
-      case 'head':
-        standardDeduction = 21900;
-        break;
-    }
-    
+
+    const standardDeduction = STANDARD_DEDUCTION[filingStatus];
     const adjustedGrossIncome = netIncome - seDeduction - retirementContributions;
     const taxableIncome = Math.max(0, adjustedGrossIncome - standardDeduction);
-    
-    if (taxableIncome > 0) {
-      if (taxableIncome <= 11000) {
-        federalTax = taxableIncome * 0.10;
-      } else if (taxableIncome <= 44725) {
-        federalTax = 1100 + (taxableIncome - 11000) * 0.12;
-      } else if (taxableIncome <= 95375) {
-        federalTax = 5147 + (taxableIncome - 44725) * 0.22;
-      } else if (taxableIncome <= 182050) {
-        federalTax = 16290 + (taxableIncome - 95375) * 0.24;
-      } else if (taxableIncome <= 231250) {
-        federalTax = 37104 + (taxableIncome - 182050) * 0.32;
-      } else if (taxableIncome <= 578125) {
-        federalTax = 52832 + (taxableIncome - 231250) * 0.35;
-      } else {
-        federalTax = 174238 + (taxableIncome - 578125) * 0.37;
-      }
-    }
+    let federalTax = calculateProgressiveTax(taxableIncome, filingStatus);
 
     // Child Tax Credit
-    const childCredit = childTaxCredit && dependents > 0 ? Math.min(dependents * 2000, federalTax) : 0;
+    const childCredit = childTaxCredit && dependents > 0
+      ? Math.min(dependents * CHILD_TAX_CREDIT_PER_CHILD, federalTax)
+      : 0;
     federalTax = Math.max(0, federalTax - childCredit);
 
     // State tax
@@ -122,7 +158,7 @@ const calculateTaxes = (taxData: TaxData) => {
     const totalTax = federalTax + selfEmploymentTax + stateTax;
     const afterTaxIncome = netIncome - totalTax;
     const effectiveRate = netIncome > 0 ? (totalTax / netIncome) * 100 : 0;
-    const marginalRate = getMarginalRate(taxableIncome);
+    const marginalRate = getMarginalRate(taxableIncome, filingStatus);
     const remainingQuarterly = Math.max(0, totalTax - quarterlyPayments);
 
     return {
@@ -391,15 +427,16 @@ export const SelfEmployedTaxEstimator: React.FC<SelfEmployedTaxEstimatorProps> =
   const exportData = {
     inputs: taxData,
     calculations: results,
-    taxBrackets: {
-      '10%': '$0 - $11,000',
-      '12%': '$11,001 - $44,725',
-      '22%': '$44,726 - $95,375',
-      '24%': '$95,376 - $182,050',
-      '32%': '$182,051 - $231,250',
-      '35%': '$231,251 - $578,125',
-      '37%': '$578,126+'
-    },
+    taxYear: TAX_YEAR,
+    taxBrackets: Object.fromEntries(
+      TAX_BRACKETS[taxData.filingStatus].map(([cap, rate], i, arr) => {
+        const lower = i === 0 ? 0 : arr[i - 1][0] + 1;
+        const range = cap === Infinity
+          ? `$${lower.toLocaleString()}+`
+          : `$${lower.toLocaleString()} - $${cap.toLocaleString()}`;
+        return [`${Math.round(rate * 100)}%`, range];
+      })
+    ),
     generatedAt: new Date().toISOString()
   };
 
@@ -419,6 +456,15 @@ export const SelfEmployedTaxEstimator: React.FC<SelfEmployedTaxEstimatorProps> =
 
   return (
     <div className="space-y-6">
+      <div className="flex flex-wrap items-center gap-2 text-xs text-gray-400">
+        <span className="rounded-full border border-green-500/30 bg-green-500/10 px-2.5 py-1 font-semibold uppercase tracking-wide text-green-400">
+          {TAX_YEAR} tax year
+        </span>
+        <span>
+          Federal brackets, standard deductions, self-employment tax, and child tax credit use official {TAX_YEAR} IRS figures.
+        </span>
+      </div>
+
       {/* Progressive Onboarding */}
       {shouldShowOnboarding && (
         <ProgressiveOnboarding
@@ -840,7 +886,7 @@ export const SelfEmployedTaxEstimator: React.FC<SelfEmployedTaxEstimatorProps> =
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div className="bg-green-600 rounded-lg p-4">
             <h3 className="text-sm font-medium text-green-100">Total Income</h3>
-            <p className="text-2xl font-bold">${results.grossIncome.toFixed(2)}</p>
+            <p className="text-2xl font-bold">{formatMoney(results.grossIncome)}</p>
             <p className="text-xs text-green-200">
               1099: ${results.total1099Income.toLocaleString()} | W2: ${results.totalW2Income.toLocaleString()}
             </p>
@@ -857,7 +903,7 @@ export const SelfEmployedTaxEstimator: React.FC<SelfEmployedTaxEstimatorProps> =
           </div>
           <div className="bg-blue-600 rounded-lg p-4">
             <h3 className="text-sm font-medium text-blue-100">Total Deductions</h3>
-            <p className="text-2xl font-bold">${results.totalBusinessDeductions.toFixed(2)}</p>
+            <p className="text-2xl font-bold">{formatMoney(results.totalBusinessDeductions)}</p>
             <p className="text-xs text-blue-200">
               Itemized: ${results.totalItemizedDeductions.toLocaleString()}
             </p>
@@ -874,19 +920,19 @@ export const SelfEmployedTaxEstimator: React.FC<SelfEmployedTaxEstimatorProps> =
           </div>
           <div className="bg-purple-600 rounded-lg p-4">
             <h3 className="text-sm font-medium text-purple-100">Net Income</h3>
-            <p className="text-2xl font-bold">${results.netIncome.toFixed(2)}</p>
+            <p className="text-2xl font-bold">{formatMoney(results.netIncome)}</p>
           </div>
           <div className="bg-red-600 rounded-lg p-4">
             <h3 className="text-sm font-medium text-red-100">Federal Tax</h3>
-            <p className="text-2xl font-bold">${results.federalTax.toFixed(2)}</p>
+            <p className="text-2xl font-bold">{formatMoney(results.federalTax)}</p>
           </div>
           <div className="bg-orange-600 rounded-lg p-4">
             <h3 className="text-sm font-medium text-orange-100">Self-Employment Tax</h3>
-            <p className="text-2xl font-bold">${results.selfEmploymentTax.toFixed(2)}</p>
+            <p className="text-2xl font-bold">{formatMoney(results.selfEmploymentTax)}</p>
           </div>
           <div className="bg-red-700 rounded-lg p-4">
             <h3 className="text-sm font-medium text-red-100">Total Tax</h3>
-            <p className="text-2xl font-bold">${results.totalTax.toFixed(2)}</p>
+            <p className="text-2xl font-bold">{formatMoney(results.totalTax)}</p>
             {showVisualizations && (
               <div className="mt-2 flex justify-center">
                 <ProgressRing 
@@ -902,11 +948,11 @@ export const SelfEmployedTaxEstimator: React.FC<SelfEmployedTaxEstimatorProps> =
             <>
               <div className="bg-yellow-600 rounded-lg p-4">
                 <h3 className="text-sm font-medium text-yellow-100">State Tax</h3>
-                <p className="text-2xl font-bold">${results.stateTax.toFixed(2)}</p>
+                <p className="text-2xl font-bold">{formatMoney(results.stateTax)}</p>
               </div>
               <div className="bg-teal-600 rounded-lg p-4">
                 <h3 className="text-sm font-medium text-teal-100">After-Tax Income</h3>
-                <p className="text-2xl font-bold">${results.afterTaxIncome.toFixed(2)}</p>
+                <p className="text-2xl font-bold">{formatMoney(results.afterTaxIncome)}</p>
               </div>
               <div className="bg-gray-600 rounded-lg p-4">
                 <h3 className="text-sm font-medium text-gray-100">Effective Tax Rate</h3>
@@ -970,18 +1016,18 @@ export const SelfEmployedTaxEstimator: React.FC<SelfEmployedTaxEstimatorProps> =
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <div>
               <p className="text-sm text-gray-300">Quarterly Tax Payment</p>
-              <p className="text-xl font-bold text-blue-400">${results.quarterlyPayment.toFixed(2)}</p>
-              <p className="text-xs text-gray-400">Due: Jan 15, Apr 15, Jun 15, Sep 15</p>
+              <p className="text-xl font-bold text-blue-400">{formatMoney(results.quarterlyPayment)}</p>
+              <p className="text-xs text-gray-400">Due: Apr 15, Jun 15, Sep 15 &amp; Jan 15 (following year)</p>
             </div>
             <div>
               <p className="text-sm text-gray-300">Monthly Savings Target</p>
-              <p className="text-xl font-bold text-green-400">${results.monthlyPayment.toFixed(2)}</p>
+              <p className="text-xl font-bold text-green-400">{formatMoney(results.monthlyPayment)}</p>
               <p className="text-xs text-gray-400">Set aside monthly for taxes</p>
             </div>
             {showAdvanced && results.remainingQuarterly > 0 && (
               <div>
                 <p className="text-sm text-gray-300">Remaining Quarterly</p>
-                <p className="text-xl font-bold text-orange-400">${results.remainingQuarterly.toFixed(2)}</p>
+                <p className="text-xl font-bold text-orange-400">{formatMoney(results.remainingQuarterly)}</p>
                 <p className="text-xs text-gray-400">Still owed this year</p>
               </div>
             )}
@@ -996,64 +1042,64 @@ export const SelfEmployedTaxEstimator: React.FC<SelfEmployedTaxEstimatorProps> =
           <div className="space-y-3 text-sm">
             <div className="flex justify-between">
               <span>Gross Income:</span>
-              <span>${results.grossIncome.toFixed(2)}</span>
+              <span>{formatMoney(results.grossIncome)}</span>
             </div>
             <div className="flex justify-between">
               <span>Less: Business Deductions:</span>
-              <span>-${results.totalBusinessDeductions.toFixed(2)}</span>
+              <span>-{formatMoney(results.totalBusinessDeductions)}</span>
             </div>
             <div className="flex justify-between font-medium">
               <span>Net Business Income:</span>
-              <span>${results.netIncome.toFixed(2)}</span>
+              <span>{formatMoney(results.netIncome)}</span>
             </div>
             {showAdvanced && (
               <>
                 <div className="flex justify-between">
                   <span>Less: SE Tax Deduction:</span>
-                  <span>-${results.seDeduction.toFixed(2)}</span>
+                  <span>-{formatMoney(results.seDeduction)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Less: Retirement Contributions:</span>
-                  <span>-${taxData.retirementContributions.toFixed(2)}</span>
+                  <span>-{formatMoney(taxData.retirementContributions)}</span>
                 </div>
                 <div className="flex justify-between font-medium">
                   <span>Adjusted Gross Income:</span>
-                  <span>${results.adjustedGrossIncome.toFixed(2)}</span>
+                  <span>{formatMoney(results.adjustedGrossIncome)}</span>
                 </div>
               </>
             )}
             <div className="flex justify-between">
               <span>Less: Standard Deduction:</span>
-              <span>-${results.standardDeduction.toFixed(2)}</span>
+              <span>-{formatMoney(results.standardDeduction)}</span>
             </div>
             <div className="flex justify-between font-medium">
               <span>Taxable Income:</span>
-              <span>${results.taxableIncome.toFixed(2)}</span>
+              <span>{formatMoney(results.taxableIncome)}</span>
             </div>
             <hr className="border-gray-600" />
             <div className="flex justify-between">
               <span>Federal Income Tax:</span>
-              <span>${results.federalTax.toFixed(2)}</span>
+              <span>{formatMoney(results.federalTax)}</span>
             </div>
             <div className="flex justify-between">
-              <span>Self-Employment Tax (14.13%):</span>
-              <span>${results.selfEmploymentTax.toFixed(2)}</span>
+              <span>Self-Employment Tax (Social Security + Medicare):</span>
+              <span>{formatMoney(results.selfEmploymentTax)}</span>
             </div>
             {showAdvanced && results.stateTax > 0 && (
               <div className="flex justify-between">
                 <span>State Income Tax:</span>
-                <span>${results.stateTax.toFixed(2)}</span>
+                <span>{formatMoney(results.stateTax)}</span>
               </div>
             )}
             {showAdvanced && results.childCredit > 0 && (
               <div className="flex justify-between text-green-400">
                 <span>Less: Child Tax Credit:</span>
-                <span>-${results.childCredit.toFixed(2)}</span>
+                <span>-{formatMoney(results.childCredit)}</span>
               </div>
             )}
             <div className="flex justify-between font-bold text-lg">
               <span>Total Tax Owed:</span>
-              <span>${results.totalTax.toFixed(2)}</span>
+              <span>{formatMoney(results.totalTax)}</span>
             </div>
           </div>
         </div>
