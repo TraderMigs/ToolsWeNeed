@@ -4,7 +4,7 @@ import '../src/index.css';
 import { ServiceWorkerRegistration } from './ServiceWorkerRegistration';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://toolsweneed.com'),
+  metadataBase: new URL('https://www.toolsweneed.com'),
   title: { default: 'Tools We Need — Free, Private Browser Tools', template: '%s | Tools We Need' },
   description: 'Professional-grade calculators and utilities that run in your browser, require no account, and are free to use.',
   applicationName: 'Tools We Need',

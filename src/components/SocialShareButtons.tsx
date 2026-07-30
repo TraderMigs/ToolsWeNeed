@@ -13,7 +13,7 @@ export const SocialShareButtons: React.FC<SocialShareButtonsProps> = ({
   toolId,
   description
 }) => {
-  const currentUrl = typeof window !== 'undefined' ? window.location.href : `https://toolsweneed.com/${toolId}`;
+  const currentUrl = typeof window !== 'undefined' ? window.location.href : `https://www.toolsweneed.com/${toolId}`;
   const shareText = `Just used this free ${toolName} tool — no sign-up needed!`;
   
   const shareToTwitter = () => {

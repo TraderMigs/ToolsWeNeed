@@ -25,7 +25,7 @@ interface ToolCardProps {
 export const ToolCard: React.FC<ToolCardProps> = ({ tool, onClick, isTrending = false }) => {
   const Icon = tool.icon;
   const metadata = getToolMetadata(tool.id);
-  const toolUrl = `https://toolsweneed.com/${tool.id}`;
+  const toolUrl = `https://www.toolsweneed.com/${tool.id}`;
   const toolSchema = generateToolSchema(tool, metadata, toolUrl);
   const category = toolCategories[tool.category];
 
