@@ -291,6 +291,384 @@ export const ToolSEOContent: React.FC<ToolSEOContentProps> = ({ tool }) => {
             }
           ]
         };
+      case 'sleep-debt-calculator':
+        return {
+          summary: `The Sleep Debt Calculator measures the gap between the sleep you need and the sleep you're actually getting — and shows what it takes to pay that debt back. Log your recent nights against your personal sleep need (most adults require 7–9 hours), and the calculator totals your accumulated deficit and builds a realistic recovery plan. Sleep debt is cumulative: an hour short each weeknight adds up to nearly a full night's sleep missing by Friday, and it measurably affects concentration, mood, reaction time, and long-term health. Tracking the number makes the invisible cost visible. All data stays private in your browser.`,
+          faqs: [
+            {
+              question: "Can I really 'catch up' on lost sleep?",
+              answer: "Partially, yes — but not the way most people try. Research suggests recovering from sleep debt takes longer than incurring it, and one long weekend lie-in doesn't fully restore performance after a short week. A more effective approach is adding 30–60 minutes per night consistently until the debt clears, which the calculator's recovery plan models. Chronic large debts are best addressed by fixing the underlying schedule, not by heroic weekend recovery sleeps."
+            },
+            {
+              question: "How do I know how much sleep I personally need?",
+              answer: "The 7–9 hour adult range is wide because individual need varies genuinely. A practical test: over a vacation or low-obligation stretch, sleep without an alarm for several nights and note when you wake naturally feeling rested — that duration is close to your true need. Feeling fine on 6 hours usually reflects adaptation to impairment rather than a genuinely low need; objective performance still suffers even when sleepiness fades."
+            },
+            {
+              question: "Does sleeping in on weekends fix a bad weekly schedule?",
+              answer: "It helps less than it feels like it does. Big weekend shifts create 'social jet lag' — your body clock drifts late, making Monday morning harder and restarting the debt cycle. Sleep scientists generally recommend keeping wake times within about an hour of your weekday schedule and banking extra sleep through earlier bedtimes instead. The calculator makes the weekly pattern visible so you can adjust the schedule rather than patching it."
+            }
+          ]
+        };
+      case 'wedding-budget-planner':
+        return {
+          summary: `The Wedding Budget Planner keeps the full financial picture of your wedding in one place: every vendor, every category, every deposit and remaining balance. Set a total budget, break it into categories like venue, catering, photography, attire, and flowers, then track actual commitments against the plan as quotes become contracts. Weddings are notorious for silent budget creep — dozens of small overages that individually feel harmless and collectively add thousands. A running planner catches the creep early, while there's still room to rebalance. Everything stays in your browser: your budget is nobody's business but yours.`,
+          faqs: [
+            {
+              question: "How should I split my wedding budget across categories?",
+              answer: "A common starting allocation: roughly 40–45% to venue and catering combined (it's almost always the biggest line), 10–12% to photography and video, 8–10% to attire, 8–10% to flowers and décor, 5–8% to music and entertainment, and the remainder across stationery, transport, rings, and a buffer. Treat these as starting points, not rules — couples who care most about photos or food should deliberately shift budget toward what they'll remember, and cut what they won't."
+            },
+            {
+              question: "What wedding costs do couples most often forget?",
+              answer: "The classics: vendor tips and service charges (often 20%+ added to catering), alterations on top of attire prices, delivery and setup fees, overtime charges when the party runs long, marriage license fees, and meals for vendors. A day-of buffer of 5–10% of the total budget absorbs these gracefully. Add each as its own line in the planner as soon as you learn about it — surprises hurt most when they arrive together at the end."
+            },
+            {
+              question: "How do I track deposits versus remaining balances?",
+              answer: "Record each vendor with the full contracted amount, then log deposits as they're paid so the planner shows what's still owed and when. Most vendors take 20–50% up front with the balance due near the wedding date, which means the final month is heavy with payments — seeing them totaled in advance prevents a cash-flow scramble during the most stressful stretch of planning."
+            }
+          ]
+        };
+      case 'event-cost-estimator':
+        return {
+          summary: `The Event Cost Estimator builds a line-by-line budget for any gathering — birthday parties, corporate events, reunions, fundraisers, conferences — and calculates both the total and the per-attendee cost. Add cost lines for venue, food and drink, entertainment, rentals, and anything else, adjust attendee count, and watch the per-head figure update. That per-person number is the estimator's superpower: it turns 'is this too expensive?' into a concrete comparison, reveals what a ticket price would need to be, and shows instantly how guest-list changes move the bottom line. Runs entirely in your browser, no account needed.`,
+          faqs: [
+            {
+              question: "Why does cost per attendee matter more than the total?",
+              answer: "Because it's the number you can act on. A $2,000 event sounds expensive in isolation; at 100 guests it's $20 a head — modest for a catered evening. Per-attendee cost also exposes the fixed-vs-variable structure: venue costs are fixed (per-head cost falls as attendance grows) while catering scales per person. Understanding which lines are which tells you whether inviting more people makes the event cheaper or dearer per head."
+            },
+            {
+              question: "How much buffer should an event budget include?",
+              answer: "10–15% of the total for most events. The buffer absorbs the near-certainties: slightly higher attendance than the RSVP count, delivery fees, last-minute supplies, and the one vendor whose final invoice exceeds the quote. Add it as its own line in the estimator rather than mentally rounding up — a visible contingency line gets defended; invisible padding gets spent twice."
+            },
+            {
+              question: "How do I set a ticket price that covers costs?",
+              answer: "Start with the estimator's per-attendee cost at your realistic attendance, then add margin for no-shows and unsold capacity — pricing at bare break-even means any shortfall becomes a loss. A common approach is to price so that roughly 80% of expected sales covers all costs. For fundraisers, remember the goal is surplus: price meaningfully above per-head cost, and let sponsorship lines in the estimator offset the fixed costs."
+            }
+          ]
+        };
+      case 'bill-splitter-pro':
+        return {
+          summary: `Bill Splitter Pro ends the post-dinner math scramble: enter the bill, add the people, and get exact per-person amounts including tax and tip — with support for uneven splits when someone ordered the lobster and someone had a salad. You can assign specific items to specific people or split evenly, adjust tip percentage transparently so everyone sees the same math, and export a per-person breakdown to share with the group. Fair, visible math keeps money friction out of friendships, whether it's one dinner or a week-long group trip. Everything computes locally in your browser.`,
+          faqs: [
+            {
+              question: "Should we split evenly or by what each person ordered?",
+              answer: "Even splits are faster and fine when everyone's orders are roughly comparable — the occasional few-dollar difference washes out over repeated meals together. Itemized splits are fairer when orders diverge widely (drinks vs no drinks, entrées vs appetizers) or when budgets differ meaningfully within the group. Bill Splitter Pro handles both; a good habit is agreeing on the method before ordering, which removes any awkwardness when the check lands."
+            },
+            {
+              question: "How should tax and tip be split fairly?",
+              answer: "Proportionally to each person's share of the bill, not as a flat amount per head — someone who ordered $15 of food shouldn't pay the same tip as someone who ordered $60. The splitter applies tax and tip percentages to each person's subtotal automatically, which is the mathematically fair method and, conveniently, the one that requires no negotiation."
+            },
+            {
+              question: "What's the best way to handle shared items like appetizers?",
+              answer: "Split shared items evenly among the people who actually shared them, then keep individual orders itemized. Most groups do a hybrid: communal plates divided across the table, personal mains and drinks assigned individually. The tool's per-person export shows each person exactly what they're paying for, which answers questions before they're asked."
+            }
+          ]
+        };
+      case 'packing-checklist-generator':
+        return {
+          summary: `The Packing Checklist Generator builds a customized packing list from your actual trip: destination type, duration, season, and purpose. Instead of a one-size-fits-all list that has you scanning past ski gear on a beach trip, it assembles the categories that match your travel — clothing scaled to your trip length, toiletries, documents, electronics, and activity-specific gear — as an interactive checklist you can tick off while packing and export to keep. The forgotten-item panic at the airport is entirely preventable; a checklist generated the week before departure is the cheapest travel insurance there is.`,
+          faqs: [
+            {
+              question: "How far in advance should I start packing?",
+              answer: "Generate the checklist about a week out, pack in earnest two or three days before departure. The week's head start matters for items you can't buy last-minute: prescription refills, passport or visa checks, adapters for your destination's outlets, and laundry timing so the clothes you want are actually clean. The final day should be topping up toiletries, not discovering your passport expired."
+            },
+            {
+              question: "How do I pack light without forgetting essentials?",
+              answer: "The reliable formula: pack for a week regardless of trip length and plan to wash mid-trip for anything longer. Choose clothes around one or two base colors so everything combines, and cut anything you 'might' wear — the might-wear items are what fill the second bag. A checklist helps you pack light with confidence, because forgetting-anxiety is what drives overpacking in the first place."
+            },
+            {
+              question: "What are the most commonly forgotten travel items?",
+              answer: "Phone chargers and power banks top every survey, followed by toothbrushes, sunscreen, medications, umbrellas, and — expensively — travel documents and booking confirmations. Also frequently missed: destination-specific plug adapters, a pen for arrival forms on international trips, and copies of important documents stored separately from the originals. The generator includes these in its base lists precisely because they're the ones memory drops."
+            }
+          ]
+        };
+      case 'time-blocking-scheduler':
+        return {
+          summary: `The Time Blocking Scheduler helps you plan your day the way productive people actually work: by assigning every hour a job before the day starts. Build visual blocks for focused work, meetings, breaks, and personal time, see your whole day at a glance, and download the schedule to keep yourself honest. Time blocking works because it converts an open-ended to-do list into concrete appointments with yourself — research and practice both show that deciding when you'll do something dramatically raises the odds you actually do it, and that protected focus blocks beat reactive, interruption-driven days for deep work.`,
+          faqs: [
+            {
+              question: "How is time blocking different from a to-do list?",
+              answer: "A to-do list says what; time blocking adds when and how long. That forces two honest reckonings a list never does: your day has a fixed number of hours, and tasks take real time. When you must physically fit tasks into blocks, overcommitment becomes visible before it happens instead of at 6 PM. Most practitioners keep both — the list feeds the blocks — but the calendar, not the list, runs the day."
+            },
+            {
+              question: "How long should my focus blocks be?",
+              answer: "60–90 minutes suits most deep work — long enough to reach real concentration (which takes 15–20 minutes to build after any interruption), short enough to sustain quality. Batch shallow tasks like email into one or two dedicated 30-minute blocks rather than letting them perforate the day. And schedule breaks explicitly: back-to-back focus blocks without recovery degrade quickly after the first couple of hours."
+            },
+            {
+              question: "What do I do when the day blows up my schedule?",
+              answer: "Rebuild, don't abandon. The plan's value isn't perfect execution — it's knowing at any moment what matters most next. When a surprise eats a block, take two minutes to shuffle the remaining blocks and consciously demote the least important item to tomorrow. Practitioners also learn to schedule one or two deliberately empty 'buffer' blocks per day; days with buffers survive contact with reality far better than days scheduled wall to wall."
+            }
+          ]
+        };
+      case 'resume-builder-pro':
+        return {
+          summary: `Resume Builder Pro connects you to SexyResume.com, a dedicated AI resume platform that crafts professional, ATS-optimized resumes and matching cover letters using Claude AI. Unlike template-only builders that just format your text, it helps write and structure the content itself — framing your experience with strong action verbs, quantified accomplishments, and the keyword alignment applicant tracking systems screen for. This listing is a clearly labeled doorway: the resume building happens on SexyResume.com, an independent site, while the Resume Scanner here on Tools We Need remains a fully local, private way to check any resume against a job description.`,
+          faqs: [
+            {
+              question: "What does ATS-optimized actually mean?",
+              answer: "Applicant Tracking Systems are the software most employers use to filter applications before a human reads them. ATS-optimized means the resume uses a clean parseable structure (standard headings, no tables or graphics that confuse parsers) and mirrors the vocabulary of the job posting so keyword screens score it well. An excellent resume that an ATS can't parse may simply never be seen — formatting is a gatekeeping issue, not just aesthetics."
+            },
+            {
+              question: "How is an AI resume builder different from a template?",
+              answer: "A template gives you empty boxes and leaves the hard part — what to write — to you. An AI builder drafts and refines the content: turning 'was responsible for sales' into a quantified accomplishment, tailoring emphasis toward the roles you're targeting, and generating a matching cover letter from the same source material. You should always review and personalize the result; the AI provides the strong first draft that's hardest to face alone."
+            },
+            {
+              question: "Should I tailor my resume for every application?",
+              answer: "For roles you genuinely want, yes — it's the single highest-leverage habit in job searching. Tailoring doesn't mean rewriting from scratch; it means adjusting the professional summary, reordering bullet emphasis, and aligning terminology with each posting's language. Pair the builder with the free Resume Scanner on this site: scan your resume against the specific job description, close the keyword gaps it flags, and submit with measurably better odds of passing the first screen."
+            }
+          ]
+        };
+      case 'pomodoro-timer':
+        return {
+          summary: `The Pomodoro Timer implements the classic focus technique: work in timed sprints (traditionally 25 minutes), take a short break, and repeat — with a longer break after four rounds. The method works because it makes starting easy (anyone can commit to 25 minutes), makes distraction expensive (interruptions visibly break the sprint), and builds recovery into the rhythm so focus doesn't decay across the day. This timer runs entirely in your browser with visual progress and configurable work/break lengths, no app install or account required.`,
+          faqs: [
+            {
+              question: "Why 25 minutes — and can I change it?",
+              answer: "The 25-minute default comes from Francesco Cirillo's original technique and is short enough to feel startable while long enough to accomplish real work. It's a starting point, not a law: many deep-work practitioners run 45–50 minute sprints once their focus stamina builds, while people battling procrastination sometimes drop to 15 to lower the barrier further. Adjust the timer to the sprint length you'll actually honor — consistency beats orthodoxy."
+            },
+            {
+              question: "What should I do during the breaks?",
+              answer: "Anything that isn't the work and isn't another screen-based rabbit hole: stand up, stretch, get water, look out a window. The break's job is letting your attention recover, and switching from work-screen to social-media-screen doesn't accomplish that. Keep short breaks to the timer's length — the technique's structure collapses when a 5-minute break quietly becomes 25."
+            },
+            {
+              question: "What if I get interrupted mid-pomodoro?",
+              answer: "The orthodox rule: a broken pomodoro doesn't count — handle the interruption, then start a fresh sprint. That strictness is the point, because it makes the cost of interruptions visible and trains you (and colleagues) to defer non-urgent ones. Keep a notepad beside you for intrusive thoughts and to-dos that surface mid-sprint; jotting them down in two seconds lets you return to work without losing the round."
+            }
+          ]
+        };
+      case 'countdown-timer':
+        return {
+          summary: `A clean, no-nonsense countdown timer: set hours, minutes, and seconds, start it, and get a clear alert when time's up. It covers everything a kitchen timer or phone app does — cooking, workouts, study sessions, presentations, timed exams, kids' turn-taking — but lives in a browser tab with a large readable display and no app to install or ads to dodge. The timer keeps counting accurately in a background tab, so you can work elsewhere while it runs.`,
+          faqs: [
+            {
+              question: "Will the timer keep running if I switch tabs?",
+              answer: "Yes. The countdown tracks elapsed real time rather than counting ticks, so backgrounding the tab or focusing another window doesn't drift or pause it. Keep your device awake for the alert, though — a laptop that goes to sleep suspends everything, including timers."
+            },
+            {
+              question: "What's the difference between a countdown timer and a Pomodoro timer?",
+              answer: "A countdown is a single stretch of time with an end alert — perfect for one-off needs like an exam, a cooking step, or a meeting hard-stop. A Pomodoro timer automates a repeating work/break cycle for sustained focus. If you're timing one thing, use this; if you're structuring an afternoon of work, the Pomodoro Timer on this site handles the cycling for you."
+            },
+            {
+              question: "Can I use this for presentations or public speaking practice?",
+              answer: "It's one of the most popular uses. Set the timer to your speaking slot, position the tab where you can glance at it, and rehearse until your material fits comfortably inside the limit with a minute to spare. Conference speakers often run it during the real talk too — the large display reads at a glance without the fiddliness of a phone."
+            }
+          ]
+        };
+      case 'unit-converter':
+        return {
+          summary: `The Unit Converter handles the conversions daily life and work actually require — length, weight, temperature, area, volume, speed, and digital data — with instant results as you type. Recipes in grams when your scale reads ounces, weather in Celsius when you think in Fahrenheit, file sizes in gigabytes versus gibibytes, mileage in kilometers: it's all one tool, computed locally in your browser with no lookup tables to squint at and no ads between you and the answer.`,
+          faqs: [
+            {
+              question: "Why do Celsius/Fahrenheit conversions feel unintuitive?",
+              answer: "Because temperature scales differ by both a multiplier and an offset: °F = °C × 9/5 + 32. Zero on one scale isn't zero on the other, which is why doubling a Celsius value doesn't double the Fahrenheit one. Handy anchors: 0°C = 32°F (freezing), 20°C = 68°F (room temperature), 37°C = 98.6°F (body temperature), 100°C = 212°F (boiling)."
+            },
+            {
+              question: "What's the difference between a gigabyte (GB) and a gibibyte (GiB)?",
+              answer: "GB uses powers of 1,000 (1 GB = 1,000,000,000 bytes) while GiB uses powers of 1,024 (1 GiB = 1,073,741,824 bytes) — about a 7% difference. Storage manufacturers advertise in GB; operating systems often report in GiB while labeling it GB, which is why a '1 TB' drive shows up as roughly 931 'GB'. The converter's data section handles both conventions."
+            },
+            {
+              question: "Are cooking conversions between weight and volume exact?",
+              answer: "Between two weight units or two volume units, yes — those are exact mathematical conversions. But converting a volume (cups) to a weight (grams) depends on the ingredient's density: a cup of flour weighs about 120g while a cup of sugar weighs about 200g. For baking precision, use ingredient-specific weights from your recipe; use the converter for the unit math around them."
+            }
+          ]
+        };
+      case 'password-generator':
+        return {
+          summary: `The Password Generator creates strong, random passwords using your browser's cryptographically secure random number generator — with your choices of length, uppercase, lowercase, numbers, and symbols, plus an option to exclude look-alike characters (Il1O0) for passwords you'll ever type by hand. Generation happens entirely on your device: no password is ever transmitted, logged, or seen by anyone, including us. Length is the single biggest strength factor, and the built-in strength meter shows how your settings translate into resistance against modern cracking attempts.`,
+          faqs: [
+            {
+              question: "How long should my passwords be?",
+              answer: "16 characters or more for anything that matters. Cracking difficulty grows exponentially with length: a random 8-character password can fall to modern hardware in hours, while a random 16-character one is beyond practical attack. Since a password manager remembers them for you, there's no cost to generating 20+ characters for important accounts like email and banking."
+            },
+            {
+              question: "Is it safe to generate passwords in a browser?",
+              answer: "With this tool, yes — it uses the Web Crypto API (crypto.getRandomValues), the same cryptographically secure randomness standard used by security software, and the generated password never leaves your device. You can verify the network claim yourself: the page makes no request when you click generate. The unsafe pattern is reusing passwords across sites, not generating them locally."
+            },
+            {
+              question: "Do I really need a different password for every site?",
+              answer: "Yes — it's the single most important password rule. When any site suffers a breach (they regularly do), attackers immediately try the leaked email/password pairs everywhere else; that's called credential stuffing, and it's how one minor forum breach becomes a drained account. Unique passwords contain the damage of any breach to that one site. Pair this generator with a password manager and the habit costs nothing."
+            }
+          ]
+        };
+      case 'color-picker':
+        return {
+          summary: `The Color Picker lets you choose any color visually and instantly copy its value in every format developers and designers need: HEX for CSS and design tools, RGB for screen work, HSL for intuitive hue and lightness adjustments, and CMYK for print. One click copies the code; no plugins, accounts, or uploads involved. It's the quick bridge between 'that's the color I want' and the exact string your stylesheet, design file, or print shop requires.`,
+          faqs: [
+            {
+              question: "When should I use HEX vs RGB vs HSL?",
+              answer: "They describe the same colors differently. HEX (#3B82F6) is the compact convention for CSS and design handoffs. RGB exposes the red/green/blue channels, useful when working with opacity via rgba(). HSL (hue, saturation, lightness) is the most human-friendly for adjustments — need a darker shade of the same blue? Lower the lightness and keep hue untouched. Modern CSS accepts all three, so pick per task."
+            },
+            {
+              question: "Why does CMYK matter if I work on screens?",
+              answer: "Screens emit light (RGB); printers lay ink (CMYK), and the two can't reproduce identical ranges of color. Vivid screen colors — especially bright blues and greens — often print duller than expected. If your color is destined for business cards, packaging, or anything physical, checking its CMYK version early avoids the classic surprise of a brand color that looks great on the site and muddy on paper."
+            },
+            {
+              question: "How do I pick an accessible color combination for text?",
+              answer: "Contrast is the key: WCAG accessibility guidelines call for a contrast ratio of at least 4.5:1 between text and background for normal-size text. Practically, that rules out light gray text on white and many mid-tone pairings. Use the picker to fine-tune your foreground color's lightness until it clearly separates from the background — HSL mode makes that adjustment a single slider."
+            }
+          ]
+        };
+      case 'word-counter':
+        return {
+          summary: `The Word & Character Counter analyzes text as you type or paste: words, characters with and without spaces, sentences, paragraphs, and estimated reading time. It's the quick answer to every length limit — essay and application word counts, social media character caps, meta descriptions, abstracts, cover letters — without uploading your text anywhere. Everything is counted locally in your browser, so drafts, confidential documents, and unpublished work stay entirely on your device.`,
+          faqs: [
+            {
+              question: "How is reading time calculated?",
+              answer: "From an average adult silent-reading speed of roughly 200–250 words per minute. It's an estimate: technical material reads slower, light narrative faster. For speaking time — speeches and presentations — use roughly 130–150 words per minute instead, so a 5-minute talk runs about 650–750 words. Rehearsing against a timer remains the gold standard for spoken material."
+            },
+            {
+              question: "What are the character limits on major platforms?",
+              answer: "The commonly hit ones: X/Twitter posts 280 characters, Instagram captions 2,200, LinkedIn posts about 3,000, YouTube titles 100, Google search results display roughly the first 155–160 characters of a meta description, and SMS messages segment at 160. Character-with-spaces is the figure these platforms count, which this tool shows prominently."
+            },
+            {
+              question: "Do word count rules differ for essays and applications?",
+              answer: "Most institutions count every word including small ones (a, the, of), which matches how this counter works. Staying within stated limits matters more than filling them — admissions and grant reviewers routinely note that limits are tested for compliance, and 'about 500 words' generally tolerates ±10%. When a limit is strict, trim by cutting redundant qualifiers first; meaning usually survives, and the count drops fast."
+            }
+          ]
+        };
+      case 'text-case-converter':
+        return {
+          summary: `The Text Case Converter transforms any text between UPPERCASE, lowercase, Title Case, Sentence case, camelCase, PascalCase, snake_case, and kebab-case in one click. It rescues text typed with caps lock on, formats headlines consistently, and converts names between the identifier styles different programming languages expect — without retyping a word. Paste, click, copy: all processed locally in your browser.`,
+          faqs: [
+            {
+              question: "When do the programmer cases (camelCase, snake_case, kebab-case) each get used?",
+              answer: "By convention per language and context: camelCase for JavaScript/Java variables, PascalCase for class and component names, snake_case for Python variables and database columns, kebab-case for URLs, CSS classes, and file names. Converting a phrase like 'user profile image' into each style by hand is error-prone busywork — exactly what this tool eliminates."
+            },
+            {
+              question: "What's the difference between Title Case and Sentence case?",
+              answer: "Title Case Capitalizes Most Words and is the traditional style for headlines and titles (conventions vary on small words like 'of' and 'the'). Sentence case capitalizes only the first word and proper nouns, like a normal sentence, and has become the dominant style in modern product and web writing for its readability. Pick one per project and apply it consistently — the converter makes consistency cheap."
+            },
+            {
+              question: "Can this fix text accidentally typed in all caps?",
+              answer: "Yes — that's one of its most common uses. Convert to lowercase first, then apply Sentence case or Title Case as the destination format requires. It beats retyping a paragraph, though give the result a quick scan afterward: proper nouns and acronyms (NASA, iPhone) need their capitals restored by hand since no converter can know every name."
+            }
+          ]
+        };
+      case 'qr-code-generator':
+        return {
+          summary: `The QR Code Generator turns any text or URL into a scannable QR code you can download as a PNG — generated entirely in your browser, with nothing sent to any server. Use it for menus and flyers, Wi-Fi sharing, event links, business cards, product packaging, or moving a long URL from screen to phone in one scan. Because generation is local, the links and text you encode stay private, and there's no third-party redirect service sitting between your QR code and its destination.`,
+          faqs: [
+            {
+              question: "Do QR codes expire or stop working?",
+              answer: "Codes from this generator never expire — the destination is encoded directly in the pattern, permanently. What can die is the destination itself: if the URL you encoded goes offline, the code scans fine but leads nowhere. (Some commercial QR services route through their own short links, which do break when subscriptions lapse — a problem direct encoding avoids entirely.) For anything printed at volume, double-check the URL before you print."
+            },
+            {
+              question: "How big should a QR code be printed?",
+              answer: "The rule of thumb is a minimum width of one-tenth the intended scanning distance: a code scanned from 30 cm (a flyer in hand) needs to be at least 3 cm wide; a poster scanned from 3 meters needs 30 cm. Shorter URLs also produce simpler, more forgiving patterns — worth using a concise link for small print sizes. Always test-scan a real print at real distance before mass production."
+            },
+            {
+              question: "Should I scan QR codes I find in public?",
+              answer: "With the same caution as clicking an unknown link — 'quishing' scams place malicious QR stickers over legitimate ones in places like parking meters and restaurant tables. Modern phones preview the URL before opening; read it. Codes you generate yourself with this tool carry no such risk: the code contains exactly what you put in, with no intermediary."
+            }
+          ]
+        };
+      case 'base64-tool':
+        return {
+          summary: `The Base64 Encoder/Decoder converts text to Base64 and back instantly, entirely in your browser. Base64 is the encoding that lets binary or special-character data travel safely through text-only channels — it's what you're seeing in data URLs, email attachments, API payloads, and configuration secrets. Developers use this tool to decode tokens and payloads during debugging, encode strings for embedding, and inspect what's actually inside that opaque wall of letters — without pasting potentially sensitive data into a random website's server, because nothing here leaves your machine.`,
+          faqs: [
+            {
+              question: "Is Base64 encryption?",
+              answer: "No — this matters. Base64 is encoding: a reversible representation anyone can decode with zero keys or secrets, as this tool demonstrates. It provides no confidentiality whatsoever. If you see 'encrypted' data that's merely Base64, it's effectively plain text. Use real cryptography for secrets; use Base64 only for transport formatting."
+            },
+            {
+              question: "Why does Base64 output end with = signs?",
+              answer: "Padding. Base64 represents every 3 bytes of input as 4 output characters; when input length isn't a multiple of 3, one or two '=' characters pad the final group. It's structural, not meaningful — decoders use it to reconstruct the exact original length. Some variants (like the URL-safe Base64 in JWTs) omit padding entirely, which is why tokens often lack the trailing equals."
+            },
+            {
+              question: "Why is Base64-encoded data bigger than the original?",
+              answer: "By design, about 33% bigger: every 3 bytes become 4 characters drawn from a 64-symbol alphabet. That overhead is the price of surviving text-only channels. It's why embedding large images as Base64 data URLs bloats pages — fine for tiny icons, poor for photographs — and why binary formats are preferred when the channel supports them."
+            }
+          ]
+        };
+      case 'json-formatter':
+        return {
+          summary: `The JSON Formatter & Validator prettifies, minifies, and validates JSON instantly in your browser. Paste a wall of single-line JSON from an API response or log file and get properly indented, readable structure; paste hand-edited JSON and get precise validation errors pointing at the problem; minify formatted JSON back down for production payloads. Because everything runs locally, API responses containing real data — often sensitive — never leave your machine, which is the way JSON tooling should work.`,
+          faqs: [
+            {
+              question: "What are the most common JSON syntax errors?",
+              answer: "In rough order of frequency: trailing commas after the last item (valid in JavaScript, fatal in JSON), single quotes instead of required double quotes, unquoted property names, missing commas between items, and unescaped special characters inside strings. The validator pinpoints the failure location — though note the true mistake sometimes sits just before where the parser gives up."
+            },
+            {
+              question: "What's the difference between formatting and minifying?",
+              answer: "Two directions of the same transform. Formatting (pretty-printing) adds indentation and line breaks for human reading — debugging, code review, documentation. Minifying strips every non-essential character for machines — smaller payloads, faster transfers. The data is identical either way; choose based on whether the next reader is a person or a parser."
+            },
+            {
+              question: "Is JSON from an API safe to paste into online tools?",
+              answer: "Only if the tool processes it locally, as this one does. API responses routinely contain tokens, emails, and internal identifiers, and pasting them into a tool that ships input to its server is an accidental data leak — a real category of incident in security audits. This formatter makes no network request with your data; the trust panel above the tool documents exactly that."
+            }
+          ]
+        };
+      case 'pdf-merger':
+        return {
+          summary: `The Private PDF Merger combines multiple PDF files into one, with drag-to-reorder control over page sequence — and it does the entire job inside your browser. Your files are never uploaded: the merging happens on your own device using local processing, which makes this tool categorically different from the typical 'free PDF merger' that quietly ships your contracts, statements, and records to someone else's server. Merge scanned pages, combine chapters, assemble application packets — then download the result, which existed nowhere but your machine.`,
+          faqs: [
+            {
+              question: "Are my PDFs really not uploaded anywhere?",
+              answer: "Really. The merger uses in-browser processing (the pdf-lib library running locally), so file contents never cross the network — you can watch the network tab and see no upload. This matters more for PDFs than almost any file type, because what people merge is precisely their most sensitive paperwork: contracts, medical records, financial statements, IDs."
+            },
+            {
+              question: "Is there a limit to how many PDFs or pages I can merge?",
+              answer: "No fixed count — the practical limit is your device's memory, since the work happens locally. Dozens of typical documents merge comfortably; very large scanned files (hundreds of image-heavy megabytes) may get slow on modest hardware. If a merge stalls, combining in two or three batches then merging the results usually solves it."
+            },
+            {
+              question: "Will merging change the quality or content of my PDFs?",
+              answer: "No — pages are copied into the new document as-is, preserving text, images, and layout at original quality. Merging doesn't recompress or re-render content. Note that interactive features spanning documents (bookmarks, cross-document links, form field interactions) may not carry over intact, as merging concatenates pages rather than rebuilding document-level structures."
+            }
+          ]
+        };
+      case 'image-optimizer':
+        return {
+          summary: `The Batch Image Optimizer resizes, compresses, and converts images between JPG, PNG, and WebP — multiple files at once, entirely in your browser. Photos never leave your device: optimization uses your browser's own image processing rather than an upload service. Shrink camera photos that are absurdly oversized for the web, convert to WebP for meaningfully smaller files at equal quality, and prepare batches of listing or product photos in one pass — then download the results.`,
+          faqs: [
+            {
+              question: "Which format should I choose — JPG, PNG, or WebP?",
+              answer: "WebP for most web use: it delivers photo quality comparable to JPG at 25–35% smaller sizes and supports transparency, with universal modern-browser support. JPG remains the safe universal choice for photographs headed anywhere unusual (older software, some upload forms). PNG is for images needing lossless quality or transparency where WebP isn't accepted — logos, screenshots with text, graphics with sharp edges."
+            },
+            {
+              question: "How much can I compress a photo before quality visibly suffers?",
+              answer: "Further than most people expect. For photographs, quality settings around 75–85% typically cut file size by 60–80% with no visible difference at normal viewing sizes. Artifacts appear first in areas of subtle gradient (skies, skin). The practical method: compress a representative photo at a couple of settings and compare at the size it will actually be displayed — not zoomed to 400%."
+            },
+            {
+              question: "What dimensions do my images actually need?",
+              answer: "Match the display, not the camera. A modern phone shoots 4,000+ pixels wide; a full-width web image needs at most about 1,920, a content-column image around 1,200, and a thumbnail a few hundred. Resizing to the needed dimensions before compressing is the single biggest file-size win — a 12-megapixel photo resized for web use often drops 90% in size before compression even starts."
+            }
+          ]
+        };
+      case 'csv-workbench':
+        return {
+          summary: `The CSV Cleaner & Preview opens CSV and spreadsheet-export files right in your browser for inspection and cleanup: preview the data as a table, remove duplicate rows, and export the cleaned result — without the file ever leaving your device. It's the fast path for the everyday CSV chores that don't deserve a full spreadsheet session: sanity-checking an export before importing it somewhere, deduplicating a contact list, or inspecting what's actually inside a file a system handed you.`,
+          faqs: [
+            {
+              question: "Why does my CSV look wrong when opened in Excel but fine here?",
+              answer: "Usually delimiter or encoding mismatches: some regions' Excel expects semicolons rather than commas, and files with UTF-8 characters can display garbled without the right encoding signal. A plain preview like this one shows the file's actual structure, which tells you whether the data is broken or just being misread — valuable information before you 'fix' a file that isn't broken."
+            },
+            {
+              question: "How does duplicate removal decide what's a duplicate?",
+              answer: "Rows that are identical across their compared columns are collapsed to one. Watch for near-duplicates that legitimately differ — trailing spaces, capitalization, 'Bob' vs 'Robert' — which are the same real-world record but different text. Exact-match dedup handles the mechanical duplicates (double exports, repeated imports); human-judgment duplicates still need a human."
+            },
+            {
+              question: "Is it safe to open CSVs with sensitive data here?",
+              answer: "Yes — the file is parsed locally in your browser and never uploaded, which you can verify in the network tab. That's the point of the tool: customer lists, financial exports, and personnel data are exactly the files you shouldn't feed to an upload-based converter site. Processing stays on the machine the file is already on."
+            }
+          ]
+        };
+      case 'file-hash-generator':
+        return {
+          summary: `The File Checksum Generator computes SHA-256, SHA-384, and SHA-512 hashes of any file directly in your browser — the file is read locally and never uploaded. A hash is a compact fingerprint: identical files always produce identical hashes, and even a single changed byte produces a completely different one. That makes checksums the standard way to verify a download wasn't corrupted or tampered with, confirm two files are truly identical, and document file integrity for records or evidence.`,
+          faqs: [
+            {
+              question: "How do I verify a downloaded file against a published checksum?",
+              answer: "Download the file, generate its SHA-256 hash here, and compare against the checksum the software publisher lists (usually beside the download link). Matching hashes mean the file is bit-for-bit what the publisher released — no corruption, no tampering in transit. A mismatch means don't run it: re-download first, and if it still mismatches, get it from a different official source."
+            },
+            {
+              question: "Which algorithm should I use — SHA-256, SHA-384, or SHA-512?",
+              answer: "SHA-256 is the modern default and what most publishers list; use it unless you're matching a checksum published in another algorithm. All three are current-generation secure hashes — the longer variants offer larger safety margins that mainly matter in specialized contexts. Older algorithms you may still encounter, MD5 and SHA-1, are cryptographically broken and shouldn't be trusted for security verification, though they still detect accidental corruption."
+            },
+            {
+              question: "Can two different files have the same hash?",
+              answer: "Theoretically yes (files are infinite, hashes finite) — practically no. For SHA-256 the chance is so astronomically small that no collision has ever been found, and constructing one is beyond all current computing capability combined. When two files share a SHA-256 hash, the working conclusion in engineering, forensics, and law alike is that they're the same file."
+            }
+          ]
+        };
       default:
         // Generic SEO content for other tools
         return {
