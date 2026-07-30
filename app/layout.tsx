@@ -12,10 +12,16 @@ export const metadata: Metadata = {
   alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
+    url: '/',
     siteName: 'Tools We Need',
     title: 'Tools We Need — Free, Private Browser Tools',
     description: 'Professional-grade calculators and utilities that run in your browser.',
-    images: ['/social-preview.png?v=2'],
+    images: [{
+      url: '/social-preview.png?v=2',
+      width: 1200,
+      height: 630,
+      alt: 'Tools We Need — 36 free, private browser tools for finance, career, health, planning, and developers',
+    }],
   },
   twitter: {
     card: 'summary_large_image',
