@@ -30,8 +30,9 @@ interface ComparisonData {
   }>;
 }
 
-// Real cost of living data for major US cities (based on actual 2024 data)
-const cityDatabase: CityData[] = [
+// Cost of living data for major US cities. Base figures were gathered in 2024
+// and are scaled to 2026 dollars below using cumulative US CPI.
+const baseCityDatabase2024: CityData[] = [
   {
     id: 'nyc',
     name: 'New York',
@@ -163,6 +164,22 @@ const cityDatabase: CityData[] = [
     overall: 2260
   }
 ];
+
+// Cumulative US CPI from the 2024 base figures to mid-2026: +2.7% for 2025
+// plus ~3.5% for the 12 months ending June 2026 (BLS via usinflationcalculator).
+const CPI_2024_TO_2026 = 1.06;
+const adjustToCurrentDollars = (amount: number): number => Math.round(amount * CPI_2024_TO_2026);
+
+const cityDatabase: CityData[] = baseCityDatabase2024.map((city) => ({
+  ...city,
+  housing: adjustToCurrentDollars(city.housing),
+  food: adjustToCurrentDollars(city.food),
+  transportation: adjustToCurrentDollars(city.transportation),
+  utilities: adjustToCurrentDollars(city.utilities),
+  healthcare: adjustToCurrentDollars(city.healthcare),
+  entertainment: adjustToCurrentDollars(city.entertainment),
+  overall: adjustToCurrentDollars(city.overall),
+}));
 
 export const CostOfLivingCalculator: React.FC = () => {
   const [currentCityId, setCurrentCityId] = useState<string>('');
@@ -590,7 +607,7 @@ export const CostOfLivingCalculator: React.FC = () => {
       )}
 
       <div className="text-center text-xs text-gray-500 border-t border-gray-800 pt-4">
-        Cost data is based on 2024 averages and may vary by neighborhood and lifestyle. Use for estimation purposes only.
+        Cost data is based on 2024 city averages adjusted to 2026 dollars using cumulative US CPI (+6%). Actual costs vary by neighborhood and lifestyle — use for estimation purposes only.
       </div>
     </div>
   );
