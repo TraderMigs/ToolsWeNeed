@@ -163,12 +163,13 @@ export const PersonalizedInsights: React.FC<PersonalizedInsightsProps> = ({
         });
       }
 
-      // Session length insight
+      // Session length insight. Cap at 8 hours: a persisted start time from a
+      // previous visit would otherwise show absurd totals (e.g. 94,446 minutes).
       if (usageStats.session?.startTime) {
         const sessionLength = Date.now() - new Date(usageStats.session.startTime).getTime();
         const minutes = Math.floor(sessionLength / (1000 * 60));
-        
-        if (minutes > 5) {
+
+        if (minutes > 5 && minutes <= 480) {
           generatedInsights.push({
             id: 'session-time',
             type: 'milestone',

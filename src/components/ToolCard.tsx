@@ -86,14 +86,15 @@ export const ToolCard: React.FC<ToolCardProps> = ({ tool, onClick, isTrending = 
         </div>
         <h3 className="text-base sm:text-lg font-bold text-white mb-2 leading-tight" itemProp="headline">{tool.title}</h3>
         <p className="text-xs sm:text-sm text-gray-400 leading-relaxed line-clamp-3" itemProp="abstract">{tool.description}</p>
-        {tool.usageCount && (
+        {/* Usage stats only appear once large enough to be meaningful social proof */}
+        {(tool.usageCount ?? 0) >= 25 && (
           <p className="text-xs text-gray-500 mt-1">
-            Used by {tool.usageCount.toLocaleString()} users
+            Used by {tool.usageCount!.toLocaleString()} people
           </p>
         )}
-        {tool.exportCount && (
+        {(tool.exportCount ?? 0) >= 25 && (
           <p className="text-xs text-gray-500 mt-1">
-            Exported {tool.exportCount.toLocaleString()} times
+            Exported {tool.exportCount!.toLocaleString()} times
           </p>
         )}
         {metadata && (

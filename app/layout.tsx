@@ -15,7 +15,13 @@ export const metadata: Metadata = {
     siteName: 'Tools We Need',
     title: 'Tools We Need — Free, Private Browser Tools',
     description: 'Professional-grade calculators and utilities that run in your browser.',
-    images: ['/social-preview.png'],
+    images: ['/social-preview.png?v=2'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Tools We Need — Free, Private Browser Tools',
+    description: 'Professional-grade calculators and utilities that run in your browser.',
+    images: ['/social-preview.png?v=2'],
   },
 };
 
