@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import Script from 'next/script';
 import '../src/index.css';
 import { ServiceWorkerRegistration } from './ServiceWorkerRegistration';
 
@@ -21,5 +22,14 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { themeColor: '#111827', colorScheme: 'dark' };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body>{children}<ServiceWorkerRegistration /></body></html>;
+  return (
+    <html lang="en">
+      <body>
+        {children}
+        <ServiceWorkerRegistration />
+        {/* Vercel Web Analytics — no-op until enabled in the Vercel dashboard */}
+        <Script defer src="/_vercel/insights/script.js" strategy="afterInteractive" />
+      </body>
+    </html>
+  );
 }
