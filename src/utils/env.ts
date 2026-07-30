@@ -8,36 +8,33 @@ import { z } from 'zod';
 
 // Define schema for environment variables
 const envSchema = z.object({
-  SUPABASE_URL: z.string().url('Invalid Supabase URL'),
-  SUPABASE_ANON_KEY: z.string().min(1, 'Supabase anon key is required'),
-  STRIPE_PUBLISHABLE_KEY: z.string().optional(),
+  SUPABASE_URL: z.string().url('Invalid Supabase URL').optional(),
+  SUPABASE_ANON_KEY: z.string().min(1, 'Supabase anon key is required').optional(),
   APP_ENV: z.enum(['development', 'production', 'test']).default('development'),
   GA_TRACKING_ID: z.string().optional()
 });
 
 interface EnvVariables {
-  SUPABASE_URL: string;
-  SUPABASE_ANON_KEY: string;
-  STRIPE_PUBLISHABLE_KEY?: string;
+  SUPABASE_URL?: string;
+  SUPABASE_ANON_KEY?: string;
   APP_ENV: 'development' | 'production' | 'test';
   GA_TRACKING_ID?: string;
 }
 
 // Parse and validate environment variables
-const parseEnv = () => {
+const parseEnv = (): EnvVariables => {
   const rawEnv = {
-    SUPABASE_URL: import.meta.env.VITE_SUPABASE_URL,
-    SUPABASE_ANON_KEY: import.meta.env.VITE_SUPABASE_ANON_KEY,
-    STRIPE_PUBLISHABLE_KEY: import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY,
-    APP_ENV: import.meta.env.VITE_APP_ENV,
-    GA_TRACKING_ID: import.meta.env.VITE_GA_TRACKING_ID
+    SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL || undefined,
+    SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || undefined,
+    APP_ENV: process.env.NODE_ENV,
+    GA_TRACKING_ID: process.env.NEXT_PUBLIC_GA_TRACKING_ID || undefined
   };
 
   try {
-    return envSchema.parse(rawEnv);
+    return envSchema.parse(rawEnv) as EnvVariables;
   } catch (error) {
     console.error('Environment validation failed:', error);
-    throw new Error('Invalid environment configuration. Please check your environment variables.');
+    throw new Error('Invalid environment configuration. Please check your environment variables.', { cause: error });
   }
 };
 
@@ -51,9 +48,6 @@ export const validateEnv = (): boolean => {
     
     // Additional production checks
     if (env.APP_ENV === 'production') {
-      if (!env.STRIPE_PUBLISHABLE_KEY) {
-        console.warn('Stripe not configured - payment features will be disabled');
-      }
       if (!env.GA_TRACKING_ID || env.GA_TRACKING_ID === 'G-XXXXXXXXXX') {
         console.warn('Google Analytics not configured - analytics will be disabled');
       }
@@ -81,7 +75,6 @@ export const debugEnvironment = (): void => {
     console.log('Environment Debug:', {
       SUPABASE_URL: env.SUPABASE_URL ? `${env.SUPABASE_URL.substring(0, 20)}...` : 'MISSING',
       SUPABASE_ANON_KEY: env.SUPABASE_ANON_KEY ? `${env.SUPABASE_ANON_KEY.substring(0, 20)}...` : 'MISSING',
-      STRIPE_PUBLISHABLE_KEY: env.STRIPE_PUBLISHABLE_KEY ? `${env.STRIPE_PUBLISHABLE_KEY.substring(0, 20)}...` : 'MISSING',
       APP_ENV: env.APP_ENV,
       GA_TRACKING_ID: env.GA_TRACKING_ID || 'NOT_SET'
     });

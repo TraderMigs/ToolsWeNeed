@@ -3,12 +3,11 @@
  * Prevents XSS, injection attacks, and data corruption
  */
 
-import DOMPurify from 'isomorphic-dompurify';
 import { z } from 'zod';
 
 // Common validation schemas
 export const emailSchema = z.string().email('Invalid email format').max(254);
-export const nameSchema = z.string().min(1).max(100).regex(/^[a-zA-Z\s\-'\.]+$/, 'Invalid name format');
+export const nameSchema = z.string().min(1).max(100).regex(/^[a-zA-Z\s\-'.]+$/, 'Invalid name format');
 export const amountSchema = z.number().min(0).max(1000000);
 export const percentageSchema = z.number().min(0).max(100);
 export const textSchema = z.string().max(1000);
@@ -16,10 +15,7 @@ export const urlSchema = z.string().url('Invalid URL format');
 
 // Sanitization functions
 export const sanitizeHtml = (input: string): string => {
-  return DOMPurify.sanitize(input, { 
-    ALLOWED_TAGS: [],
-    ALLOWED_ATTR: []
-  });
+  return sanitizeText(input);
 };
 
 export const sanitizeText = (input: string): string => {

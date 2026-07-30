@@ -15,7 +15,6 @@ interface BudgetItem {
   amount: number;
   type: 'income' | 'expense';
   frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
-  category: string;
   priority: 'high' | 'medium' | 'low';
   notes: string;
   isRecurring: boolean;
@@ -42,7 +41,6 @@ export const BudgetCardConveyor: React.FC<BudgetCardConveyorProps> = ({ toolId }
     amount: 0,
     type: 'expense' as 'income' | 'expense',
     frequency: 'monthly' as 'daily' | 'weekly' | 'monthly' | 'yearly',
-    category: '',
     priority: 'medium' as 'high' | 'medium' | 'low',
     notes: '',
     isRecurring: true,
@@ -111,7 +109,6 @@ export const BudgetCardConveyor: React.FC<BudgetCardConveyorProps> = ({ toolId }
         amount: 0,
         type: 'expense',
         frequency: 'monthly',
-        category: '',
         priority: 'medium',
         notes: '',
         isRecurring: true,

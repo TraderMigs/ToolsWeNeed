@@ -27,15 +27,20 @@ import {
   ArrowLeftRight,
   AlarmClock,
   Palette,
-  Code2
+  Code2,
+  FileStack,
+  ImageDown,
+  TableProperties,
+  Fingerprint
 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { optimizeToolPlacement, trackToolCoUsage } from './toolRelationships';
 
 export interface Tool {
   id: string;
   title: string;
   description: string;
-  icon: any;
+  icon: LucideIcon;
   color: string;
   tags: string;
   category: 'financial' | 'business' | 'wellness' | 'planning' | 'trading' | 'search' | 'utility' | 'developer';
@@ -418,6 +423,47 @@ export const tools: Tool[] = [
     tags: 'developer,json,formatter,validator,code,utility',
     category: 'developer',
     sortWeight: 180
+  },
+
+  {
+    id: 'pdf-merger',
+    title: 'Private PDF Merger',
+    description: 'Reorder and merge multiple PDF files locally without uploading them',
+    icon: FileStack,
+    color: 'bg-red-700',
+    tags: 'pdf,merge,combine,document,batch,privacy',
+    category: 'developer',
+    sortWeight: 310
+  },
+  {
+    id: 'image-optimizer',
+    title: 'Batch Image Optimizer',
+    description: 'Resize, compress, and convert JPG, PNG, and WebP images locally',
+    icon: ImageDown,
+    color: 'bg-fuchsia-600',
+    tags: 'image,compress,resize,convert,webp,batch',
+    category: 'utility',
+    sortWeight: 305
+  },
+  {
+    id: 'csv-workbench',
+    title: 'CSV Cleaner & Preview',
+    description: 'Clean CSV and spreadsheet data, remove duplicates, and export locally',
+    icon: TableProperties,
+    color: 'bg-green-700',
+    tags: 'csv,spreadsheet,clean,data,duplicates,excel',
+    category: 'developer',
+    sortWeight: 300
+  },
+  {
+    id: 'file-hash-generator',
+    title: 'File Checksum Generator',
+    description: 'Generate SHA-256, SHA-384, or SHA-512 checksums for files in your browser',
+    icon: Fingerprint,
+    color: 'bg-slate-700',
+    tags: 'hash,checksum,sha256,integrity,file,security',
+    category: 'developer',
+    sortWeight: 295
   },
 
   // 🔍 FINDERS

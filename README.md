@@ -1,73 +1,50 @@
 # Tools We Need
 
-A comprehensive collection of free online tools for finance, health, and productivity.
+Tools We Need is a free, installable collection of browser-based calculators and utilities. The catalog currently contains 36 tools across finance, work, wellness, planning, productivity, developer workflows, and private local file processing.
 
-## Environment Setup
+## Product guarantees
 
-1. Copy `.env.example` to `.env`:
-   ```bash
-   cp .env.example .env
-   ```
+- Tool inputs and calculations remain in the browser.
+- No account or paid tier is required.
+- Exports are created locally.
+- Each tool route discloses its storage, network, export, and methodology behavior.
+- Feedback and tool-request forms are the only intentional data-submission surfaces.
 
-2. Fill in the required environment variables:
-   - `VITE_SUPABASE_URL`: Your Supabase project URL
-   - `VITE_APP_ENV`: Set to "development" for local development
-   - `VITE_GA_TRACKING_ID`: Your Google Analytics tracking ID (optional for development)
+## Local development
 
-## Development
+Requirements: Node.js 22 or newer and npm.
 
-Install dependencies:
 ```bash
-npm install
-```
-
-Start the development server:
-```bash
+npm ci
 npm run dev
 ```
 
-Run tests:
+Open `http://localhost:3000`. Run the complete release gate with:
+
 ```bash
-npm test
+npm run check
 ```
 
-## Supabase Edge Functions
+## Environment variables
 
-This project uses Supabase Edge Functions for server-side operations. To deploy them:
+The catalog works without environment variables. Feedback and tool requests require:
 
-1. Navigate to each function directory:
-   ```bash
-   cd supabase/functions/stripe-checkout
-   ```
+```text
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+```
 
-2. Deploy the function:
-   ```bash
-   supabase functions deploy stripe-checkout --no-verify-jwt
-   ```
+Only the Supabase anonymous key belongs in a public variable. Never expose a service-role key.
 
-3. Repeat for other functions:
-   - `stripe-webhook`
-   - `verify-payment`
-   - `generate-secure-export`
-   - `store-export-data`
+## Architecture
+
+- Next.js App Router with statically generated tool routes and per-tool metadata
+- React tools loaded in independent lazy chunks
+- Tailwind CSS
+- Vitest calculation and registry contracts
+- Optional Supabase tables for bounded anonymous feedback/request inserts
+- Custom same-origin service worker for installability and offline revisits
 
 ## Deployment
 
-Build the production version:
-```bash
-npm run build
-```
-
-See `DEPLOYMENT.md` for detailed deployment instructions.
-
-## Features
-
-- Multiple financial calculators and tools
-- Health and productivity trackers
-- Export functionality with Stripe payment integration
-- Resume Builder Pro with AI-powered features
-- Responsive design for all devices
-
-## License
-
-All rights reserved. © 2025 ToolsWeNeed.com
+The project is designed for Vercel. Link it to the existing Vercel project, configure the two optional public Supabase values, run `npm run check`, then deploy through the Vercel dashboard or CLI. Apply reviewed migrations from `supabase/migrations` only after linking the intended Supabase project.

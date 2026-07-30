@@ -340,7 +340,7 @@ export const TradeProfitRiskCalculator: React.FC = () => {
       'Net P&L': tradeResults?.netPnL.toFixed(2) || '0.00',
       'Percentage Gain/Loss': `${tradeResults?.percentageGainLoss.toFixed(2) || '0.00'}%`,
       'Margin Used': tradeResults?.marginUsed.toFixed(2) || '0.00',
-      'Risk/Reward Ratio': tradeResults?.riskRewardRatio > 0 ? `1:${tradeResults.riskRewardRatio.toFixed(2)}` : 'N/A',
+      'Risk/Reward Ratio': (tradeResults?.riskRewardRatio ?? 0) > 0 ? `1:${tradeResults!.riskRewardRatio!.toFixed(2)}` : 'N/A',
       'Breakeven Price': tradeResults?.breakevenPrice.toFixed(4) || '0.0000'
     };
   });
@@ -798,12 +798,12 @@ export const TradeProfitRiskCalculator: React.FC = () => {
                         ${tradeResults?.netPnL.toFixed(2) || '0.00'}
                       </td>
                       <td className={`text-center py-2 ${
-                        tradeResults?.percentageGainLoss >= 0 ? 'text-green-400' : 'text-red-400'
+                        (tradeResults?.percentageGainLoss ?? 0) >= 0 ? 'text-green-400' : 'text-red-400'
                       }`}>
                         {tradeResults?.percentageGainLoss.toFixed(2) || '0.00'}%
                       </td>
                       <td className="text-center py-2">
-                        {tradeResults?.riskRewardRatio > 0 ? `1:${tradeResults.riskRewardRatio.toFixed(2)}` : 'N/A'}
+                        {(tradeResults?.riskRewardRatio ?? 0) > 0 ? `1:${tradeResults!.riskRewardRatio!.toFixed(2)}` : 'N/A'}
                       </td>
                       <td className="text-center py-2">${tradeResults?.marginUsed.toFixed(2) || '0.00'}</td>
                     </tr>

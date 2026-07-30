@@ -1,68 +1,30 @@
-// Service Worker for PWA functionality
-const CACHE_NAME = 'toolsweneed-v1';
-const urlsToCache = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/app-icon-192.png',
-  '/app-icon-512.png',
-  '/vite.svg'
-];
+const CACHE_NAME = 'toolsweneed-v3';
+const CORE = ['/', '/privacy', '/terms', '/manifest.json', '/app-icon-192.png', '/app-icon-512.png'];
 
-// Install event - cache core assets
 self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log('Opened cache');
-        return cache.addAll(urlsToCache);
-      })
-  );
+  event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(CORE)));
+  self.skipWaiting();
 });
 
-// Activate event - clean up old caches
 self.addEventListener('activate', event => {
-  const cacheWhitelist = [CACHE_NAME];
-  event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.map(cacheName => {
-          if (cacheWhitelist.indexOf(cacheName) === -1) {
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    })
-  );
+  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)))));
+  self.clients.claim();
 });
 
-// Fetch event - serve from cache, fall back to network
 self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        // Cache hit - return response
-        if (response) {
-          return response;
-        }
-        return fetch(event.request).then(
-          response => {
-            // Don't cache if not a valid response
-            if (!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
-            }
+  if (event.request.method !== 'GET' || new URL(event.request.url).origin !== self.location.origin) return;
 
-            // Clone the response
-            const responseToCache = response.clone();
+  if (event.request.mode === 'navigate') {
+    event.respondWith(fetch(event.request).then(response => {
+      const copy = response.clone();
+      caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
+      return response;
+    }).catch(async () => (await caches.match(event.request)) || caches.match('/')));
+    return;
+  }
 
-            caches.open(CACHE_NAME)
-              .then(cache => {
-                cache.put(event.request, responseToCache);
-              });
-
-            return response;
-          }
-        );
-      })
-  );
+  event.respondWith(caches.match(event.request).then(cached => cached || fetch(event.request).then(response => {
+    if (response.ok) caches.open(CACHE_NAME).then(cache => cache.put(event.request, response.clone()));
+    return response;
+  })));
 });

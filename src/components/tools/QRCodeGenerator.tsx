@@ -1,95 +1,88 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { Download, RefreshCw } from 'lucide-react';
+import QRCode from 'qrcode';
 
-// QR Code rendered via Google Charts API — no backend needed
 export const QRCodeGenerator: React.FC = () => {
   const [text, setText] = useState('');
   const [size, setSize] = useState(256);
   const [qrUrl, setQrUrl] = useState('');
   const [errorLevel, setErrorLevel] = useState<'L' | 'M' | 'Q' | 'H'>('M');
-  const [generated, setGenerated] = useState(false);
+  const [error, setError] = useState('');
 
-  const generate = () => {
+  const generate = async () => {
     if (!text.trim()) return;
-    const encoded = encodeURIComponent(text.trim());
-    const url = `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encoded}&ecc=${errorLevel}&format=png`;
-    setQrUrl(url);
-    setGenerated(true);
+    setError('');
+    try {
+      setQrUrl(await QRCode.toDataURL(text.trim(), {
+        width: size,
+        margin: 2,
+        errorCorrectionLevel: errorLevel,
+      }));
+    } catch (generationError) {
+      console.error('QR generation failed:', generationError);
+      setQrUrl('');
+      setError('Unable to generate a QR code from this input.');
+    }
   };
 
-  const handleDownload = async () => {
-    const response = await fetch(qrUrl);
-    const blob = await response.blob();
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'qrcode.png';
-    a.click();
-    URL.revokeObjectURL(url);
+  const handleDownload = () => {
+    const link = document.createElement('a');
+    link.href = qrUrl;
+    link.download = 'qrcode.png';
+    link.click();
   };
 
   const errorLevels = [
-    { val: 'L', label: 'L — Low (7%)' },
-    { val: 'M', label: 'M — Medium (15%)' },
-    { val: 'Q', label: 'Q — Quartile (25%)' },
-    { val: 'H', label: 'H — High (30%)' },
-  ];
+    { value: 'L', label: 'Low (7%)' },
+    { value: 'M', label: 'Medium (15%)' },
+    { value: 'Q', label: 'Quartile (25%)' },
+    { value: 'H', label: 'High (30%)' },
+  ] as const;
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
-      <div className="bg-gray-900 rounded-xl border border-gray-700 p-6 space-y-4">
+    <div className="mx-auto max-w-2xl space-y-6">
+      <div className="space-y-4 rounded-xl border border-gray-700 bg-gray-900 p-6">
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">Text or URL to encode</label>
+          <label htmlFor="qr-content" className="mb-2 block text-sm font-medium text-gray-300">Text or URL to encode</label>
           <textarea
+            id="qr-content"
             value={text}
-            onChange={e => setText(e.target.value)}
-            placeholder="Enter text, URL, phone number, email..."
+            onChange={(event) => setText(event.target.value)}
+            placeholder="Enter text, URL, phone number, or email"
             rows={3}
-            className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
+            className="w-full rounded-xl border border-gray-700 bg-gray-800 px-4 py-3 text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none"
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Size: {size}×{size}px</label>
-            <input
-              type="range" min={128} max={512} step={32} value={size}
-              onChange={e => setSize(Number(e.target.value))}
-              className="w-full accent-blue-500"
-            />
+            <label htmlFor="qr-size" className="mb-2 block text-sm font-medium text-gray-300">Size: {size} × {size}px</label>
+            <input id="qr-size" type="range" min={128} max={512} step={32} value={size} onChange={(event) => setSize(Number(event.target.value))} className="w-full accent-blue-500" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Error Correction</label>
-            <select
-              value={errorLevel}
-              onChange={e => setErrorLevel(e.target.value as any)}
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
-            >
-              {errorLevels.map(l => <option key={l.val} value={l.val}>{l.label}</option>)}
+            <label htmlFor="qr-error-level" className="mb-2 block text-sm font-medium text-gray-300">Error correction</label>
+            <select id="qr-error-level" value={errorLevel} onChange={(event) => setErrorLevel(event.target.value as typeof errorLevel)} className="w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-white focus:border-blue-500 focus:outline-none">
+              {errorLevels.map((level) => <option key={level.value} value={level.value}>{level.label}</option>)}
             </select>
           </div>
         </div>
 
-        <button
-          onClick={generate}
-          disabled={!text.trim()}
-          className="w-full py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-40 text-white font-semibold rounded-xl transition-colors flex items-center justify-center gap-2"
-        >
-          <RefreshCw className="w-4 h-4" />
-          Generate QR Code
+        <button type="button" onClick={() => void generate()} disabled={!text.trim()} className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-500 disabled:opacity-40">
+          <RefreshCw className="h-4 w-4" aria-hidden="true" />
+          Generate QR code
         </button>
       </div>
 
-      {generated && qrUrl && (
-        <div className="bg-gray-900 rounded-xl border border-gray-700 p-6 flex flex-col items-center gap-4">
-          <div className="bg-white p-4 rounded-xl">
-            <img src={qrUrl} alt="Generated QR Code" width={size} height={size} className="block" />
+      <p className="text-center text-sm text-green-300">Generated locally — the encoded content is never uploaded.</p>
+      {error && <p className="text-center text-sm text-red-300" role="alert">{error}</p>}
+
+      {qrUrl && (
+        <div className="flex flex-col items-center gap-4 rounded-xl border border-gray-700 bg-gray-900 p-6">
+          <div className="rounded-xl bg-white p-4">
+            <img src={qrUrl} alt="Generated QR code" width={size} height={size} className="block max-w-full" />
           </div>
-          <button
-            onClick={handleDownload}
-            className="flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-500 text-white font-semibold rounded-xl transition-colors"
-          >
-            <Download className="w-4 h-4" />
+          <button type="button" onClick={handleDownload} className="flex items-center gap-2 rounded-xl bg-green-600 px-6 py-3 font-semibold text-white transition hover:bg-green-500">
+            <Download className="h-4 w-4" aria-hidden="true" />
             Download PNG
           </button>
         </div>

@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Sparkles } from 'lucide-react';
 import { ToolCard } from './ToolCard';
 import { getTrendingTools } from '../utils/analytics';
-import { tools } from '../data/tools';
+import { tools, type Tool } from '../data/tools';
 
 interface TrendingToolsSectionProps {
-  onSelectTool: (tool: any) => void;
+  onSelectTool: (tool: Tool) => void;
   limit?: number;
 }
 
@@ -13,7 +13,7 @@ export const TrendingToolsSection: React.FC<TrendingToolsSectionProps> = ({
   onSelectTool,
   limit = 6
 }) => {
-  const [trendingTools, setTrendingTools] = useState<any[]>([]);
+  const [trendingTools, setTrendingTools] = useState<Tool[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -24,16 +24,15 @@ export const TrendingToolsSection: React.FC<TrendingToolsSectionProps> = ({
         const trendingData = await getTrendingTools(7, limit, 'view');
         
         // Map trending data to actual tool objects
-        const mappedTools = trendingData
-          .map(item => {
+        const mappedTools: Tool[] = trendingData
+          .flatMap(item => {
             const tool = tools.find(t => t.id === item.tool_id);
-            return tool ? { ...tool, usageCount: item.count } : null;
-          })
-          .filter(Boolean);
+            return tool ? [{ ...tool, usageCount: item.count }] : [];
+          });
         
         // If we don't have enough trending tools, fill with popular tools
         if (mappedTools.length < limit) {
-          const popularTools = tools
+          const popularTools = [...tools]
             .sort((a, b) => b.sortWeight - a.sortWeight)
             .filter(tool => !mappedTools.some(t => t.id === tool.id))
             .slice(0, limit - mappedTools.length);
@@ -43,10 +42,10 @@ export const TrendingToolsSection: React.FC<TrendingToolsSectionProps> = ({
           setTrendingTools(mappedTools);
         }
       } catch (error) {
-        console.warn('Error fetching trending tools, using fallback:', error.message || error);
+        console.warn('Error fetching trending tools, using fallback:', error instanceof Error ? error.message : error);
         // Fallback to sortWeight-based popular tools
         setTrendingTools(
-          tools.sort((a, b) => b.sortWeight - a.sortWeight).slice(0, limit)
+          [...tools].sort((a, b) => b.sortWeight - a.sortWeight).slice(0, limit)
         );
       } finally {
         setIsLoading(false);

@@ -3,9 +3,11 @@ import { SocialShareButtons } from './SocialShareButtons';
 import { FeedbackButton } from './FeedbackButton';
 import { ToolSEOContent } from './ToolSEOContent';
 import { trackEvent } from '../utils/analytics';
+import { ToolTrustPanel } from './ToolTrustPanel';
+import type { Tool } from '../data/tools';
 
 interface ToolPageProps {
-  tool: any;
+  tool: Tool;
   onBack: () => void;
   children?: React.ReactNode;
 }
@@ -17,20 +19,24 @@ export const ToolPage: React.FC<ToolPageProps> = ({ tool, onBack, children }) =>
   }, [tool.id]);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <main id="main-content" className="min-h-screen bg-gray-900 text-white">
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-gray-700">
           <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-8 text-white">
             <div className="flex items-center justify-between mb-4">
-              <button
-                onClick={onBack}
+              <a
+                href="/"
+                onClick={(event) => {
+                  event.preventDefault();
+                  onBack();
+                }}
                 className="flex items-center text-white/80 hover:text-white transition-colors min-h-[44px]"
               >
                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
                 Back to Tools
-              </button>
+              </a>
               
               <div className="flex items-center space-x-3">
                 <span className="px-3 py-1 bg-white/20 rounded-full text-sm font-medium">
@@ -65,6 +71,8 @@ export const ToolPage: React.FC<ToolPageProps> = ({ tool, onBack, children }) =>
             <p className="text-white/90 text-lg leading-relaxed">{tool.description}</p>
           </div>
 
+          <ToolTrustPanel tool={tool} />
+
           <div className="p-6 bg-gray-800">
             {children}
             
@@ -85,6 +93,6 @@ export const ToolPage: React.FC<ToolPageProps> = ({ tool, onBack, children }) =>
       </div>
       
       <ToolSEOContent tool={tool} />
-    </div>
+    </main>
   );
 };

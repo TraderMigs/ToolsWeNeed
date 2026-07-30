@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Sparkles, ArrowRight, Clock, Users, Brain, TrendingUp, Target, Zap } from 'lucide-react';
 import { tools } from '../data/tools';
+import type { Tool } from '../data/tools';
 import { getToolUsageData } from '../data/tools';
 import { getRelatedTools, calculateContextualSimilarity, toolContextMap } from '../data/toolRelationships';
 import { loadToolData } from '../utils/storageUtils';
@@ -177,7 +178,7 @@ export const EnhancedToolRecommendations: React.FC<EnhancedToolRecommendationsPr
     const toolCategories = userHistory.map(toolId => {
       const tool = tools.find(t => t.id === toolId);
       return tool?.category;
-    }).filter(Boolean);
+    }).filter((category): category is Tool['category'] => Boolean(category));
 
     const categoryFrequency = toolCategories.reduce((acc, category) => {
       acc[category] = (acc[category] || 0) + 1;

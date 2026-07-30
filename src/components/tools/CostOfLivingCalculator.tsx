@@ -280,16 +280,16 @@ export const CostOfLivingCalculator: React.FC = () => {
   } : {};
 
   const csvData = comparison ? comparison.comparisons.map(comp => ({
-    'Current City': `${comparison.currentCity.name}, ${comparison.currentCity.state}`,
+    'Current City': `${comparison.currentCity!.name}, ${comparison.currentCity!.state}`,
     'Target City': `${comp.city.name}, ${comp.city.state}`,
     'Current Salary': comparison.currentSalary,
     'Equivalent Salary': comp.equivalentSalary.toFixed(2),
     'Salary Difference': (comp.equivalentSalary - comparison.currentSalary).toFixed(2),
     'Cost Difference': comp.costDifference.toFixed(2),
     'Percentage Difference': `${comp.percentageDifference.toFixed(1)}%`,
-    'Current Housing': comparison.currentCity.housing,
+    'Current Housing': comparison.currentCity!.housing,
     'Target Housing': comp.city.housing,
-    'Current Food': comparison.currentCity.food,
+    'Current Food': comparison.currentCity!.food,
     'Target Food': comp.city.food
   })) : [];
 
@@ -417,8 +417,8 @@ export const CostOfLivingCalculator: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="bg-blue-600 rounded-lg p-4 text-center">
                 <h4 className="text-sm font-medium text-blue-100">Current City</h4>
-                <p className="text-xl font-bold">{comparison.currentCity.name}, {comparison.currentCity.state}</p>
-                <p className="text-xs text-blue-200">${comparison.currentCity.overall}/month cost</p>
+                <p className="text-xl font-bold">{comparison.currentCity!.name}, {comparison.currentCity!.state}</p>
+                <p className="text-xs text-blue-200">${comparison.currentCity!.overall}/month cost</p>
               </div>
               <div className="bg-green-600 rounded-lg p-4 text-center">
                 <h4 className="text-sm font-medium text-green-100">Current Salary</h4>
@@ -475,7 +475,7 @@ export const CostOfLivingCalculator: React.FC = () => {
                     { key: 'healthcare', label: 'Healthcare', icon: TrendingUp },
                     { key: 'entertainment', label: 'Entertainment', icon: TrendingUp }
                   ].map(({ key, label, icon: Icon }) => {
-                    const currentCost = comparison.currentCity[key as keyof CityData] as number;
+                    const currentCost = comparison.currentCity![key as keyof CityData] as number;
                     const targetCost = comp.city[key as keyof CityData] as number;
                     const difference = targetCost - currentCost;
                     const percentChange = currentCost > 0 ? (difference / currentCost) * 100 : 0;

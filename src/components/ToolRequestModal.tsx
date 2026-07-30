@@ -145,6 +145,7 @@ export const ToolRequestModal: React.FC<ToolRequestModalProps> = ({ isOpen, onCl
                 placeholder="e.g., Freelance Invoice Generator"
                 className="w-full px-3 py-2 bg-gray-700 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none"
                 required
+                maxLength={120}
               />
             </div>
             
@@ -160,6 +161,7 @@ export const ToolRequestModal: React.FC<ToolRequestModalProps> = ({ isOpen, onCl
                 className="w-full px-3 py-2 bg-gray-700 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none resize-none"
                 rows={4}
                 required
+                maxLength={3000}
               />
             </div>
             
@@ -174,6 +176,7 @@ export const ToolRequestModal: React.FC<ToolRequestModalProps> = ({ isOpen, onCl
                 placeholder="Tell us why this tool would be helpful to you..."
                 className="w-full px-3 py-2 bg-gray-700 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none resize-none"
                 rows={2}
+                maxLength={2000}
               />
             </div>
             
@@ -188,6 +191,7 @@ export const ToolRequestModal: React.FC<ToolRequestModalProps> = ({ isOpen, onCl
                 onChange={handleChange}
                 placeholder="https://example.com/paid-tool"
                 className="w-full px-3 py-2 bg-gray-700 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none"
+                maxLength={2048}
               />
             </div>
             
@@ -202,6 +206,7 @@ export const ToolRequestModal: React.FC<ToolRequestModalProps> = ({ isOpen, onCl
                 onChange={handleChange}
                 placeholder="your@email.com"
                 className="w-full px-3 py-2 bg-gray-700 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none"
+                maxLength={254}
               />
               <p className="text-xs text-gray-500 mt-1">
                 We'll only use this to notify you if we build your requested tool.

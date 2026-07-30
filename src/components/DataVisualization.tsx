@@ -28,7 +28,8 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
   const radius = (size - strokeWidth) / 2;
   const circumference = radius * 2 * Math.PI;
   const strokeDasharray = circumference;
-  const strokeDashoffset = circumference - (percentage / 100) * circumference;
+  const safePercentage = Number.isFinite(percentage) ? Math.min(100, Math.max(0, percentage)) : 0;
+  const strokeDashoffset = circumference - (safePercentage / 100) * circumference;
 
   return (
     <div className="relative inline-flex items-center justify-center">
@@ -57,7 +58,7 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         {showPercentage && (
           <span className="text-lg font-bold text-white">
-            {Math.round(percentage)}%
+            {Math.round(safePercentage)}%
           </span>
         )}
         {label && (
@@ -89,7 +90,7 @@ export const PieChart: React.FC<PieChartProps> = ({
   const colors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#06B6D4'];
 
   const slices = data.map((item, index) => {
-    const percentage = (item.value / total) * 100;
+    const percentage = total > 0 ? (item.value / total) * 100 : 0;
     const startAngle = (cumulativePercentage / 100) * 360;
     const endAngle = ((cumulativePercentage + percentage) / 100) * 360;
     
@@ -126,8 +127,9 @@ export const PieChart: React.FC<PieChartProps> = ({
             d={slice.pathData}
             fill={slice.color}
             className="hover:opacity-80 transition-opacity cursor-pointer"
-            title={`${slice.label}: ${slice.percentage.toFixed(1)}%`}
-          />
+          >
+            <title>{`${slice.label}: ${slice.percentage.toFixed(1)}%`}</title>
+          </path>
         ))}
       </svg>
       {showLabels && (
@@ -167,7 +169,7 @@ export const BarChart: React.FC<BarChartProps> = ({
     <div className="w-full">
       <div className="flex items-end justify-between gap-2" style={{ height }}>
         {data.map((item, index) => {
-          const barHeight = (item.value / maxValue) * (height - 40);
+          const barHeight = maxValue > 0 ? (item.value / maxValue) * (height - 40) : 0;
           const color = item.color || colors[index % colors.length];
           
           return (

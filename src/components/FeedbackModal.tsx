@@ -167,7 +167,8 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                 What would make this tool better?
               </label>
               <textarea
-                value={commentText}
+              value={commentText}
+              maxLength={2000}
                 onChange={(e) => setCommentText(e.target.value)}
                 className="w-full px-3 py-2 bg-gray-700 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none resize-none"
                 rows={4}

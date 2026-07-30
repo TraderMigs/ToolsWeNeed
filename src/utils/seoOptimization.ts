@@ -1,3 +1,5 @@
+import { tools } from '../data/tools';
+
 /**
  * Advanced SEO optimization utilities
  */
@@ -168,13 +170,12 @@ ${urls.map(url => `
   }
 }
 
-// Initialize page load time tracking
-(window as any).pageLoadTime = Date.now();
-(window as any).interactionCount = 0;
-
-// Track interactions
-document.addEventListener('click', () => {
-  (window as any).interactionCount++;
-});
+if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+  (window as any).pageLoadTime = Date.now();
+  (window as any).interactionCount = 0;
+  document.addEventListener('click', () => {
+    (window as any).interactionCount++;
+  });
+}
 
 export const seoOptimizer = SEOOptimizer.getInstance();

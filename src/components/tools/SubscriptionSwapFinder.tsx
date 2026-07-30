@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Filter, ExternalLink, DollarSign, Star, Zap, Shield, Users } from 'lucide-react';
-import { trackExport } from '../../utils/exportAnalytics';
+import { trackEvent } from '../../utils/analytics';
 
 interface Alternative {
   name: string;
@@ -251,7 +251,7 @@ const SubscriptionSwapFinder: React.FC = () => {
   ];
 
   useEffect(() => {
-    trackExport('Subscription Swap Finder', 'view');
+    trackEvent('subscription-swap-finder', 'view');
   }, []);
 
   const handleSearch = () => {

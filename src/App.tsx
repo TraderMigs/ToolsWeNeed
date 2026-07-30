@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { ToolCard } from './components/ToolCard';
 import { ToolPage } from './components/ToolPage';
@@ -13,117 +15,21 @@ import {
   tools,
   toolCategories,
   getSortedTools,
-  getToolsByCategory
+  getToolsByCategory,
+  type Tool
 } from './data/tools';
 import { RequestToolButton } from './components/RequestToolButton';
 import { FeedbackButton } from './components/FeedbackButton';
 import { CategoryFilter } from './components/CategoryFilter';
 import { SortingDropdown } from './components/SortingDropdown';
 import { TrendingToolsSection } from './components/TrendingToolsSection';
-
-// Financial tools
-import { BudgetCardConveyor } from './components/tools/BudgetCardConveyor';
-import { SelfEmployedTaxEstimator } from './components/tools/SelfEmployedTaxEstimator';
-import { DebtSnowballTracker } from './components/tools/DebtSnowballTracker';
-import { NetWorthSnapshot } from './components/tools/NetWorthSnapshot';
-import { SavingsGoalTracker } from './components/tools/SavingsGoalTracker';
-import { HourlyRateCalculator } from './components/tools/HourlyRateCalculator';
-import { FreelanceProposalEstimator } from './components/tools/FreelanceProposalEstimator';
-import { LoanComparisonTool } from './components/tools/LoanComparisonTool';
-import { SubscriptionPurgeTool } from './components/tools/SubscriptionPurgeTool';
-import { CostOfLivingCalculator } from './components/tools/CostOfLivingCalculator';
-
-// Business tools
-import { MeetingCostEstimator } from './components/tools/MeetingCostEstimator';
-import { ResumeScanner } from './components/tools/ResumeScanner';
-import { ResumeBuilderPro } from './components/tools/ResumeBuilderPro';
-
-// Health tools
-import { HealthHub } from './components/tools/HealthHub';
-import { SleepDebtCalculator } from './components/tools/SleepDebtCalculator';
-import { FastingPlanner } from './components/tools/FastingPlanner';
-
-// Planning tools
-import { EventCostEstimator } from './components/tools/EventCostEstimator';
-import { BillSplitterPro } from './components/tools/BillSplitterPro';
-import { PackingChecklistGenerator } from './components/tools/PackingChecklistGenerator';
-import { TimeBlockingScheduler } from './components/tools/TimeBlockingScheduler';
-import { WeddingBudgetPlanner } from './components/tools/WeddingBudgetPlanner';
-
-// Trading tools
-import { TradeProfitRiskCalculator } from './components/tools/TradeProfitRiskCalculator';
-
-// Search/finder tools
-import { SubscriptionSwapFinder } from './components/tools/SubscriptionSwapFinder';
-
-// NEW - Utility tools
-import { PomodoroTimer } from './components/tools/PomodoroTimer';
-import { CountdownTimer } from './components/tools/CountdownTimer';
-import { UnitConverter } from './components/tools/UnitConverter';
-import { PasswordGenerator } from './components/tools/PasswordGenerator';
-import { ColorPicker } from './components/tools/ColorPicker';
-import { WordCharacterCounter } from './components/tools/WordCharacterCounter';
-import { TextCaseConverter } from './components/tools/TextCaseConverter';
-
-// NEW - Developer tools
-import { QRCodeGenerator } from './components/tools/QRCodeGenerator';
-import { Base64Tool } from './components/tools/Base64Tool';
-import { JSONFormatter } from './components/tools/JSONFormatter';
+import { toolComponents } from './data/toolComponents';
 
 // Shared components
 import { PersonalizedInsights } from './components/PersonalizedInsights';
 import { EnhancedToolRecommendations } from './components/EnhancedToolRecommendations';
 import { AccessibilityTour } from './components/AccessibilityTour';
-import { PaymentSuccessPage } from './components/PaymentSuccessPage';
 import { SponsorCard } from './components/SponsorCard';
-import { PaymentTestButton } from './components/PaymentTestButton';
-
-const toolComponents: Record<string, React.ComponentType<any>> = {
-  // Financial
-  'budget-card-conveyor': BudgetCardConveyor,
-  'self-employed-tax-estimator': SelfEmployedTaxEstimator,
-  'debt-snowball-tracker': DebtSnowballTracker,
-  'net-worth-snapshot': NetWorthSnapshot,
-  'savings-goal-tracker': SavingsGoalTracker,
-  'hourly-rate-calculator': HourlyRateCalculator,
-  'freelance-proposal-estimator': FreelanceProposalEstimator,
-  'loan-comparison-tool': LoanComparisonTool,
-  'subscription-purge-tool': SubscriptionPurgeTool,
-  'cost-of-living-calculator': CostOfLivingCalculator,
-  // Business
-  'meeting-cost-estimator': MeetingCostEstimator,
-  'resume-scanner': ResumeScanner,
-  'resume-builder-pro': ResumeBuilderPro,
-  // Health
-  'health-hub': HealthHub,
-  'fasting-planner': HealthHub,
-  'fasting-planner-standalone': FastingPlanner,
-  'sleep-debt-calculator': SleepDebtCalculator,
-  // Planning
-  'event-cost-estimator': EventCostEstimator,
-  'bill-splitter-pro': BillSplitterPro,
-  'packing-checklist-generator': PackingChecklistGenerator,
-  'time-blocking-scheduler': TimeBlockingScheduler,
-  'wedding-budget-planner': WeddingBudgetPlanner,
-  // Trading
-  'trade-profit-risk-calculator': TradeProfitRiskCalculator,
-  // Search
-  'subscription-swap-finder': SubscriptionSwapFinder,
-  // Utility (NEW)
-  'pomodoro-timer': PomodoroTimer,
-  'countdown-timer': CountdownTimer,
-  'unit-converter': UnitConverter,
-  'password-generator': PasswordGenerator,
-  'color-picker': ColorPicker,
-  'word-counter': WordCharacterCounter,
-  'text-case-converter': TextCaseConverter,
-  // Developer (NEW)
-  'qr-code-generator': QRCodeGenerator,
-  'base64-tool': Base64Tool,
-  'json-formatter': JSONFormatter,
-  // Fallback
-  'default': () => <div className="text-center py-8 text-gray-400">Tool loading...</div>
-};
 
 class ToolErrorBoundary extends React.Component<
   { children: React.ReactNode; toolName: string },
@@ -180,10 +86,15 @@ class ToolErrorBoundary extends React.Component<
   }
 }
 
-function App() {
-  const [selectedTool, setSelectedTool] = useState<any>(null);
-  const [showPaymentSuccess, setShowPaymentSuccess] = useState(false);
-  const [paymentSessionId, setPaymentSessionId] = useState<string>('');
+interface AppProps {
+  initialToolId?: string;
+}
+
+function App({ initialToolId }: AppProps) {
+  const [selectedTool, setSelectedTool] = useState<Tool | null>(
+    initialToolId ? tools.find(tool => tool.id === initialToolId) ?? null : null
+  );
+  const [unknownPath, setUnknownPath] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
   const [searchResults, setSearchResults] = useState<any[]>([]);
@@ -197,9 +108,33 @@ function App() {
   const filteredByCategory = activeCategory ? getToolsByCategory(activeCategory) : allTools;
 
   React.useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('payment_canceled') === 'true') {
-      window.history.replaceState({}, document.title, window.location.pathname);
+    const syncFromPath = () => {
+      const slug = decodeURIComponent(window.location.pathname.replace(/^\/+|\/+$/g, ''));
+      if (!slug) {
+        setSelectedTool(null);
+        setUnknownPath('');
+        return;
+      }
+
+      const routeTool = tools.find((tool) => tool.id === slug);
+      setSelectedTool(routeTool ?? null);
+      setUnknownPath(routeTool ? '' : slug);
+    };
+
+    syncFromPath();
+    window.addEventListener('popstate', syncFromPath);
+    return () => window.removeEventListener('popstate', syncFromPath);
+  }, []);
+
+  React.useEffect(() => {
+    if (selectedTool) {
+      seoOptimizer.updatePageSEO({
+        title: `${selectedTool.title} | Free Online Tool | Tools We Need`,
+        description: `${selectedTool.description} Use our free ${selectedTool.title.toLowerCase()} tool online. No registration required.`,
+        keywords: [selectedTool.title.toLowerCase(), 'free tool', 'online calculator', ...selectedTool.tags.split(',')],
+        canonicalUrl: `${window.location.origin}/${selectedTool.id}`
+      });
+      return;
     }
 
     seoOptimizer.updatePageSEO({
@@ -218,7 +153,7 @@ function App() {
         page_location: window.location.href
       });
     }
-  }, []);
+  }, [selectedTool]);
 
   const debouncedSearch = React.useMemo(
     () => debounce((term: string) => {
@@ -237,21 +172,17 @@ function App() {
     tool.tags.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleSelectTool = (tool: any) => {
+  const handleSelectTool = (tool: Tool) => {
     setSelectedTool(tool);
+    setUnknownPath('');
+    const nextPath = `/${tool.id}`;
+    if (window.location.pathname !== nextPath) window.history.pushState({}, '', nextPath);
     updateToolUsage(tool.id);
 
     setUserHistory(prev => {
       const newHistory = [tool.id, ...prev.filter(id => id !== tool.id)].slice(0, 10);
       localStorage.setItem('user-tool-history', JSON.stringify(newHistory));
       return newHistory;
-    });
-
-    seoOptimizer.updatePageSEO({
-      title: `${tool.title} | Free Online Tool | Tools We Need`,
-      description: `${tool.description} Use our free ${tool.title.toLowerCase()} tool online. No registration required.`,
-      keywords: [tool.title.toLowerCase(), 'free tool', 'online calculator', ...tool.tags.split(',')],
-      canonicalUrl: `${window.location.origin}/${tool.id}`
     });
 
     seoOptimizer.trackPageView(tool.id);
@@ -269,6 +200,8 @@ function App() {
 
   const handleBack = () => {
     setSelectedTool(null);
+    setUnknownPath('');
+    if (window.location.pathname !== '/') window.history.pushState({}, '', '/');
     seoOptimizer.updatePageSEO({
       title: 'Tools We Need | Access Premium Tools Without Premium Pricing',
       description: 'Free online tools for budgeting, taxes, debt tracking, health monitoring, and productivity.',
@@ -286,12 +219,16 @@ function App() {
     if (savedHistory) setUserHistory(JSON.parse(savedHistory));
   }, []);
 
-  if (showPaymentSuccess && paymentSessionId) {
+  if (unknownPath) {
     return (
-      <PaymentSuccessPage
-        sessionId={paymentSessionId}
-        onBack={() => { setShowPaymentSuccess(false); setPaymentSessionId(''); }}
-      />
+      <main id="main-content" className="flex min-h-screen items-center justify-center bg-gray-900 px-4 text-white">
+        <div className="max-w-lg text-center">
+          <p className="text-sm font-semibold uppercase tracking-widest text-blue-400">404 · Tool not found</p>
+          <h1 className="mt-3 text-3xl font-bold">That tool does not exist.</h1>
+          <p className="mt-3 text-gray-400">The address “/{unknownPath}” is not in the Tools We Need catalog.</p>
+          <a href="/" onClick={(event) => { event.preventDefault(); handleBack(); }} className="mt-6 inline-flex min-h-[44px] items-center rounded-lg bg-blue-600 px-5 py-3 font-medium hover:bg-blue-500">Browse all tools</a>
+        </div>
+      </main>
     );
   }
 
@@ -459,7 +396,7 @@ function App() {
             "@type": "WebSite",
             "name": "Tools We Need",
             "url": "https://www.toolsweneed.com",
-            "description": "Free online tools for finance, health, and productivity. Access premium tools without premium pricing.",
+            "description": "Free browser-based tools for finance, health, planning, productivity, and development.",
             "potentialAction": {
               "@type": "SearchAction",
               "target": "https://www.toolsweneed.com/?search={search_term_string}",
@@ -473,9 +410,9 @@ function App() {
           <FeedbackButton toolId="homepage" toolName="Homepage" variant="secondary" />
         </div>
         <p>
-          &copy; 2025 ToolsWeNeed.com &nbsp;&bull;&nbsp;
-          <a href="/privacy.html" className="hover:text-blue-400 transition-colors">Privacy</a> &nbsp;&bull;&nbsp;
-          <a href="/terms.html" className="hover:text-blue-400 transition-colors">Terms</a> &nbsp;&bull;&nbsp;
+          &copy; {new Date().getFullYear()} ToolsWeNeed.com &nbsp;&bull;&nbsp;
+          <a href="/privacy" className="hover:text-blue-400 transition-colors">Privacy</a> &nbsp;&bull;&nbsp;
+          <a href="/terms" className="hover:text-blue-400 transition-colors">Terms</a> &nbsp;&bull;&nbsp;
           <a href="mailto:hello@toolsweneed.com" className="hover:text-blue-400 transition-colors">Advertise</a>
         </p>
         <p className="text-xs text-gray-600 mt-1">

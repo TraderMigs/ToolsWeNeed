@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Plus, Trash2 } from 'lucide-react';
 import { ExportButtons } from '../ExportButtons';
+import { calculateSameDayDurationMinutes } from '../../domain/calculations';
 
 interface TimeBlock {
   id: string;
@@ -31,9 +32,19 @@ export const TimeBlockingScheduler: React.FC = () => {
     category: 'Work',
     description: ''
   });
+  const [validationError, setValidationError] = useState('');
 
   const addBlock = () => {
-    if (newBlock.title && newBlock.startTime && newBlock.endTime) {
+    if (!newBlock.title.trim()) {
+      setValidationError('Add a title for this time block.');
+      return;
+    }
+    if (calculateSameDayDurationMinutes(newBlock.startTime, newBlock.endTime) === null) {
+      setValidationError('End time must be later than start time.');
+      return;
+    }
+    setValidationError('');
+    if (newBlock.startTime && newBlock.endTime) {
       const category = categories.find(cat => cat.name === newBlock.category);
       setBlocks([...blocks, {
         id: Date.now().toString(),
@@ -120,6 +131,7 @@ export const TimeBlockingScheduler: React.FC = () => {
           title="Time Blocking Schedule"
         />
       </div>
+      {validationError && <p role="alert" className="text-sm text-red-400">{validationError}</p>}
 
       <div className="bg-gray-800 rounded-lg p-6">
         <h3 className="text-lg font-semibold mb-4">Schedule Date</h3>

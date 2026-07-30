@@ -1,8 +1,7 @@
 import { saveAs } from 'file-saver';
-import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
 import html2canvas from 'html2canvas';
+import { strToU8, zipSync } from 'fflate';
 
 export interface ExportData {
   [key: string]: any;
@@ -37,15 +36,29 @@ export const exportToCSV = (data: ExportData[], filename: string) => {
 
 export const exportToExcel = (data: ExportData[], filename: string, sheetName: string = 'Data') => {
   if (!data || data.length === 0) return;
-  
-  const worksheet = XLSX.utils.json_to_sheet(data);
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
-  
-  const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-  const blob = new Blob([excelBuffer], { 
-    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' 
-  });
+
+  const escapeXml = (value: unknown) => String(value ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const columnName = (index: number) => {
+    let name = '';
+    for (let value = index + 1; value > 0; value = Math.floor((value - 1) / 26)) name = String.fromCharCode(65 + ((value - 1) % 26)) + name;
+    return name;
+  };
+  const headers = Object.keys(data[0]);
+  const values = [headers, ...data.map(row => headers.map(header => row[header]))];
+  const rows = values.map((row, rowIndex) => `<row r="${rowIndex + 1}">${row.map((value, columnIndex) => {
+    const reference = `${columnName(columnIndex)}${rowIndex + 1}`;
+    return typeof value === 'number' && Number.isFinite(value)
+      ? `<c r="${reference}"><v>${value}</v></c>`
+      : `<c r="${reference}" t="inlineStr"><is><t>${escapeXml(value)}</t></is></c>`;
+  }).join('')}</row>`).join('');
+  const files = {
+    '[Content_Types].xml': strToU8('<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/></Types>'),
+    '_rels/.rels': strToU8('<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>'),
+    'xl/workbook.xml': strToU8(`<?xml version="1.0" encoding="UTF-8"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="${escapeXml(sheetName).slice(0, 31)}" sheetId="1" r:id="rId1"/></sheets></workbook>`),
+    'xl/_rels/workbook.xml.rels': strToU8('<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/></Relationships>'),
+    'xl/worksheets/sheet1.xml': strToU8(`<?xml version="1.0" encoding="UTF-8"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData>${rows}</sheetData></worksheet>`),
+  };
+  const blob = new Blob([zipSync(files) as BlobPart], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
   saveAs(blob, `${filename}.xlsx`);
 };
 
@@ -115,28 +128,22 @@ export const exportToPDF = (data: ExportData, filename: string, title: string, c
       return typeof value === 'number' ? value.toFixed(2) : String(value);
     }));
     
-    autoTable(doc, {
-      head: [headers],
-      body: rows,
-      startY: yPosition,
-      styles: {
-        fontSize: 8,
-        cellPadding: 2,
-      },
-      headStyles: {
-        fillColor: [66, 139, 202],
-        textColor: 255,
-        fontStyle: 'bold',
-      },
-      alternateRowStyles: {
-        fillColor: [245, 245, 245],
-      },
-      margin: { top: 10, right: 20, bottom: 20, left: 20 },
-    });
+    const tableWidth = doc.internal.pageSize.width - 40;
+    const columnWidth = tableWidth / Math.max(1, headers.length);
+    const drawRow = (row: string[], header = false) => {
+      if (yPosition > doc.internal.pageSize.height - 25) { doc.addPage(); yPosition = 20; }
+      if (header) { doc.setFillColor(66, 139, 202); doc.rect(20, yPosition - 5, tableWidth, 8, 'F'); doc.setTextColor(255, 255, 255); doc.setFont('helvetica', 'bold'); }
+      else { doc.setTextColor(40, 40, 40); doc.setFont('helvetica', 'normal'); }
+      row.forEach((cell, index) => doc.text(String(cell).slice(0, 32), 21 + index * columnWidth, yPosition, { maxWidth: columnWidth - 2 }));
+      yPosition += 8;
+    };
+    doc.setFontSize(7);
+    drawRow(headers, true);
+    rows.forEach(row => drawRow(row));
   }
   
   // Add footer
-  const pageCount = doc.getNumberOfPages();
+  const pageCount = (doc.internal as typeof doc.internal & { pages: unknown[] }).pages.length - 1;
   for (let i = 1; i <= pageCount; i++) {
     doc.setPage(i);
     doc.setFontSize(8);

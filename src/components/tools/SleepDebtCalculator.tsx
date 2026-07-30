@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Plus, Trash2 } from 'lucide-react';
 import { ExportButtons } from '../ExportButtons';
+import { calculateOvernightHours } from '../../domain/calculations';
 
 interface SleepEntry {
   id: string;
@@ -21,18 +22,8 @@ export const SleepDebtCalculator: React.FC = () => {
     quality: 7
   });
 
-  const calculateHoursSlept = (bedtime: string, wakeTime: string) => {
-    const bedDate = new Date(`2000-01-01 ${bedtime}`);
-    let wakeDate = new Date(`2000-01-01 ${wakeTime}`);
-    
-    // If wake time is earlier than bedtime, assume it's the next day
-    if (wakeDate <= bedDate) {
-      wakeDate = new Date(`2000-01-02 ${wakeTime}`);
-    }
-    
-    const diffMs = wakeDate.getTime() - bedDate.getTime();
-    return diffMs / (1000 * 60 * 60);
-  };
+  const calculateHoursSlept = (bedtime: string, wakeTime: string) =>
+    calculateOvernightHours(bedtime, wakeTime) ?? 0;
 
   const addEntry = () => {
     if (newEntry.date && newEntry.bedtime && newEntry.wakeTime) {

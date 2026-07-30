@@ -1,8 +1,7 @@
 import React from 'react';
-import { DivideIcon as LucideIcon } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { getToolMetadata } from '../data/toolMetadata';
 import { generateToolSchema } from '../utils/seoUtils'; 
-import { FeedbackButton } from './FeedbackButton';
 import { toolCategories } from '../data/tools';
 
 interface Tool {
@@ -12,6 +11,7 @@ interface Tool {
   icon: LucideIcon;
   color: string;
   tags: string;
+  category: keyof typeof toolCategories;
   usageCount?: number;
   exportCount?: number;
 }
@@ -30,8 +30,12 @@ export const ToolCard: React.FC<ToolCardProps> = ({ tool, onClick, isTrending = 
   const category = toolCategories[tool.category];
 
   return (
-    <div
-      onClick={onClick}
+    <a
+      href={`/${tool.id}`}
+      onClick={(event) => {
+        event.preventDefault();
+        onClick();
+      }}
       data-tags={tool.tags}
       className={`bg-gray-800 rounded-2xl p-4 sm:p-6 cursor-pointer transition-all duration-200 hover:bg-gray-700 hover:shadow-lg hover:shadow-blue-500/10 hover:scale-105 border min-h-[160px] flex flex-col justify-center relative overflow-hidden ${
         isTrending 
@@ -97,17 +101,7 @@ export const ToolCard: React.FC<ToolCardProps> = ({ tool, onClick, isTrending = 
             {metadata.toolDescription}
           </p>
         )}
-        <div className="mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
-          <FeedbackButton 
-            toolId={tool.id} 
-            toolName={tool.title} 
-            variant="text" 
-            label="Feedback" 
-            className="text-xs"
-            showIcon={false}
-          />
-        </div>
       </div>
-    </div>
+    </a>
   );
 };

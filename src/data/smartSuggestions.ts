@@ -12,7 +12,7 @@ export const getSmartSuggestions = (toolName: string, userContext?: any) => {
       };
 
     case 'freelance-proposal-estimator':
-      const industryRates = {
+      const industryRates: Record<string, number> = {
         'web-development': 75,
         'design': 65,
         'writing': 45,
@@ -102,7 +102,7 @@ export const getSmartSuggestions = (toolName: string, userContext?: any) => {
       const businessType = userContext?.businessType || 'consulting';
       
       // Real tax brackets and deduction estimates based on business type
-      const deductionEstimates = {
+      const deductionEstimates: Record<string, number> = {
         'consulting': incomeLevel * 0.15,
         'ecommerce': incomeLevel * 0.25,
         'services': incomeLevel * 0.12,
@@ -356,7 +356,7 @@ export const getSmartSuggestions = (toolName: string, userContext?: any) => {
 
     default:
       // Return contextual suggestions based on tool category
-      const toolCategories = {
+      const toolCategories: Record<string, unknown> = {
         'financial': {
           income: userContext?.income || 75000,
           savingsRate: 0.20,
@@ -373,6 +373,6 @@ export const getSmartSuggestions = (toolName: string, userContext?: any) => {
         }
       };
       
-      return toolCategories[userContext?.category] || {};
+      return userContext?.category ? toolCategories[userContext.category] || {} : {};
   }
 };

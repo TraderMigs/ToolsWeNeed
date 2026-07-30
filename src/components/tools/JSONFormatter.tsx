@@ -9,6 +9,13 @@ export const JSONFormatter: React.FC = () => {
   const [copied, setCopied] = useState(false);
   const [isValid, setIsValid] = useState<boolean | null>(null);
 
+  const replaceInput = (value: string) => {
+    setInput(value);
+    setOutput('');
+    setError('');
+    setIsValid(null);
+  };
+
   const format = () => {
     setError('');
     if (!input.trim()) { setOutput(''); setIsValid(null); return; }
@@ -33,6 +40,7 @@ export const JSONFormatter: React.FC = () => {
     } catch (e: any) {
       setError(e.message);
       setIsValid(false);
+      setOutput('');
     }
   };
 
@@ -45,6 +53,7 @@ export const JSONFormatter: React.FC = () => {
     } catch (e: any) {
       setError(e.message);
       setIsValid(false);
+      setOutput('');
     }
   };
 
@@ -74,7 +83,7 @@ export const JSONFormatter: React.FC = () => {
         <button onClick={validate} disabled={!input.trim()} className="px-4 py-2 bg-gray-700 hover:bg-gray-600 disabled:opacity-40 text-white rounded-lg font-medium transition-colors">
           Validate
         </button>
-        <button onClick={() => setInput(sample)} className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-medium transition-colors">
+        <button onClick={() => replaceInput(sample)} className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-medium transition-colors">
           Load Sample
         </button>
         <div className="flex items-center gap-2 ml-auto">
@@ -104,7 +113,7 @@ export const JSONFormatter: React.FC = () => {
           </div>
           <textarea
             value={input}
-            onChange={e => setInput(e.target.value)}
+            onChange={e => replaceInput(e.target.value)}
             placeholder='{"key": "value"}'
             rows={20}
             className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white font-mono text-sm resize-y focus:outline-none focus:border-blue-500"

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Plus, Trash2 } from 'lucide-react';
 import { ExportButtons } from '../ExportButtons';
 import { ProgressRing, BarChart } from '../DataVisualization';
+import { calculateSavingsProjection } from '../../domain/calculations';
 
 interface SavingsGoal {
   id: string;
@@ -49,30 +50,7 @@ export const SavingsGoalTracker: React.FC = () => {
     ));
   };
 
-  const calculateProgress = (goal: SavingsGoal) => {
-    const remaining = goal.targetAmount - goal.currentAmount;
-    const progressPercentage = (goal.currentAmount / goal.targetAmount) * 100;
-    
-    const targetDate = new Date(goal.targetDate);
-    const currentDate = new Date();
-    const monthsRemaining = Math.max(0, 
-      (targetDate.getFullYear() - currentDate.getFullYear()) * 12 + 
-      (targetDate.getMonth() - currentDate.getMonth())
-    );
-    
-    const requiredMonthlyContribution = monthsRemaining > 0 ? remaining / monthsRemaining : 0;
-    
-    return {
-      remaining,
-      progressPercentage,
-      monthsRemaining,
-      requiredMonthlyContribution,
-      onTrack: goal.monthlyContribution >= requiredMonthlyContribution,
-      projectedCompletion: goal.monthlyContribution > 0 ? 
-        new Date(currentDate.getTime() + (remaining / goal.monthlyContribution) * 30 * 24 * 60 * 60 * 1000) : 
-        null
-    };
-  };
+  const calculateProgress = (goal: SavingsGoal) => calculateSavingsProjection(goal);
 
   // Prepare visualization data
   const goalProgressData = goals.map(goal => {
@@ -101,7 +79,7 @@ export const SavingsGoalTracker: React.FC = () => {
       'Monthly Contribution': goal.monthlyContribution,
       'Progress (%)': progress.progressPercentage.toFixed(1),
       'Remaining': progress.remaining.toFixed(2),
-      'Months Left': progress.monthsRemaining,
+      'Months Left': progress.monthsRemaining ?? 'Invalid date',
       'On Track': progress.onTrack ? 'Yes' : 'No'
     };
   });
@@ -138,6 +116,7 @@ export const SavingsGoalTracker: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <input
             type="text"
+            aria-label="Goal name"
             placeholder="Goal Name"
             value={newGoal.name}
             onChange={(e) => setNewGoal({...newGoal, name: e.target.value})}
@@ -145,6 +124,7 @@ export const SavingsGoalTracker: React.FC = () => {
           />
           <input
             type="number"
+            aria-label="Target amount"
             placeholder="Target Amount"
             value={newGoal.targetAmount || ''}
             onChange={(e) => setNewGoal({...newGoal, targetAmount: parseFloat(e.target.value) || 0})}
@@ -152,6 +132,7 @@ export const SavingsGoalTracker: React.FC = () => {
           />
           <input
             type="number"
+            aria-label="Current amount"
             placeholder="Current Amount"
             value={newGoal.currentAmount || ''}
             onChange={(e) => setNewGoal({...newGoal, currentAmount: parseFloat(e.target.value) || 0})}
@@ -159,6 +140,7 @@ export const SavingsGoalTracker: React.FC = () => {
           />
           <input
             type="date"
+            aria-label="Target date"
             placeholder="Target Date"
             value={newGoal.targetDate}
             onChange={(e) => setNewGoal({...newGoal, targetDate: e.target.value})}
@@ -166,6 +148,7 @@ export const SavingsGoalTracker: React.FC = () => {
           />
           <input
             type="number"
+            aria-label="Monthly contribution"
             placeholder="Monthly Contribution"
             value={newGoal.monthlyContribution || ''}
             onChange={(e) => setNewGoal({...newGoal, monthlyContribution: parseFloat(e.target.value) || 0})}
@@ -190,6 +173,7 @@ export const SavingsGoalTracker: React.FC = () => {
                 <h3 className="text-lg font-semibold">{goal.name}</h3>
                 <button
                   onClick={() => removeGoal(goal.id)}
+                  aria-label={`Remove ${goal.name}`}
                   className="text-red-400 hover:text-red-300 transition-colors"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -201,6 +185,7 @@ export const SavingsGoalTracker: React.FC = () => {
                   <label className="block text-sm font-medium text-gray-300 mb-1">Current Amount</label>
                   <input
                     type="number"
+                    aria-label={`${goal.name} current amount`}
                     value={goal.currentAmount}
                     onChange={(e) => updateGoal(goal.id, 'currentAmount', parseFloat(e.target.value) || 0)}
                     className="w-full px-3 py-2 bg-gray-700 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none"
@@ -210,6 +195,7 @@ export const SavingsGoalTracker: React.FC = () => {
                   <label className="block text-sm font-medium text-gray-300 mb-1">Target Amount</label>
                   <input
                     type="number"
+                    aria-label={`${goal.name} target amount`}
                     value={goal.targetAmount}
                     onChange={(e) => updateGoal(goal.id, 'targetAmount', parseFloat(e.target.value) || 0)}
                     className="w-full px-3 py-2 bg-gray-700 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none"
@@ -219,6 +205,7 @@ export const SavingsGoalTracker: React.FC = () => {
                   <label className="block text-sm font-medium text-gray-300 mb-1">Target Date</label>
                   <input
                     type="date"
+                    aria-label={`${goal.name} target date`}
                     value={goal.targetDate}
                     onChange={(e) => updateGoal(goal.id, 'targetDate', e.target.value)}
                     className="w-full px-3 py-2 bg-gray-700 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none"
@@ -228,6 +215,7 @@ export const SavingsGoalTracker: React.FC = () => {
                   <label className="block text-sm font-medium text-gray-300 mb-1">Monthly Contribution</label>
                   <input
                     type="number"
+                    aria-label={`${goal.name} monthly contribution`}
                     value={goal.monthlyContribution}
                     onChange={(e) => updateGoal(goal.id, 'monthlyContribution', parseFloat(e.target.value) || 0)}
                     className="w-full px-3 py-2 bg-gray-700 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none"
@@ -265,11 +253,13 @@ export const SavingsGoalTracker: React.FC = () => {
                 </div>
                 <div className="text-center">
                   <p className="text-sm text-gray-400">Months Left</p>
-                  <p className="text-lg font-bold text-blue-400">{progress.monthsRemaining}</p>
+                  <p className="text-lg font-bold text-blue-400">{progress.monthsRemaining ?? '—'}</p>
                 </div>
                 <div className="text-center">
                   <p className="text-sm text-gray-400">Required Monthly</p>
-                  <p className="text-lg font-bold text-purple-400">${progress.requiredMonthlyContribution.toFixed(2)}</p>
+                  <p className="text-lg font-bold text-purple-400">
+                    {progress.requiredMonthlyContribution === null ? 'Choose a future date' : `$${progress.requiredMonthlyContribution.toFixed(2)}`}
+                  </p>
                 </div>
                 <div className="text-center">
                   <p className="text-sm text-gray-400">Status</p>

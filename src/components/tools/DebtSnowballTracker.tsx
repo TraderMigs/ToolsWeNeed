@@ -101,7 +101,6 @@ export const DebtSnowballTracker: React.FC<DebtSnowballTrackerProps> = ({ toolId
     if (suggestions.strategy) setStrategy(suggestions.strategy);
     setShowSuggestions(false);
   };
-  const addDebt = () => {
   const handleOnboardingComplete = (data: any) => {
     setShouldShowOnboarding(false);
   };
@@ -119,6 +118,7 @@ export const DebtSnowballTracker: React.FC<DebtSnowballTrackerProps> = ({ toolId
     value: debt.balance * (1 - (index * 0.1)) // Simplified projection
   })) : [];
 
+  const addDebt = () => {
     if (newDebt.name && newDebt.balance > 0) {
       setDebts([...debts, {
         id: Date.now().toString(),
