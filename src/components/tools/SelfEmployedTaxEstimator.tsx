@@ -255,9 +255,16 @@ export const SelfEmployedTaxEstimator: React.FC<SelfEmployedTaxEstimatorProps> =
     amount: 0
   });
 
-  // Calculate results using the external function
-  const results = calculateTaxes(taxData);
-  const hasResults = taxData.incomes.length > 0;
+  // Calculate results live: include the in-progress income row so numbers
+  // appear as soon as an amount is typed, before "Add Income Source" is clicked.
+  const effectiveTaxData = newIncome.amount > 0
+    ? {
+        ...taxData,
+        incomes: [...taxData.incomes, { id: 'pending', ...newIncome, source: newIncome.source || 'New income' }],
+      }
+    : taxData;
+  const results = calculateTaxes(effectiveTaxData);
+  const hasResults = effectiveTaxData.incomes.length > 0;
 
   // Prepare visualization data after results are calculated
   const taxBreakdownData = hasResults ? [

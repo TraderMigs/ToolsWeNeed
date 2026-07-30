@@ -203,19 +203,11 @@ export const ProgressiveOnboarding: React.FC<ProgressiveOnboardingProps> = ({
   );
 };
 
-// Hook for managing onboarding state
+// Hook for managing onboarding state.
+// Onboarding never auto-opens: visitors come to use the tool, not to be
+// walked through it. The OnboardingTrigger card lets them opt in.
 export const useProgressiveOnboarding = (toolName: string) => {
   const [shouldShowOnboarding, setShouldShowOnboarding] = useState(false);
-
-  useEffect(() => {
-    const hasSeenOnboarding = localStorage.getItem(`onboarding_${toolName}_completed`);
-    const hasToolData = localStorage.getItem(`twn_${toolName}_data`);
-    
-    // Show onboarding if user hasn't seen it and doesn't have existing data
-    if (!hasSeenOnboarding && !hasToolData) {
-      setShouldShowOnboarding(true);
-    }
-  }, [toolName]);
 
   const resetOnboarding = () => {
     localStorage.removeItem(`onboarding_${toolName}_completed`);

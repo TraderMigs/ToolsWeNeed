@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Eye, Type, Contrast, Volume2, X, ArrowRight, ArrowLeft } from 'lucide-react';
 
 interface TourStep {
@@ -13,7 +13,6 @@ interface TourStep {
 export const AccessibilityTour: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
-  const [hasSeenTour, setHasSeenTour] = useState(false);
 
   const tourSteps: TourStep[] = [
     {
@@ -78,25 +77,7 @@ export const AccessibilityTour: React.FC = () => {
     }
   ];
 
-  useEffect(() => {
-    // Check if user has seen the accessibility tour
-    const hasSeenAccessibilityTour = localStorage.getItem('accessibility_tour_completed');
-    const isFirstVisit = !localStorage.getItem('user_has_visited');
-    
-    if (!hasSeenAccessibilityTour && isFirstVisit) {
-      // Show tour after a brief delay on first visit
-      setTimeout(() => {
-        setIsVisible(true);
-      }, 3000);
-    }
-    
-    if (!isFirstVisit) {
-      localStorage.setItem('user_has_visited', 'true');
-    }
-    
-    setHasSeenTour(!!hasSeenAccessibilityTour);
-  }, []);
-
+  // The tour never auto-opens; the floating button below is the opt-in entry.
   const handleNext = () => {
     const step = tourSteps[currentStep];
     if (step.action) {
@@ -119,13 +100,11 @@ export const AccessibilityTour: React.FC = () => {
   const handleComplete = () => {
     localStorage.setItem('accessibility_tour_completed', 'true');
     setIsVisible(false);
-    setHasSeenTour(true);
   };
 
   const handleSkip = () => {
     localStorage.setItem('accessibility_tour_completed', 'true');
     setIsVisible(false);
-    setHasSeenTour(true);
   };
 
   // Show accessibility reminder for returning users
@@ -135,20 +114,17 @@ export const AccessibilityTour: React.FC = () => {
   };
 
   if (!isVisible) {
-    // Show subtle reminder for users who have completed the tour
-    if (hasSeenTour) {
-      return (
-        <button
-          onClick={showAccessibilityReminder}
-          className="fixed bottom-20 left-4 bg-blue-600/80 hover:bg-blue-600 text-white p-2 rounded-full shadow-lg transition-all duration-200 hover:scale-110 z-40"
-          title="Accessibility features available"
-          aria-label="Show accessibility tour"
-        >
-          <Eye className="w-4 h-4" />
-        </button>
-      );
-    }
-    return null;
+    // Subtle always-available entry point instead of an auto-opening tour
+    return (
+      <button
+        onClick={showAccessibilityReminder}
+        className="fixed bottom-20 left-4 bg-blue-600/80 hover:bg-blue-600 text-white p-2 rounded-full shadow-lg transition-all duration-200 hover:scale-110 z-40"
+        title="Accessibility features available"
+        aria-label="Show accessibility tour"
+      >
+        <Eye className="w-4 h-4" />
+      </button>
+    );
   }
 
   const currentStepData = tourSteps[currentStep];

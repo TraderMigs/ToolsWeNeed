@@ -278,9 +278,6 @@ export const EnhancedToolRecommendations: React.FC<EnhancedToolRecommendationsPr
                   <div className="flex items-center gap-2 mb-2">
                     <Icon className="w-3 h-3 text-blue-400" />
                     <span className="text-xs text-blue-400 capitalize">{rec.category}</span>
-                    <span className="text-xs text-gray-500">
-                      {rec.confidence}% match
-                    </span>
                   </div>
                 </div>
               </div>

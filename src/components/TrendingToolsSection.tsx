@@ -14,29 +14,32 @@ export const TrendingToolsSection: React.FC<TrendingToolsSectionProps> = ({
   limit = 6
 }) => {
   const [trendingTools, setTrendingTools] = useState<Tool[]>([]);
+  // Only tools backed by real site-wide usage data get the trending badge;
+  // fallback picks are shown honestly as "Popular Tools".
+  const [trendingIds, setTrendingIds] = useState<Set<string>>(new Set());
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchTrendingTools = async () => {
       setIsLoading(true);
       try {
-        // Get trending tools from the API with error handling
         const trendingData = await getTrendingTools(7, limit, 'view');
-        
+
         // Map trending data to actual tool objects
         const mappedTools: Tool[] = trendingData
           .flatMap(item => {
             const tool = tools.find(t => t.id === item.tool_id);
             return tool ? [{ ...tool, usageCount: item.count }] : [];
           });
-        
+        setTrendingIds(new Set(mappedTools.map(tool => tool.id)));
+
         // If we don't have enough trending tools, fill with popular tools
         if (mappedTools.length < limit) {
           const popularTools = [...tools]
             .sort((a, b) => b.sortWeight - a.sortWeight)
             .filter(tool => !mappedTools.some(t => t.id === tool.id))
             .slice(0, limit - mappedTools.length);
-          
+
           setTrendingTools([...mappedTools, ...popularTools]);
         } else {
           setTrendingTools(mappedTools);
@@ -44,6 +47,7 @@ export const TrendingToolsSection: React.FC<TrendingToolsSectionProps> = ({
       } catch (error) {
         console.warn('Error fetching trending tools, using fallback:', error instanceof Error ? error.message : error);
         // Fallback to sortWeight-based popular tools
+        setTrendingIds(new Set());
         setTrendingTools(
           [...tools].sort((a, b) => b.sortWeight - a.sortWeight).slice(0, limit)
         );
@@ -55,12 +59,14 @@ export const TrendingToolsSection: React.FC<TrendingToolsSectionProps> = ({
     fetchTrendingTools();
   }, [limit]);
 
+  const sectionTitle = trendingIds.size > 0 ? 'Trending Tools' : 'Popular Tools';
+
   if (isLoading) {
     return (
       <div className="my-8">
         <div className="flex items-center gap-2 mb-4">
           <Sparkles className="w-5 h-5 text-yellow-400" />
-          <h2 className="text-xl font-bold">Trending Tools</h2>
+          <h2 className="text-xl font-bold">Popular Tools</h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {Array.from({ length: limit }).map((_, index) => (
@@ -82,15 +88,15 @@ export const TrendingToolsSection: React.FC<TrendingToolsSectionProps> = ({
     <div className="my-8">
       <div className="flex items-center gap-2 mb-4">
         <Sparkles className="w-5 h-5 text-yellow-400" />
-        <h2 className="text-xl font-bold">Trending Tools</h2>
+        <h2 className="text-xl font-bold">{sectionTitle}</h2>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {trendingTools.map((tool) => (
-          <ToolCard 
-            key={tool.id} 
-            tool={tool} 
+          <ToolCard
+            key={tool.id}
+            tool={tool}
             onClick={() => onSelectTool(tool)}
-            isTrending={true}
+            isTrending={trendingIds.has(tool.id)}
           />
         ))}
       </div>
