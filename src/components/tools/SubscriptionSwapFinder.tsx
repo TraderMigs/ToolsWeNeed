@@ -323,20 +323,20 @@ const SubscriptionSwapFinder: React.FC = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-6 space-y-8">
+    <div className="max-w-6xl mx-auto space-y-8">
       <div className="text-center space-y-4">
-        <h1 className="text-3xl font-bold text-gray-900">Smart Switch Finder</h1>
-        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+        <h1 className="text-3xl font-bold text-white">Smart Switch Finder</h1>
+        <p className="text-lg text-gray-400 max-w-3xl mx-auto">
           Find free or cheaper alternatives to your current subscriptions and paid software. 
           Save money without sacrificing functionality.
         </p>
       </div>
 
       {/* Search Section */}
-      <div className="bg-white rounded-xl shadow-lg p-6 space-y-6">
+      <div className="bg-gray-800 border border-gray-700 rounded-xl p-6 space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-gray-300">
               Service or Software
             </label>
             <div className="relative">
@@ -346,7 +346,7 @@ const SubscriptionSwapFinder: React.FC = () => {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="e.g., Adobe Photoshop, Grammarly..."
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-3 bg-gray-900 text-white placeholder-gray-500 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 list="services"
               />
               <datalist id="services">
@@ -358,7 +358,7 @@ const SubscriptionSwapFinder: React.FC = () => {
           </div>
 
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-gray-300">
               Current Monthly Cost (Optional)
             </label>
             <div className="relative">
@@ -368,13 +368,13 @@ const SubscriptionSwapFinder: React.FC = () => {
                 value={currentCost}
                 onChange={(e) => setCurrentCost(e.target.value)}
                 placeholder="29.99"
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-3 bg-gray-900 text-white placeholder-gray-500 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-gray-300">
               Specific Use Case (Optional)
             </label>
             <input
@@ -382,16 +382,16 @@ const SubscriptionSwapFinder: React.FC = () => {
               value={useCase}
               onChange={(e) => setUseCase(e.target.value)}
               placeholder="e.g., photo editing, team chat..."
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 bg-gray-900 text-white placeholder-gray-500 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
         </div>
 
         {/* Filters */}
-        <div className="border-t pt-4">
+        <div className="border-t border-gray-700 pt-4">
           <div className="flex items-center space-x-6 mb-4">
             <Filter className="w-5 h-5 text-gray-500" />
-            <span className="font-medium text-gray-700">Filters:</span>
+            <span className="font-medium text-gray-300">Filters:</span>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -400,9 +400,9 @@ const SubscriptionSwapFinder: React.FC = () => {
                 type="checkbox"
                 checked={filters.freeOnly}
                 onChange={(e) => setFilters({...filters, freeOnly: e.target.checked})}
-                className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                className="rounded border-gray-600 text-blue-600 focus:ring-blue-500"
               />
-              <span className="text-sm text-gray-700">Free only</span>
+              <span className="text-sm text-gray-300">Free only</span>
             </label>
 
             <label className="flex items-center space-x-2">
@@ -410,9 +410,9 @@ const SubscriptionSwapFinder: React.FC = () => {
                 type="checkbox"
                 checked={filters.openSource}
                 onChange={(e) => setFilters({...filters, openSource: e.target.checked})}
-                className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                className="rounded border-gray-600 text-blue-600 focus:ring-blue-500"
               />
-              <span className="text-sm text-gray-700">Open source</span>
+              <span className="text-sm text-gray-300">Open source</span>
             </label>
 
             <label className="flex items-center space-x-2">
@@ -420,13 +420,13 @@ const SubscriptionSwapFinder: React.FC = () => {
                 type="checkbox"
                 checked={filters.paidButCheaper}
                 onChange={(e) => setFilters({...filters, paidButCheaper: e.target.checked})}
-                className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                className="rounded border-gray-600 text-blue-600 focus:ring-blue-500"
               />
-              <span className="text-sm text-gray-700">Paid but cheaper</span>
+              <span className="text-sm text-gray-300">Paid but cheaper</span>
             </label>
 
             <div className="space-y-1">
-              <label className="block text-xs text-gray-600">
+              <label className="block text-xs text-gray-400">
                 Min. feature match: {filters.minMatch}%
               </label>
               <input
@@ -436,7 +436,7 @@ const SubscriptionSwapFinder: React.FC = () => {
                 step="5"
                 value={filters.minMatch}
                 onChange={(e) => setFilters({...filters, minMatch: parseInt(e.target.value)})}
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                className="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer"
               />
             </div>
           </div>
@@ -445,7 +445,7 @@ const SubscriptionSwapFinder: React.FC = () => {
         <button
           onClick={handleSearch}
           disabled={!searchTerm.trim()}
-          className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+          className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors"
         >
           Find Alternatives
         </button>
@@ -455,10 +455,10 @@ const SubscriptionSwapFinder: React.FC = () => {
       {results.length > 0 && (
         <div className="space-y-6">
           <div className="text-center">
-            <h2 className="text-2xl font-bold text-gray-900">
+            <h2 className="text-2xl font-bold text-white">
               Alternatives to {searchedService}
             </h2>
-            <p className="text-gray-600 mt-2">
+            <p className="text-gray-400 mt-2">
               Found {results.length} alternative{results.length !== 1 ? 's' : ''} that match your criteria
             </p>
           </div>
@@ -468,11 +468,11 @@ const SubscriptionSwapFinder: React.FC = () => {
               const savings = calculateSavings(alternative);
               
               return (
-                <div key={index} className="bg-white rounded-xl shadow-lg p-6 space-y-4 hover:shadow-xl transition-shadow">
+                <div key={index} className="bg-gray-800 border border-gray-700 rounded-xl p-6 space-y-4 hover:shadow-xl transition-shadow">
                   <div className="flex items-start justify-between">
                     <div>
-                      <h3 className="text-xl font-bold text-gray-900">{alternative.name}</h3>
-                      <p className="text-gray-600 text-sm mt-1">{alternative.description}</p>
+                      <h3 className="text-xl font-bold text-white">{alternative.name}</h3>
+                      <p className="text-gray-400 text-sm mt-1">{alternative.description}</p>
                     </div>
                     <div className={`px-2 py-1 rounded-full text-xs font-medium flex items-center space-x-1 ${getTypeColor(alternative.type)}`}>
                       {getTypeIcon(alternative.type)}
@@ -482,11 +482,11 @@ const SubscriptionSwapFinder: React.FC = () => {
 
                   <div className="flex items-center justify-between">
                     <div>
-                      <span className="text-2xl font-bold text-gray-900">{alternative.price}</span>
+                      <span className="text-2xl font-bold text-white">{alternative.price}</span>
                       {alternative.price !== 'Free' && <span className="text-gray-500 text-sm">/month</span>}
                     </div>
                     <div className="text-right">
-                      <div className="text-sm text-gray-600">Feature match</div>
+                      <div className="text-sm text-gray-400">Feature match</div>
                       <div className="text-lg font-bold text-blue-600">{alternative.matchPercentage}%</div>
                     </div>
                   </div>
@@ -501,10 +501,10 @@ const SubscriptionSwapFinder: React.FC = () => {
 
                   <div className="space-y-3">
                     <div>
-                      <h4 className="font-medium text-gray-900 mb-2">Key Features</h4>
+                      <h4 className="font-medium text-white mb-2">Key Features</h4>
                       <div className="flex flex-wrap gap-1">
                         {alternative.features.slice(0, 3).map((feature, idx) => (
-                          <span key={idx} className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded">
+                          <span key={idx} className="px-2 py-1 bg-gray-700 text-gray-300 text-xs rounded">
                             {feature}
                           </span>
                         ))}

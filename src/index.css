@@ -9,6 +9,12 @@
     font-size: 16px;
   }
 
+  /* Nothing may ever cause sideways page scrolling on any device.
+     clip (not hidden) so no phantom scroll container is created. */
+  html, body {
+    overflow-x: clip;
+  }
+
   body {
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent;

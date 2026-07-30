@@ -236,7 +236,10 @@ function App({ initialToolId }: AppProps) {
     const ToolComponent = toolComponents[selectedTool.id] || toolComponents['default'];
 
     return (
-      <ToolErrorBoundary toolName={selectedTool.title}>
+      <>
+        <AccessibilityEnhancements />
+        <AccessibilityTour />
+        <ToolErrorBoundary toolName={selectedTool.title}>
         <React.Suspense fallback={
           <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
             <div className="text-center">
@@ -255,7 +258,8 @@ function App({ initialToolId }: AppProps) {
             />
           </ToolPage>
         </React.Suspense>
-      </ToolErrorBoundary>
+        </ToolErrorBoundary>
+      </>
     );
   }
 

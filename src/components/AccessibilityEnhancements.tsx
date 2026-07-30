@@ -38,14 +38,20 @@ export const AccessibilityEnhancements: React.FC = () => {
     // Apply accessibility settings
     const root = document.documentElement;
     
-    // Font size
+    // Font size. "medium" removes the override entirely so the site renders
+    // at its default. The range is deliberately modest — heavier zoom is the
+    // browser's job — so scaled layouts stay usable on small screens.
     const fontSizes = {
-      small: '14px',
-      medium: '16px',
-      large: '18px',
-      xl: '20px'
+      small: '15px',
+      medium: '',
+      large: '17px',
+      xl: '18px'
     };
-    root.style.fontSize = fontSizes[settings.fontSize];
+    if (fontSizes[settings.fontSize]) {
+      root.style.fontSize = fontSizes[settings.fontSize];
+    } else {
+      root.style.removeProperty('font-size');
+    }
 
     // High contrast
     if (settings.contrast === 'high') {
@@ -96,7 +102,7 @@ export const AccessibilityEnhancements: React.FC = () => {
 
       {/* Accessibility Panel */}
       {showPanel && (
-        <div className="fixed bottom-20 left-4 bg-gray-800 rounded-lg shadow-xl p-4 z-50 w-80 border border-gray-700">
+        <div className="fixed bottom-20 left-4 right-4 sm:right-auto bg-gray-800 rounded-lg shadow-xl p-4 z-50 sm:w-80 max-w-[calc(100vw-2rem)] max-h-[70vh] overflow-y-auto border border-gray-700">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-white">Accessibility</h3>
             <button
@@ -188,6 +194,17 @@ export const AccessibilityEnhancements: React.FC = () => {
             >
               <Volume2 className="w-4 h-4" />
               Test Screen Reader
+            </button>
+
+            {/* Launch the feature tour (rendered by AccessibilityTour) */}
+            <button
+              onClick={() => {
+                setShowPanel(false);
+                window.dispatchEvent(new Event('twn-open-accessibility-tour'));
+              }}
+              className="w-full px-3 py-2 bg-gray-700 hover:bg-gray-600 rounded text-sm text-gray-200 transition-colors"
+            >
+              Take the accessibility tour
             </button>
           </div>
         </div>

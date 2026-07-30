@@ -77,7 +77,14 @@ export const AccessibilityTour: React.FC = () => {
     }
   ];
 
-  // The tour never auto-opens; the floating button below is the opt-in entry.
+  // The tour never auto-opens; it is launched from the accessibility panel
+  // via this custom event, keeping a single floating button on screen.
+  React.useEffect(() => {
+    const open = () => { setCurrentStep(0); setIsVisible(true); };
+    window.addEventListener('twn-open-accessibility-tour', open);
+    return () => window.removeEventListener('twn-open-accessibility-tour', open);
+  }, []);
+
   const handleNext = () => {
     const step = tourSteps[currentStep];
     if (step.action) {
@@ -107,25 +114,7 @@ export const AccessibilityTour: React.FC = () => {
     setIsVisible(false);
   };
 
-  // Show accessibility reminder for returning users
-  const showAccessibilityReminder = () => {
-    setIsVisible(true);
-    setCurrentStep(0);
-  };
-
-  if (!isVisible) {
-    // Subtle always-available entry point instead of an auto-opening tour
-    return (
-      <button
-        onClick={showAccessibilityReminder}
-        className="fixed bottom-20 left-4 bg-blue-600/80 hover:bg-blue-600 text-white p-2 rounded-full shadow-lg transition-all duration-200 hover:scale-110 z-40"
-        title="Accessibility features available"
-        aria-label="Show accessibility tour"
-      >
-        <Eye className="w-4 h-4" />
-      </button>
-    );
-  }
+  if (!isVisible) return null;
 
   const currentStepData = tourSteps[currentStep];
   const Icon = currentStepData.icon;

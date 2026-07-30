@@ -730,6 +730,8 @@ export const ToolSEOContent: React.FC<ToolSEOContentProps> = ({ tool }) => {
           </p>
         </div>
         
+        {/* Tips render only for tools with genuinely useful, specific tips */}
+        {['budget-card-conveyor', 'self-employed-tax-estimator', 'debt-snowball-tracker', 'trade-profit-risk-calculator', 'hourly-rate-calculator'].includes(tool.id) && (
         <div className="mt-8">
           <h3 id={`tips-for-${tool.id}`} className="text-lg font-bold text-white mb-4">Tips for Getting the Most from {tool.title}</h3>
           <div className="space-y-3">
@@ -781,16 +783,9 @@ export const ToolSEOContent: React.FC<ToolSEOContentProps> = ({ tool }) => {
                 <p className="text-sm text-gray-400">• Revisit and recalculate your rates at least annually as expenses and experience increase.</p>
               </>
             )}
-            {!['budget-card-conveyor', 'self-employed-tax-estimator', 'debt-snowball-tracker', 'fasting-planner', 'trade-profit-risk-calculator', 'hourly-rate-calculator'].includes(tool.id) && (
-              <>
-                <p className="text-sm text-gray-400">• Take time to explore all features and options available in the tool.</p>
-                <p className="text-sm text-gray-400">• Use the export functionality to save your data for future reference.</p>
-                <p className="text-sm text-gray-400">• Check out related tools that might complement your current task.</p>
-                <p className="text-sm text-gray-400">• Bookmark this tool for easy access whenever you need it.</p>
-              </>
-            )}
           </div>
         </div>
+        )}
       </div>
       
       <div className="mt-4 text-center">

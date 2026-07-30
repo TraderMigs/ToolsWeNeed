@@ -14,9 +14,24 @@
 
 .high-contrast .bg-gray-900 { background-color: var(--bg-primary) !important; }
 .high-contrast .bg-gray-800 { background-color: var(--bg-secondary) !important; }
+.high-contrast .bg-gray-700 { background-color: #262626 !important; }
 .high-contrast .text-white { color: var(--text-primary) !important; }
+.high-contrast .text-gray-300 { color: var(--text-primary) !important; }
 .high-contrast .text-gray-400 { color: var(--text-secondary) !important; }
-.high-contrast .border-gray-700 { border-color: var(--border-color) !important; }
+.high-contrast .text-gray-500,
+.high-contrast .text-gray-600 { color: var(--text-secondary) !important; }
+.high-contrast .border-gray-700,
+.high-contrast .border-gray-600 { border-color: var(--border-color) !important; }
+.high-contrast .text-blue-400,
+.high-contrast .text-blue-500 { color: var(--link-color) !important; }
+.high-contrast input,
+.high-contrast select,
+.high-contrast textarea {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+}
+.high-contrast ::placeholder { color: #b3b3b3 !important; }
 
 /* Reduced motion */
 .reduced-motion * {
@@ -56,10 +71,20 @@
   outline-offset: 2px;
 }
 
-/* Ensure minimum touch targets */
-button, a, input, select, textarea {
+/* Ensure minimum touch targets on real controls only. A blanket min-width
+   ballooned checkboxes, radios, and small icon buttons into 44px blocks. */
+button, select, textarea,
+input:not([type='checkbox']):not([type='radio']):not([type='range']) {
   min-height: 44px;
-  min-width: 44px;
+}
+
+/* Checkboxes and radios stay their natural size; their tap area comes from
+   the surrounding label, which keeps the 44px target without the giant box. */
+input[type='checkbox'], input[type='radio'] {
+  min-height: 0;
+  min-width: 0;
+  width: 1.15rem;
+  height: 1.15rem;
 }
 
 /* High contrast focus indicators */
