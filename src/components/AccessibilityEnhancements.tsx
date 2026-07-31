@@ -76,16 +76,28 @@ export const AccessibilityEnhancements: React.FC = () => {
   };
 
   const announceToScreenReader = (message: string) => {
+    // aria-live region for actual screen-reader software
     const announcement = document.createElement('div');
     announcement.setAttribute('aria-live', 'polite');
     announcement.setAttribute('aria-atomic', 'true');
     announcement.className = 'sr-only';
     announcement.textContent = message;
     document.body.appendChild(announcement);
-    
-    setTimeout(() => {
-      document.body.removeChild(announcement);
-    }, 1000);
+    setTimeout(() => announcement.remove(), 1500);
+
+    // Audible + visible confirmation so the test demonstrably does something
+    // for everyone, not only users already running a screen reader.
+    try {
+      window.speechSynthesis?.cancel();
+      window.speechSynthesis?.speak(new SpeechSynthesisUtterance(message));
+    } catch {
+      // Speech synthesis unavailable; the toast below still confirms.
+    }
+    const toast = document.createElement('div');
+    toast.textContent = `🔊 ${message}`;
+    toast.className = 'fixed bottom-24 left-1/2 -translate-x-1/2 z-[60] max-w-[calc(100vw-2rem)] rounded-lg border border-gray-600 bg-gray-900 px-4 py-2 text-sm text-white shadow-xl';
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2500);
   };
 
   return (

@@ -115,12 +115,13 @@ export const CountdownTimer: React.FC = () => {
             <button
               onClick={running ? () => setRunning(false) : start}
               disabled={totalSet === 0 && secondsLeft === 0}
+              aria-label={running ? 'Pause countdown' : 'Start countdown'}
               className="w-16 h-16 rounded-full bg-blue-600 hover:bg-blue-500 disabled:opacity-40 flex items-center justify-center transition-colors shadow-lg"
             >
               {running ? <Pause className="w-7 h-7 text-white" /> : <Play className="w-7 h-7 text-white ml-1" />}
             </button>
           )}
-          <button onClick={reset} className="w-10 h-10 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center transition-colors">
+          <button onClick={reset} aria-label="Reset countdown" className="w-10 h-10 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center transition-colors">
             <RotateCcw className="w-4 h-4 text-gray-300" />
           </button>
         </div>

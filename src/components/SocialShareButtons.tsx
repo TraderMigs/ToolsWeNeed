@@ -118,46 +118,33 @@ export const SocialShareButtons: React.FC<SocialShareButtonsProps> = ({
     }
   };
 
+  // Uniform compact row: one labeled share pill + identical 40px icon circles
+  const iconCircle = 'flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-colors';
+
   return (
-    <div className="flex items-center gap-2 sm:gap-3">
+    <div className="flex flex-wrap items-center gap-2">
       <button
         onClick={shareNatively}
-        className="flex items-center gap-1 px-3 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors text-xs sm:text-sm"
+        className="flex h-10 shrink-0 items-center gap-1.5 rounded-full bg-blue-600 px-4 text-sm font-medium hover:bg-blue-700 transition-colors"
       >
-        <Share2 className="w-3 h-3 sm:w-4 sm:h-4" />
+        <Share2 className="h-4 w-4" />
         <span>Share</span>
       </button>
-      
-      <button
-        onClick={shareToTwitter}
-        className="p-2 bg-[#1DA1F2] hover:bg-[#1a94df] rounded-lg transition-colors"
-        aria-label="Share on Twitter"
-      >
-        <Twitter className="w-4 h-4 sm:w-5 sm:h-5" />
+
+      <button onClick={shareToTwitter} className={`${iconCircle} bg-[#1DA1F2] hover:bg-[#1a94df]`} aria-label="Share on Twitter">
+        <Twitter className="h-4 w-4" />
       </button>
-      
-      <button
-        onClick={shareToFacebook}
-        className="p-2 bg-[#4267B2] hover:bg-[#375694] rounded-lg transition-colors"
-        aria-label="Share on Facebook"
-      >
-        <Facebook className="w-4 h-4 sm:w-5 sm:h-5" />
+
+      <button onClick={shareToFacebook} className={`${iconCircle} bg-[#4267B2] hover:bg-[#375694]`} aria-label="Share on Facebook">
+        <Facebook className="h-4 w-4" />
       </button>
-      
-      <button
-        onClick={shareToLinkedIn}
-        className="p-2 bg-[#0077B5] hover:bg-[#006396] rounded-lg transition-colors"
-        aria-label="Share on LinkedIn"
-      >
-        <Linkedin className="w-4 h-4 sm:w-5 sm:h-5" />
+
+      <button onClick={shareToLinkedIn} className={`${iconCircle} bg-[#0077B5] hover:bg-[#006396]`} aria-label="Share on LinkedIn">
+        <Linkedin className="h-4 w-4" />
       </button>
-      
-      <button
-        onClick={copyToClipboard}
-        className="p-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
-        aria-label="Copy link"
-      >
-        <Link className="w-4 h-4 sm:w-5 sm:h-5" />
+
+      <button onClick={copyToClipboard} className={`${iconCircle} bg-gray-700 hover:bg-gray-600`} aria-label="Copy link">
+        <Link className="h-4 w-4" />
       </button>
     </div>
   );

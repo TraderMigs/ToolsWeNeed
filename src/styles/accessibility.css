@@ -75,7 +75,7 @@
    ballooned checkboxes, radios, and small icon buttons into 44px blocks. */
 button, select, textarea,
 input:not([type='checkbox']):not([type='radio']):not([type='range']) {
-  min-height: 44px;
+  min-height: 40px;
 }
 
 /* Checkboxes and radios stay their natural size; their tap area comes from

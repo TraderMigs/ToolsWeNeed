@@ -90,15 +90,13 @@ export const ToolPage: React.FC<ToolPageProps> = ({ tool, onBack, children }) =>
             {children}
             
             <div className="mt-8 pt-6 border-t border-gray-700">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div className="flex items-center space-x-4">
-                  <SocialShareButtons 
-                    toolName={tool.title}
-                    toolId={tool.id}
-                    description={tool.description}
-                  />
-                  <FeedbackButton toolId={tool.id} toolName={tool.title} />
-                </div>
+              <div className="flex flex-wrap items-center gap-2">
+                <SocialShareButtons
+                  toolName={tool.title}
+                  toolId={tool.id}
+                  description={tool.description}
+                />
+                <FeedbackButton toolId={tool.id} toolName={tool.title} />
               </div>
             </div>
           </div>

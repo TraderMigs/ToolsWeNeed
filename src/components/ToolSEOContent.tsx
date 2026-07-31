@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, Wrench } from 'lucide-react';
+import React from 'react';
 import { RequestToolButton } from './RequestToolButton';
 import { FeedbackButton } from './FeedbackButton';
 
@@ -16,7 +15,6 @@ interface ToolSEOContentProps {
 }
 
 export const ToolSEOContent: React.FC<ToolSEOContentProps> = ({ tool }) => {
-  const [expanded, setExpanded] = useState(false);
   
   // Generate SEO content based on tool metadata
   const generateSEOContent = () => {
@@ -694,7 +692,7 @@ export const ToolSEOContent: React.FC<ToolSEOContentProps> = ({ tool }) => {
   const seoContent = generateSEOContent();
 
   return (
-    <section className="mt-8 pt-8 border-t border-gray-800" id={`seo-content-${tool.id}`}>
+    <section className="mt-8 border-t border-gray-800 px-4 pt-8 pb-24 sm:px-6" id={`seo-content-${tool.id}`}>
       <div className="max-w-4xl mx-auto text-left">
         <h2 id={`about-${tool.id}`} className="text-xl font-bold text-white mb-4">About {tool.title}</h2>
         <div className="text-gray-400 text-sm space-y-4">
@@ -715,15 +713,13 @@ export const ToolSEOContent: React.FC<ToolSEOContentProps> = ({ tool }) => {
         
         <div className="mt-8 text-center">
           <h3 className="text-lg font-bold text-white mb-4">Can't Find What You Need?</h3>
-          <div className="flex justify-center">
-            <div className="flex gap-2">
-              <RequestToolButton variant="primary" />
-              <FeedbackButton 
-                toolId={tool.id} 
-                toolName={tool.title} 
-                variant="secondary" 
-              />
-            </div>
+          <div className="flex flex-wrap justify-center gap-2">
+            <RequestToolButton variant="primary" />
+            <FeedbackButton
+              toolId={tool.id}
+              toolName={tool.title}
+              variant="secondary"
+            />
           </div>
           <p className="text-sm text-gray-500 mt-2">
             We're constantly adding new tools based on user requests.
@@ -788,24 +784,6 @@ export const ToolSEOContent: React.FC<ToolSEOContentProps> = ({ tool }) => {
         )}
       </div>
       
-      <div className="mt-4 text-center">
-        <button 
-          onClick={() => setExpanded(!expanded)} 
-          className="text-sm text-gray-500 hover:text-gray-400 flex items-center gap-1 mx-auto"
-        >
-          {expanded ? (
-            <>
-              <ChevronUp className="w-4 h-4" />
-              Show less
-            </>
-          ) : (
-            <>
-              <ChevronDown className="w-4 h-4" />
-              Learn more about this tool
-            </>
-          )}
-        </button>
-      </div>
     </section>
   );
 };
