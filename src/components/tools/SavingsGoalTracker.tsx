@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { formatMoney } from '../../utils/format';
 import { Plus, Trash2 } from 'lucide-react';
 import { ExportButtons } from '../ExportButtons';
 import { ProgressRing, BarChart } from '../DataVisualization';
@@ -249,7 +250,7 @@ export const SavingsGoalTracker: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="text-center">
                   <p className="text-sm text-gray-400">Remaining</p>
-                  <p className="text-lg font-bold text-orange-400">${progress.remaining.toFixed(2)}</p>
+                  <p className="text-lg font-bold text-orange-400">{formatMoney(progress.remaining)}</p>
                 </div>
                 <div className="text-center">
                   <p className="text-sm text-gray-400">Months Left</p>
@@ -258,7 +259,7 @@ export const SavingsGoalTracker: React.FC = () => {
                 <div className="text-center">
                   <p className="text-sm text-gray-400">Required Monthly</p>
                   <p className="text-lg font-bold text-purple-400">
-                    {progress.requiredMonthlyContribution === null ? 'Choose a future date' : `$${progress.requiredMonthlyContribution.toFixed(2)}`}
+                    {progress.requiredMonthlyContribution === null ? 'Choose a future date' : `${formatMoney(progress.requiredMonthlyContribution)}`}
                   </p>
                 </div>
                 <div className="text-center">

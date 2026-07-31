@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { formatMoney } from '../../utils/format';
 import { Plus, Trash2, Edit, Save, ChevronDown, ChevronUp } from 'lucide-react';
 import { ExportButtons } from '../ExportButtons';
 import { saveToolData, loadToolData, clearToolData, hasToolData, saveToolDataWithAnalytics } from '../../utils/storageUtils';
@@ -480,7 +481,7 @@ export const DebtSnowballTracker: React.FC<DebtSnowballTrackerProps> = ({ toolId
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="bg-red-600 rounded-lg p-4">
               <h3 className="text-sm font-medium text-red-100">Total Debt</h3>
-              <p className="text-2xl font-bold">${results.totalBalance.toFixed(2)}</p>
+              <p className="text-2xl font-bold">{formatMoney(results.totalBalance)}</p>
               {showVisualizations && (
                 <div className="mt-2 flex justify-center">
                   <ProgressRing 
@@ -494,7 +495,7 @@ export const DebtSnowballTracker: React.FC<DebtSnowballTrackerProps> = ({ toolId
             </div>
             <div className="bg-orange-600 rounded-lg p-4">
               <h3 className="text-sm font-medium text-orange-100">Min Payments</h3>
-              <p className="text-2xl font-bold">${results.totalMinPayments.toFixed(2)}</p>
+              <p className="text-2xl font-bold">{formatMoney(results.totalMinPayments)}</p>
             </div>
             <div className="bg-blue-600 rounded-lg p-4">
               <h3 className="text-sm font-medium text-blue-100">Months to Payoff</h3>
@@ -539,11 +540,11 @@ export const DebtSnowballTracker: React.FC<DebtSnowballTrackerProps> = ({ toolId
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="bg-purple-600 rounded-lg p-4">
                 <h3 className="text-sm font-medium text-purple-100">Total Interest Paid</h3>
-                <p className="text-2xl font-bold">${results.totalInterestPaid.toFixed(2)}</p>
+                <p className="text-2xl font-bold">{formatMoney(results.totalInterestPaid)}</p>
               </div>
               <div className="bg-teal-600 rounded-lg p-4">
                 <h3 className="text-sm font-medium text-teal-100">Monthly Savings Potential</h3>
-                <p className="text-2xl font-bold">${results.monthlySavings.toFixed(2)}</p>
+                <p className="text-2xl font-bold">{formatMoney(results.monthlySavings)}</p>
               </div>
             </div>
           )}
@@ -593,7 +594,7 @@ export const DebtSnowballTracker: React.FC<DebtSnowballTrackerProps> = ({ toolId
                   <h4 className="font-medium">{debt.name}</h4>
                   <p className="text-sm text-gray-400">
                     {debt.creditorName && `${debt.creditorName} • `}
-                    ${debt.balance.toFixed(2)} at {debt.interestRate}% APR
+                    {formatMoney(debt.balance)} at {debt.interestRate}% APR
                     {debt.category && ` • ${debt.category}`}
                   </p>
                   {showAdvanced && debt.dueDate && (
@@ -718,7 +719,7 @@ export const DebtSnowballTracker: React.FC<DebtSnowballTrackerProps> = ({ toolId
               </div>
             ) : (
               <div className="flex items-center justify-between">
-                <span className="text-sm">${debt.minPayment.toFixed(2)}/month</span>
+                <span className="text-sm">{formatMoney(debt.minPayment)}/month</span>
                 {showAdvanced && debt.notes && (
                   <span className="text-sm text-gray-400">{debt.notes}</span>
                 )}

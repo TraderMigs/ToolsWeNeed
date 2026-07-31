@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { formatMoney } from '../../utils/format';
 import { Plus, Trash2, Upload, Edit, Save, ChevronUp, ChevronDown } from 'lucide-react';
 import { ExportButtons } from '../ExportButtons';
 import { saveToolData, loadToolData, clearToolData, hasToolData, saveToolDataWithAnalytics } from '../../utils/storageUtils';
@@ -441,7 +442,7 @@ export const BudgetCardConveyor: React.FC<BudgetCardConveyorProps> = ({ toolId }
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-green-600 rounded-lg p-4 text-center">
           <h3 className="text-sm font-medium text-green-100">Monthly Income</h3>
-          <p className="text-2xl font-bold">${totalIncome.toFixed(2)}</p>
+          <p className="text-2xl font-bold">{formatMoney(totalIncome)}</p>
           {showVisualizations && totalIncome > 0 && (
             <div className="mt-2">
               <ProgressRing 
@@ -455,7 +456,7 @@ export const BudgetCardConveyor: React.FC<BudgetCardConveyorProps> = ({ toolId }
         </div>
         <div className="bg-red-600 rounded-lg p-4 text-center">
           <h3 className="text-sm font-medium text-red-100">Monthly Expenses</h3>
-          <p className="text-2xl font-bold">${totalExpenses.toFixed(2)}</p>
+          <p className="text-2xl font-bold">{formatMoney(totalExpenses)}</p>
           {showVisualizations && totalExpenses > 0 && (
             <div className="mt-2">
               <ProgressRing 
@@ -469,7 +470,7 @@ export const BudgetCardConveyor: React.FC<BudgetCardConveyorProps> = ({ toolId }
         </div>
         <div className={`${netIncome >= 0 ? 'bg-blue-600' : 'bg-orange-600'} rounded-lg p-4 text-center`}>
           <h3 className="text-sm font-medium text-blue-100">Net Income</h3>
-          <p className="text-2xl font-bold">${netIncome.toFixed(2)}</p>
+          <p className="text-2xl font-bold">{formatMoney(netIncome)}</p>
           {showVisualizations && (
             <div className="mt-2">
               <ProgressRing 
@@ -536,7 +537,7 @@ export const BudgetCardConveyor: React.FC<BudgetCardConveyorProps> = ({ toolId }
                 )}
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-lg font-bold">${item.amount.toFixed(2)}</span>
+                <span className="text-lg font-bold">{formatMoney(item.amount)}</span>
                 {editingId === item.id ? (
                   <button
                     onClick={saveEdit}
@@ -625,7 +626,7 @@ export const BudgetCardConveyor: React.FC<BudgetCardConveyorProps> = ({ toolId }
               </div>
             ) : (
               <div className="text-sm text-gray-400">
-                Monthly equivalent: ${convertToMonthly(item.amount, item.frequency).toFixed(2)}
+                Monthly equivalent: {formatMoney(convertToMonthly(item.amount, item.frequency))}
               </div>
             )}
           </div>
@@ -649,7 +650,7 @@ export const BudgetCardConveyor: React.FC<BudgetCardConveyorProps> = ({ toolId }
                 <div key={category} className="bg-gray-700 rounded-lg p-4">
                   <h4 className="font-medium mb-2">{category}</h4>
                   <p className="text-sm text-gray-400">{categoryItems.length} items</p>
-                  <p className="text-lg font-bold text-blue-400">${Math.abs(categoryTotal).toFixed(2)}/month</p>
+                  <p className="text-lg font-bold text-blue-400">{formatMoney(Math.abs(categoryTotal))}/month</p>
                   {incomeItems.length > 0 && expenseItems.length > 0 && (
                     <div className="text-xs text-gray-500 mt-1">
                       <p>Income: {incomeItems.length} items</p>
@@ -681,7 +682,7 @@ export const BudgetCardConveyor: React.FC<BudgetCardConveyorProps> = ({ toolId }
                 }`}>
                   <h4 className="font-medium mb-2 capitalize">{priority} Priority</h4>
                   <p className="text-sm opacity-90">{priorityItems.length} items</p>
-                  <p className="text-lg font-bold">${Math.abs(priorityTotal).toFixed(2)}/month</p>
+                  <p className="text-lg font-bold">{formatMoney(Math.abs(priorityTotal))}/month</p>
                 </div>
               );
             })}

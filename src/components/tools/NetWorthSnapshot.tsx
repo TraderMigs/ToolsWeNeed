@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { formatMoney } from '../../utils/format';
 import { Plus, Trash2 } from 'lucide-react';
 import { ExportButtons } from '../ExportButtons';
 import { ProgressRing, PieChart, BarChart } from '../DataVisualization';
@@ -144,7 +145,7 @@ export const NetWorthSnapshot: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-green-600 rounded-lg p-4 text-center">
           <h3 className="text-sm font-medium text-green-100">Total Assets</h3>
-          <p className="text-2xl font-bold">${totalAssets.toFixed(2)}</p>
+          <p className="text-2xl font-bold">{formatMoney(totalAssets)}</p>
           {showVisualizations && totalAssets > 0 && (
             <div className="mt-2 flex justify-center">
               <ProgressRing 
@@ -158,7 +159,7 @@ export const NetWorthSnapshot: React.FC = () => {
         </div>
         <div className="bg-red-600 rounded-lg p-4 text-center">
           <h3 className="text-sm font-medium text-red-100">Total Liabilities</h3>
-          <p className="text-2xl font-bold">${totalLiabilities.toFixed(2)}</p>
+          <p className="text-2xl font-bold">{formatMoney(totalLiabilities)}</p>
           {showVisualizations && totalLiabilities > 0 && (
             <div className="mt-2 flex justify-center">
               <ProgressRing 
@@ -172,7 +173,7 @@ export const NetWorthSnapshot: React.FC = () => {
         </div>
         <div className={`${netWorth >= 0 ? 'bg-blue-600' : 'bg-orange-600'} rounded-lg p-4 text-center`}>
           <h3 className="text-sm font-medium text-blue-100">Net Worth</h3>
-          <p className="text-2xl font-bold">${netWorth.toFixed(2)}</p>
+          <p className="text-2xl font-bold">{formatMoney(netWorth)}</p>
           {showVisualizations && (
             <div className="mt-2 flex justify-center">
               <ProgressRing 
@@ -265,7 +266,7 @@ export const NetWorthSnapshot: React.FC = () => {
                     <p className="text-sm text-gray-400 capitalize">{asset.type.replace('_', ' ')}</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-green-400">${asset.value.toFixed(2)}</span>
+                    <span className="font-bold text-green-400">{formatMoney(asset.value)}</span>
                     <button
                       onClick={() => removeAsset(asset.id)}
                       className="text-red-400 hover:text-red-300"
@@ -324,7 +325,7 @@ export const NetWorthSnapshot: React.FC = () => {
                     <p className="text-sm text-gray-400 capitalize">{liability.type.replace('_', ' ')}</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-red-400">${liability.amount.toFixed(2)}</span>
+                    <span className="font-bold text-red-400">{formatMoney(liability.amount)}</span>
                     <button
                       onClick={() => removeLiability(liability.id)}
                       className="text-red-400 hover:text-red-300"

@@ -193,7 +193,9 @@ export const UnitConverter: React.FC = () => {
               {cats.units.map(u => <option key={u.name}>{u.name}</option>)}
             </select>
             <div className="w-full px-4 py-3 bg-gray-800 border border-green-500/40 rounded-lg text-green-400 font-mono min-h-[50px]">
-              {result || <span className="text-gray-500">Result</span>}
+              {result
+                ? `${result} ${(toUnit.match(/\(([^)]+)\)/) || [])[1] ?? toUnit}`
+                : <span className="text-gray-500">Result</span>}
             </div>
           </div>
         </div>

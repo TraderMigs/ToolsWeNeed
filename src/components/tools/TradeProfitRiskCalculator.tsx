@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { formatMoney } from '../../utils/format';
 import { TrendingUp, AlertTriangle, Calculator, Plus, Trash2 } from 'lucide-react';
 import { ExportButtons } from '../ExportButtons';
 import { saveToolData, loadToolData, clearToolData, saveToolDataWithAnalytics } from '../../utils/storageUtils';
@@ -169,10 +170,12 @@ export const TradeProfitRiskCalculator: React.FC = () => {
 
   const addTrade = () => {
     try {
-      if (newTrade.name && newTrade.entryPrice > 0 && newTrade.quantity > 0) {
+      if (newTrade.entryPrice > 0 && newTrade.quantity > 0) {
+        // A missing name should never block the calculation — generate one.
         const trade = {
           id: Date.now().toString(),
-          ...newTrade
+          ...newTrade,
+          name: newTrade.name.trim() || `${newTrade.assetType} trade #${trades.length + 1}`
         };
         setTrades([...trades, trade]);
         if (!selectedTradeId) setSelectedTradeId(trade.id);
@@ -340,7 +343,7 @@ export const TradeProfitRiskCalculator: React.FC = () => {
       'Net P&L': tradeResults?.netPnL.toFixed(2) || '0.00',
       'Percentage Gain/Loss': `${tradeResults?.percentageGainLoss.toFixed(2) || '0.00'}%`,
       'Margin Used': tradeResults?.marginUsed.toFixed(2) || '0.00',
-      'Risk/Reward Ratio': (tradeResults?.riskRewardRatio ?? 0) > 0 ? `1:${tradeResults!.riskRewardRatio!.toFixed(2)}` : 'N/A',
+      'Risk/Reward Ratio': (tradeResults?.riskRewardRatio ?? 0) > 0 ? `1:{formatMoney(tradeResults!.riskRewardRatio!)}` : 'N/A',
       'Breakeven Price': tradeResults?.breakevenPrice.toFixed(4) || '0.0000'
     };
   });
@@ -386,13 +389,18 @@ export const TradeProfitRiskCalculator: React.FC = () => {
           />
           <button
             onClick={addTrade}
-            disabled={!newTrade.name || newTrade.entryPrice <= 0 || newTrade.quantity <= 0}
+            disabled={newTrade.entryPrice <= 0 || newTrade.quantity <= 0}
             className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 rounded-lg transition-colors"
           >
             <Plus className="w-4 h-4" />
             Add Trade
           </button>
         </div>
+        {(newTrade.entryPrice <= 0 || newTrade.quantity <= 0) && (
+          <p className="mb-4 text-xs text-amber-400">
+            Enter an entry price and lot size above to add this trade.
+          </p>
+        )}
 
         <h4 className="font-medium mb-3">Asset Type</h4>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -589,7 +597,7 @@ export const TradeProfitRiskCalculator: React.FC = () => {
                     <p>Entry: {trade.entryPrice} → Exit: {trade.exitPrice}</p>
                     {tradeResults && (
                       <p className={`font-medium ${tradeResults.isProfit ? 'text-green-400' : 'text-red-400'}`}>
-                        P&L: ${tradeResults.netPnL.toFixed(2)}
+                        P&L: {formatMoney(tradeResults.netPnL)}
                       </p>
                     )}
                   </div>
@@ -683,7 +691,7 @@ export const TradeProfitRiskCalculator: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className={`${results.isProfit ? 'bg-green-600' : 'bg-red-600'} rounded-lg p-4 text-center`}>
               <h3 className="text-sm font-medium text-white opacity-90">Net P&L</h3>
-              <p className="text-2xl font-bold">${results.netPnL.toFixed(2)}</p>
+              <p className="text-2xl font-bold">{formatMoney(results.netPnL)}</p>
               <p className="text-xs opacity-75">
                 {results.percentageGainLoss > 0 ? '+' : ''}{results.percentageGainLoss.toFixed(2)}%
               </p>
@@ -695,13 +703,13 @@ export const TradeProfitRiskCalculator: React.FC = () => {
             </div>
             <div className="bg-purple-600 rounded-lg p-4 text-center">
               <h3 className="text-sm font-medium text-purple-100">Margin Used</h3>
-              <p className="text-2xl font-bold">${results.marginUsed.toFixed(2)}</p>
+              <p className="text-2xl font-bold">{formatMoney(results.marginUsed)}</p>
               <p className="text-xs text-purple-200">Required margin</p>
             </div>
             <div className="bg-orange-600 rounded-lg p-4 text-center">
               <h3 className="text-sm font-medium text-orange-100">Risk/Reward</h3>
               <p className="text-2xl font-bold">
-                {results.riskRewardRatio > 0 ? `1:${results.riskRewardRatio.toFixed(2)}` : 'N/A'}
+                {results.riskRewardRatio > 0 ? `1:{formatMoney(results.riskRewardRatio)}` : 'N/A'}
               </p>
               <p className="text-xs text-orange-200">Ratio</p>
             </div>
@@ -713,22 +721,22 @@ export const TradeProfitRiskCalculator: React.FC = () => {
               <div className="space-y-3">
                 <div className="flex justify-between">
                   <span className="text-gray-300">Position Value:</span>
-                  <span className="font-medium">${results.positionValue.toFixed(2)}</span>
+                  <span className="font-medium">{formatMoney(results.positionValue)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-300">Gross P&L:</span>
                   <span className={`font-medium ${results.grossPnL >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                    ${results.grossPnL.toFixed(2)}
+                    {formatMoney(results.grossPnL)}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-300">Commission Cost:</span>
-                  <span className="font-medium text-red-400">-${(selectedTrade.commission * 2).toFixed(2)}</span>
+                  <span className="font-medium text-red-400">-{formatMoney((selectedTrade.commission * 2))}</span>
                 </div>
                 <div className="flex justify-between border-t border-gray-700 pt-2">
                   <span className="text-gray-300">Net P&L:</span>
                   <span className={`font-bold ${results.netPnL >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                    ${results.netPnL.toFixed(2)}
+                    {formatMoney(results.netPnL)}
                   </span>
                 </div>
               </div>
@@ -745,13 +753,13 @@ export const TradeProfitRiskCalculator: React.FC = () => {
                 {selectedTrade.stopLoss > 0 && (
                   <div className="flex justify-between">
                     <span className="text-gray-300">Stop Loss P&L:</span>
-                    <span className="font-medium text-red-400">${results.stopLossPnL.toFixed(2)}</span>
+                    <span className="font-medium text-red-400">{formatMoney(results.stopLossPnL)}</span>
                   </div>
                 )}
                 {selectedTrade.takeProfit > 0 && (
                   <div className="flex justify-between">
                     <span className="text-gray-300">Take Profit P&L:</span>
-                    <span className="font-medium text-green-400">${results.takeProfitPnL.toFixed(2)}</span>
+                    <span className="font-medium text-green-400">{formatMoney(results.takeProfitPnL)}</span>
                   </div>
                 )}
               </div>
@@ -803,7 +811,7 @@ export const TradeProfitRiskCalculator: React.FC = () => {
                         {tradeResults?.percentageGainLoss.toFixed(2) || '0.00'}%
                       </td>
                       <td className="text-center py-2">
-                        {(tradeResults?.riskRewardRatio ?? 0) > 0 ? `1:${tradeResults!.riskRewardRatio!.toFixed(2)}` : 'N/A'}
+                        {(tradeResults?.riskRewardRatio ?? 0) > 0 ? `1:{formatMoney(tradeResults!.riskRewardRatio!)}` : 'N/A'}
                       </td>
                       <td className="text-center py-2">${tradeResults?.marginUsed.toFixed(2) || '0.00'}</td>
                     </tr>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { formatMoney } from '../../utils/format';
 import { Plus, Trash2 } from 'lucide-react';
 import { ExportButtons } from '../ExportButtons';
 
@@ -166,15 +167,15 @@ export const SubscriptionPurgeTool: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-red-600 rounded-lg p-4 text-center">
           <h3 className="text-sm font-medium text-red-100">Monthly Total</h3>
-          <p className="text-2xl font-bold">${totals.monthlyTotal.toFixed(2)}</p>
+          <p className="text-2xl font-bold">{formatMoney(totals.monthlyTotal)}</p>
         </div>
         <div className="bg-orange-600 rounded-lg p-4 text-center">
           <h3 className="text-sm font-medium text-orange-100">Yearly Total</h3>
-          <p className="text-2xl font-bold">${totals.yearlyTotal.toFixed(2)}</p>
+          <p className="text-2xl font-bold">{formatMoney(totals.yearlyTotal)}</p>
         </div>
         <div className="bg-green-600 rounded-lg p-4 text-center">
           <h3 className="text-sm font-medium text-green-100">Potential Savings</h3>
-          <p className="text-2xl font-bold">${totals.potentialSavings.toFixed(2)}</p>
+          <p className="text-2xl font-bold">{formatMoney(totals.potentialSavings)}</p>
         </div>
         <div className="bg-blue-600 rounded-lg p-4 text-center">
           <h3 className="text-sm font-medium text-blue-100">Active Subscriptions</h3>
@@ -206,10 +207,10 @@ export const SubscriptionPurgeTool: React.FC = () => {
               </div>
               <div className="flex items-center gap-4">
                 <div className="text-right">
-                  <p className="font-bold">${subscription.cost.toFixed(2)}</p>
+                  <p className="font-bold">{formatMoney(subscription.cost)}</p>
                   <p className="text-sm text-gray-400">{subscription.frequency}</p>
                   <p className="text-xs text-blue-400">
-                    ${convertToMonthly(subscription.cost, subscription.frequency).toFixed(2)}/month
+                    {formatMoney(convertToMonthly(subscription.cost, subscription.frequency))}/month
                   </p>
                 </div>
                 <button
@@ -238,7 +239,7 @@ export const SubscriptionPurgeTool: React.FC = () => {
                 <div key={category} className="bg-gray-700 rounded-lg p-4">
                   <h4 className="font-medium mb-2">{category}</h4>
                   <p className="text-sm text-gray-400">{categorySubscriptions.length} subscriptions</p>
-                  <p className="text-lg font-bold text-blue-400">${categoryTotal.toFixed(2)}/month</p>
+                  <p className="text-lg font-bold text-blue-400">{formatMoney(categoryTotal)}/month</p>
                 </div>
               );
             })}

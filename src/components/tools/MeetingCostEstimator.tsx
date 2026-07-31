@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { formatMoney } from '../../utils/format';
 import { Plus, Trash2, ChevronUp, ChevronDown, Edit, Save } from 'lucide-react';
 import { ExportButtons } from '../ExportButtons';
 
@@ -200,11 +201,11 @@ export const MeetingCostEstimator: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
         <div className="bg-red-600 rounded-lg p-4 text-center">
           <h3 className="text-sm font-medium text-red-100">Total Cost</h3>
-          <p className="text-2xl font-bold">${results.totalCost.toFixed(2)}</p>
+          <p className="text-2xl font-bold">{formatMoney(results.totalCost)}</p>
         </div>
         <div className="bg-orange-600 rounded-lg p-4 text-center">
           <h3 className="text-sm font-medium text-orange-100">Cost Per Minute</h3>
-          <p className="text-2xl font-bold">${results.costPerMinute.toFixed(2)}</p>
+          <p className="text-2xl font-bold">{formatMoney(results.costPerMinute)}</p>
         </div>
         <div className="bg-blue-600 rounded-lg p-4 text-center">
           <h3 className="text-sm font-medium text-blue-100">Attendees</h3>
@@ -212,7 +213,7 @@ export const MeetingCostEstimator: React.FC = () => {
         </div>
         <div className="bg-purple-600 rounded-lg p-4 text-center">
           <h3 className="text-sm font-medium text-purple-100">Avg Hourly Rate</h3>
-          <p className="text-2xl font-bold">${results.averageHourlyRate.toFixed(2)}</p>
+          <p className="text-2xl font-bold">{formatMoney(results.averageHourlyRate)}</p>
         </div>
         {showAdvanced && (
           <div className="bg-teal-600 rounded-lg p-4 text-center">
@@ -310,7 +311,7 @@ export const MeetingCostEstimator: React.FC = () => {
                   placeholder="Hourly Rate"
                 />
                 <div className="text-center">
-                  <span className="text-lg font-bold text-green-400">${attendee.cost.toFixed(2)}</span>
+                  <span className="text-lg font-bold text-green-400">{formatMoney(attendee.cost)}</span>
                   <p className="text-xs text-gray-400">Meeting cost</p>
                 </div>
                 <button
@@ -334,19 +335,19 @@ export const MeetingCostEstimator: React.FC = () => {
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span>15 minutes:</span>
-                  <span>${(results.totalCost * 0.25).toFixed(2)}</span>
+                  <span>{formatMoney((results.totalCost * 0.25))}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>30 minutes:</span>
-                  <span>${(results.totalCost * 0.5).toFixed(2)}</span>
+                  <span>{formatMoney((results.totalCost * 0.5))}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>45 minutes:</span>
-                  <span>${(results.totalCost * 0.75).toFixed(2)}</span>
+                  <span>{formatMoney((results.totalCost * 0.75))}</span>
                 </div>
                 <div className="flex justify-between font-bold">
                   <span>{meetingDuration} minutes:</span>
-                  <span>${results.totalCost.toFixed(2)}</span>
+                  <span>{formatMoney(results.totalCost)}</span>
                 </div>
               </div>
             </div>
@@ -366,7 +367,7 @@ export const MeetingCostEstimator: React.FC = () => {
                 <div className="text-sm text-gray-300 space-y-1">
                   <p>Recommended duration: {results.recommendedDuration} minutes</p>
                   <p>Productivity score: {results.productivityIndex}%</p>
-                  <p>Opportunity cost: ${results.opportunityCost.toFixed(2)}</p>
+                  <p>Opportunity cost: {formatMoney(results.opportunityCost)}</p>
                   <p className="text-blue-400">
                     {results.productivityIndex < 70 ? 'Consider reducing attendees' : 'Good attendee count'}
                   </p>

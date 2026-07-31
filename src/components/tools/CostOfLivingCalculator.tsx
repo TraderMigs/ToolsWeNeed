@@ -252,6 +252,37 @@ export const CostOfLivingCalculator: React.FC = () => {
     }
   };
 
+  const computeComparison = (fromCityId: string, toCityIds: string[], salary: number): ComparisonData | null => {
+    if (!fromCityId || toCityIds.length === 0 || salary <= 0) return null;
+
+    const currentCity = cityDatabase.find(city => city.id === fromCityId);
+    const targetCities = toCityIds
+      .map(id => cityDatabase.find(city => city.id === id))
+      .filter(Boolean) as CityData[];
+
+    if (!currentCity || targetCities.length === 0) return null;
+
+    const comparisons = targetCities.map(targetCity => {
+      const costRatio = targetCity.overall / currentCity.overall;
+      return {
+        city: targetCity,
+        equivalentSalary: salary * costRatio,
+        costDifference: targetCity.overall - currentCity.overall,
+        percentageDifference: ((targetCity.overall - currentCity.overall) / currentCity.overall) * 100,
+      };
+    });
+
+    return { currentCity, targetCities, currentSalary: salary, comparisons };
+  };
+
+  // One-tap example so the tool never looks dead to a first-time visitor
+  const loadExample = () => {
+    setCurrentCityId('nyc');
+    setTargetCityIds(['austin', 'denver']);
+    setCurrentSalary(85000);
+    setComparison(computeComparison('nyc', ['austin', 'denver'], 85000));
+  };
+
   const calculateComparison = () => {
     try {
       if (!currentCityId || targetCityIds.length === 0 || currentSalary <= 0) return;
@@ -414,7 +445,7 @@ export const CostOfLivingCalculator: React.FC = () => {
           )}
         </div>
 
-        <div className="mt-4">
+        <div className="mt-4 space-y-2">
           <button
             onClick={calculateComparison}
             disabled={!currentCityId || targetCityIds.length === 0 || currentSalary <= 0}
@@ -423,6 +454,15 @@ export const CostOfLivingCalculator: React.FC = () => {
             <Calculator className="w-5 h-5" />
             Calculate Cost Comparison
           </button>
+          {(!currentCityId || targetCityIds.length === 0) && (
+            <p className="text-xs text-amber-400 text-center">
+              Pick your current city and add at least one target city — or{' '}
+              <button onClick={loadExample} className="underline text-blue-400 hover:text-blue-300 !min-h-0">
+                see an example
+              </button>{' '}
+              (New York → Austin &amp; Denver at $85,000).
+            </p>
+          )}
         </div>
       </div>
 
@@ -439,7 +479,7 @@ export const CostOfLivingCalculator: React.FC = () => {
               </div>
               <div className="bg-green-600 rounded-lg p-4 text-center">
                 <h4 className="text-sm font-medium text-green-100">Current Salary</h4>
-                <p className="text-xl font-bold">${comparison.currentSalary.toLocaleString()}</p>
+                <p className="text-xl font-bold">${comparison.currentSalary.toLocaleString('en-US', { maximumFractionDigits: 0 })}</p>
                 <p className="text-xs text-green-200">annual income</p>
               </div>
             </div>
@@ -456,7 +496,7 @@ export const CostOfLivingCalculator: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                   <div className="bg-blue-600 rounded-lg p-4 text-center">
                     <h4 className="text-sm font-medium text-blue-100">Equivalent Salary</h4>
-                    <p className="text-2xl font-bold">${comp.equivalentSalary.toLocaleString()}</p>
+                    <p className="text-2xl font-bold">${comp.equivalentSalary.toLocaleString('en-US', { maximumFractionDigits: 0 })}</p>
                     <p className="text-xs text-blue-200">needed annually</p>
                   </div>
                   <div className={`${comp.costDifference >= 0 ? 'bg-red-600' : 'bg-green-600'} rounded-lg p-4 text-center`}>
@@ -471,7 +511,7 @@ export const CostOfLivingCalculator: React.FC = () => {
                   <div className={`${comp.equivalentSalary > comparison.currentSalary ? 'bg-orange-600' : 'bg-purple-600'} rounded-lg p-4 text-center`}>
                     <h4 className="text-sm font-medium text-white opacity-90">Salary Adjustment</h4>
                     <p className="text-2xl font-bold">
-                      {comp.equivalentSalary > comparison.currentSalary ? '+' : ''}${(comp.equivalentSalary - comparison.currentSalary).toLocaleString()}
+                      {comp.equivalentSalary > comparison.currentSalary ? '+' : ''}${(comp.equivalentSalary - comparison.currentSalary).toLocaleString('en-US', { maximumFractionDigits: 0 })}
                     </p>
                     <p className="text-xs opacity-75">difference</p>
                   </div>
@@ -543,16 +583,16 @@ export const CostOfLivingCalculator: React.FC = () => {
                     <p className="text-gray-300">
                       {comp.costDifference >= 0 ? 'Increases' : 'Decreases'} costs by{' '}
                       <strong>${Math.abs(comp.costDifference).toFixed(0)}/month</strong> ({Math.abs(comp.percentageDifference).toFixed(1)}%).
-                      Need <strong>${comp.equivalentSalary.toLocaleString()}</strong> annually to maintain lifestyle.
+                      Need <strong>${comp.equivalentSalary.toLocaleString('en-US', { maximumFractionDigits: 0 })}</strong> annually to maintain lifestyle.
                     </p>
                     {comp.costDifference > 0 && (
                       <p className="text-orange-400 text-xs mt-1">
-                        💡 Negotiate ${(comp.equivalentSalary - comparison.currentSalary).toLocaleString()} salary increase
+                        💡 Negotiate ${(comp.equivalentSalary - comparison.currentSalary).toLocaleString('en-US', { maximumFractionDigits: 0 })} salary increase
                       </p>
                     )}
                     {comp.costDifference < 0 && (
                       <p className="text-green-400 text-xs mt-1">
-                        💡 Potential savings: ${Math.abs(comp.costDifference * 12).toLocaleString()}/year
+                        💡 Potential savings: ${Math.abs(comp.costDifference * 12).toLocaleString('en-US', { maximumFractionDigits: 0 })}/year
                       </p>
                     )}
                   </div>
@@ -576,7 +616,7 @@ export const CostOfLivingCalculator: React.FC = () => {
                       <div>
                         <p className="font-medium">{cheapest.city.name}, {cheapest.city.state}</p>
                         <p className="text-sm text-gray-300">
-                          ${cheapest.city.overall}/month • Save ${Math.abs(cheapest.costDifference * 12).toLocaleString()}/year
+                          ${cheapest.city.overall}/month • Save ${Math.abs(cheapest.costDifference * 12).toLocaleString('en-US', { maximumFractionDigits: 0 })}/year
                         </p>
                       </div>
                     );
@@ -594,7 +634,7 @@ export const CostOfLivingCalculator: React.FC = () => {
                         <p className="text-sm text-gray-300">
                           {Math.abs(smallest.equivalentSalary - comparison.currentSalary) < 1000 ? 'Similar' : 
                            smallest.equivalentSalary > comparison.currentSalary ? '+' : ''}
-                          ${Math.abs(smallest.equivalentSalary - comparison.currentSalary).toLocaleString()} salary change
+                          ${Math.abs(smallest.equivalentSalary - comparison.currentSalary).toLocaleString('en-US', { maximumFractionDigits: 0 })} salary change
                         </p>
                       </div>
                     );

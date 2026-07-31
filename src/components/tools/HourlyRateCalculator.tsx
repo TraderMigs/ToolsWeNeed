@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { formatMoney } from '../../utils/format';
 import { Edit, Save, ChevronUp, ChevronDown } from 'lucide-react';
 import { ExportButtons } from '../ExportButtons';
 
@@ -245,7 +246,7 @@ export const HourlyRateCalculator: React.FC = () => {
               {productSales > 0 && productPrice > 0 && (
                 <div className="md:col-span-2 p-3 bg-green-600/20 rounded-lg border border-green-500">
                   <p className="text-green-400 font-medium">
-                    Product Revenue: ${results.productRevenue.toFixed(2)}/year
+                    Product Revenue: {formatMoney(results.productRevenue)}/year
                   </p>
                   <p className="text-sm text-green-300">
                     This reduces your required hourly rate for services
@@ -263,28 +264,28 @@ export const HourlyRateCalculator: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
           <div className="bg-blue-600 rounded-lg p-4 text-center">
             <h4 className="text-sm font-medium text-blue-100">Hourly Rate</h4>
-            <p className="text-2xl font-bold">${results.adjustedHourlyRate.toFixed(2)}</p>
+            <p className="text-2xl font-bold">{formatMoney(results.adjustedHourlyRate)}</p>
             <p className="text-xs text-blue-200">Accounts for non-billable time</p>
           </div>
           <div className="bg-green-600 rounded-lg p-4 text-center">
             <h4 className="text-sm font-medium text-green-100">Daily Rate</h4>
-            <p className="text-2xl font-bold">${results.dailyRate.toFixed(2)}</p>
+            <p className="text-2xl font-bold">{formatMoney(results.dailyRate)}</p>
             <p className="text-xs text-green-200">8 hours</p>
           </div>
           <div className="bg-purple-600 rounded-lg p-4 text-center">
             <h4 className="text-sm font-medium text-purple-100">Weekly Rate</h4>
-            <p className="text-2xl font-bold">${results.weeklyRate.toFixed(2)}</p>
+            <p className="text-2xl font-bold">{formatMoney(results.weeklyRate)}</p>
             <p className="text-xs text-purple-200">40 hours</p>
           </div>
           <div className="bg-orange-600 rounded-lg p-4 text-center">
             <h4 className="text-sm font-medium text-orange-100">Monthly Rate</h4>
-            <p className="text-2xl font-bold">${results.monthlyRate.toFixed(2)}</p>
+            <p className="text-2xl font-bold">{formatMoney(results.monthlyRate)}</p>
             <p className="text-xs text-orange-200">160 hours</p>
           </div>
           {showAdvanced && (
             <div className="bg-teal-600 rounded-lg p-4 text-center">
               <h4 className="text-sm font-medium text-teal-100">Retainer Rate</h4>
-              <p className="text-2xl font-bold">${results.retainerRate.toFixed(2)}</p>
+              <p className="text-2xl font-bold">{formatMoney(results.retainerRate)}</p>
               <p className="text-xs text-teal-200">Monthly retainer (20% discount)</p>
             </div>
           )}
@@ -327,39 +328,39 @@ export const HourlyRateCalculator: React.FC = () => {
           </div>
           <div className="flex justify-between">
             <span>Gross Income Needed (Pre-Tax)</span>
-            <span className="font-medium">${results.grossIncomeNeeded.toFixed(2)}</span>
+            <span className="font-medium">{formatMoney(results.grossIncomeNeeded)}</span>
           </div>
           {results.productRevenue > 0 && (
             <div className="flex justify-between">
               <span>Product Revenue</span>
-              <span className="font-medium text-green-400">${results.productRevenue.toFixed(2)}</span>
+              <span className="font-medium text-green-400">{formatMoney(results.productRevenue)}</span>
             </div>
           )}
           <div className="flex justify-between">
             <span>Service Revenue Needed (+ Expenses)</span>
-            <span className="font-medium">${results.serviceRevenueNeeded.toFixed(2)}</span>
+            <span className="font-medium">{formatMoney(results.serviceRevenueNeeded)}</span>
           </div>
           <div className="flex justify-between">
             <span>Revenue with Profit Margin</span>
-            <span className="font-medium">${results.revenueWithProfit.toFixed(2)}</span>
+            <span className="font-medium">{formatMoney(results.revenueWithProfit)}</span>
           </div>
           <div className="flex justify-between border-t border-gray-700 pt-2">
             <span className="font-semibold">Base Hourly Rate</span>
-            <span className="font-bold text-blue-400">${results.baseHourlyRate.toFixed(2)}</span>
+            <span className="font-bold text-blue-400">{formatMoney(results.baseHourlyRate)}</span>
           </div>
           <div className="flex justify-between">
             <span className="font-semibold">Adjusted for Non-Billable Time</span>
-            <span className="font-bold text-green-400">${results.adjustedHourlyRate.toFixed(2)}</span>
+            <span className="font-bold text-green-400">{formatMoney(results.adjustedHourlyRate)}</span>
           </div>
           {showAdvanced && (
             <>
               <div className="flex justify-between">
                 <span>Minimum Project Rate</span>
-                <span className="font-medium text-purple-400">${results.minimumProjectRate.toFixed(2)}</span>
+                <span className="font-medium text-purple-400">{formatMoney(results.minimumProjectRate)}</span>
               </div>
               <div className="flex justify-between">
                 <span>Retainer Discount Rate</span>
-                <span className="font-medium text-teal-400">${results.retainerRate.toFixed(2)}</span>
+                <span className="font-medium text-teal-400">{formatMoney(results.retainerRate)}</span>
               </div>
             </>
           )}

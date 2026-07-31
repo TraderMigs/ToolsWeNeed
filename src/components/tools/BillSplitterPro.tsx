@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { formatMoney } from '../../utils/format';
 import { Plus, Trash2 } from 'lucide-react';
 import { ExportButtons } from '../ExportButtons';
 
@@ -214,7 +215,7 @@ export const BillSplitterPro: React.FC = () => {
                   <div className="flex items-center justify-between mb-2">
                     <div>
                       <h4 className="font-medium">{item.description}</h4>
-                      <p className="text-green-400">${item.amount.toFixed(2)}</p>
+                      <p className="text-green-400">{formatMoney(item.amount)}</p>
                     </div>
                     <button
                       onClick={() => removeBillItem(item.id)}
@@ -274,19 +275,19 @@ export const BillSplitterPro: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
           <div className="text-center">
             <p className="text-sm text-gray-400">Subtotal</p>
-            <p className="text-xl font-bold">${results.subtotal.toFixed(2)}</p>
+            <p className="text-xl font-bold">{formatMoney(results.subtotal)}</p>
           </div>
           <div className="text-center">
             <p className="text-sm text-gray-400">Tax</p>
-            <p className="text-xl font-bold">${results.tax.toFixed(2)}</p>
+            <p className="text-xl font-bold">{formatMoney(results.tax)}</p>
           </div>
           <div className="text-center">
             <p className="text-sm text-gray-400">Tip</p>
-            <p className="text-xl font-bold">${results.tip.toFixed(2)}</p>
+            <p className="text-xl font-bold">{formatMoney(results.tip)}</p>
           </div>
           <div className="text-center">
             <p className="text-sm text-gray-400">Total</p>
-            <p className="text-xl font-bold text-blue-400">${results.total.toFixed(2)}</p>
+            <p className="text-xl font-bold text-blue-400">{formatMoney(results.total)}</p>
           </div>
         </div>
         <div className="space-y-2">
@@ -295,11 +296,11 @@ export const BillSplitterPro: React.FC = () => {
               <div>
                 <h4 className="font-medium">{personTotal.person.name}</h4>
                 <p className="text-sm text-gray-400">
-                  Subtotal: ${personTotal.subtotal.toFixed(2)} + Tax: ${personTotal.tax.toFixed(2)} + Tip: ${personTotal.tip.toFixed(2)}
+                  Subtotal: {formatMoney(personTotal.subtotal)} + Tax: {formatMoney(personTotal.tax)} + Tip: {formatMoney(personTotal.tip)}
                 </p>
               </div>
               <div className="text-right">
-                <p className="text-xl font-bold text-blue-400">${personTotal.total.toFixed(2)}</p>
+                <p className="text-xl font-bold text-blue-400">{formatMoney(personTotal.total)}</p>
               </div>
             </div>
           ))}

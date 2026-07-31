@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { formatMoney } from '../../utils/format';
 import { Plus, Trash2, Edit, Save, ChevronUp, ChevronDown } from 'lucide-react';
 import { ExportButtons } from '../ExportButtons';
 
@@ -223,29 +224,29 @@ export const WeddingBudgetPlanner: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
         <div className="bg-blue-600 rounded-lg p-4 text-center">
           <h3 className="text-sm font-medium text-blue-100">Total Budget</h3>
-          <p className="text-2xl font-bold">${totalBudget.toFixed(2)}</p>
+          <p className="text-2xl font-bold">{formatMoney(totalBudget)}</p>
         </div>
         <div className="bg-green-600 rounded-lg p-4 text-center">
           <h3 className="text-sm font-medium text-green-100">Budgeted</h3>
-          <p className="text-2xl font-bold">${totals.totalBudgeted.toFixed(2)}</p>
+          <p className="text-2xl font-bold">{formatMoney(totals.totalBudgeted)}</p>
         </div>
         <div className="bg-orange-600 rounded-lg p-4 text-center">
           <h3 className="text-sm font-medium text-orange-100">Actual Cost</h3>
-          <p className="text-2xl font-bold">${totals.totalActual.toFixed(2)}</p>
+          <p className="text-2xl font-bold">{formatMoney(totals.totalActual)}</p>
           <p className="text-xs text-orange-200">{totals.percentageUsed.toFixed(1)}% of budget</p>
         </div>
         <div className="bg-purple-600 rounded-lg p-4 text-center">
           <h3 className="text-sm font-medium text-purple-100">Paid</h3>
-          <p className="text-2xl font-bold">${totals.totalPaid.toFixed(2)}</p>
+          <p className="text-2xl font-bold">{formatMoney(totals.totalPaid)}</p>
         </div>
         <div className={`${totals.remaining >= 0 ? 'bg-teal-600' : 'bg-red-600'} rounded-lg p-4 text-center`}>
           <h3 className="text-sm font-medium text-teal-100">Remaining</h3>
-          <p className="text-2xl font-bold">${totals.remaining.toFixed(2)}</p>
+          <p className="text-2xl font-bold">{formatMoney(totals.remaining)}</p>
         </div>
         {showAdvanced && weddingDetails.guestCount > 0 && (
           <div className="bg-indigo-600 rounded-lg p-4 text-center">
             <h3 className="text-sm font-medium text-indigo-100">Per Guest</h3>
-            <p className="text-2xl font-bold">${totals.averageCostPerGuest.toFixed(2)}</p>
+            <p className="text-2xl font-bold">{formatMoney(totals.averageCostPerGuest)}</p>
             <p className="text-xs text-indigo-200">average cost</p>
           </div>
         )}
@@ -354,9 +355,9 @@ export const WeddingBudgetPlanner: React.FC = () => {
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-semibold">{category}</h3>
                 <div className="flex gap-4 text-sm">
-                  <span>Budgeted: ${categoryBudgeted.toFixed(2)}</span>
-                  <span>Actual: ${categoryActual.toFixed(2)}</span>
-                  <span>Paid: ${categoryPaid.toFixed(2)}</span>
+                  <span>Budgeted: {formatMoney(categoryBudgeted)}</span>
+                  <span>Actual: {formatMoney(categoryActual)}</span>
+                  <span>Paid: {formatMoney(categoryPaid)}</span>
                 </div>
               </div>
               <div className="space-y-2">
@@ -413,7 +414,7 @@ export const WeddingBudgetPlanner: React.FC = () => {
       {totals.outstanding > 0 && (
         <div className="bg-orange-600 rounded-lg p-4">
           <h3 className="text-lg font-semibold text-orange-100">Outstanding Payments</h3>
-          <p className="text-2xl font-bold">${totals.outstanding.toFixed(2)}</p>
+          <p className="text-2xl font-bold">{formatMoney(totals.outstanding)}</p>
           <p className="text-sm text-orange-200">Amount still owed to vendors</p>
         </div>
       )}

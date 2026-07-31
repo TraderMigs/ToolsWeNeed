@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { formatMoney } from '../../utils/format';
 import { Plus, Trash2 } from 'lucide-react';
 import { ExportButtons } from '../ExportButtons';
 
@@ -79,7 +80,7 @@ export const EventCostEstimator: React.FC = () => {
             {[
               ['Total cost', totals.totalCost], ['Projected revenue', totals.totalRevenue], ['Net profit', totals.netProfit],
               ['Cost per attendee', totals.costPerAttendee], ['Profit margin', totals.profitMargin, '%'], ['Break-even attendees', totals.breakEvenAttendees, ' people'],
-            ].map(([label, value, suffix]) => <div key={String(label)} className="rounded-xl bg-gray-800 p-4 text-center"><p className="text-sm text-gray-400">{label}</p><p className="mt-1 text-2xl font-bold text-blue-300">{suffix === '%' ? `${Number(value).toFixed(1)}%` : suffix === ' people' ? `${value}${suffix}` : `$${Number(value).toFixed(2)}`}</p></div>)}
+            ].map(([label, value, suffix]) => <div key={String(label)} className="rounded-xl bg-gray-800 p-4 text-center"><p className="text-sm text-gray-400">{label}</p><p className="mt-1 text-2xl font-bold text-blue-300">{suffix === '%' ? `${Number(value).toFixed(1)}%` : suffix === ' people' ? `${value}${suffix}` : `${formatMoney(Number(value))}`}</p></div>)}
           </section>
 
           <section className="space-y-3" aria-labelledby="event-costs-heading">

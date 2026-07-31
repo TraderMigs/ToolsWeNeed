@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { formatMoney } from '../../utils/format';
 import { Plus, Trash2 } from 'lucide-react';
 import { ExportButtons } from '../ExportButtons';
 
@@ -246,15 +247,15 @@ export const LoanComparisonTool: React.FC = () => {
                     <>
                       <div className="text-center">
                         <p className="text-sm text-gray-400">Monthly Payment</p>
-                        <p className="text-xl font-bold text-blue-400">${details.monthlyPayment.toFixed(2)}</p>
+                        <p className="text-xl font-bold text-blue-400">{formatMoney(details.monthlyPayment)}</p>
                       </div>
                       <div className="text-center">
                         <p className="text-sm text-gray-400">Total Interest</p>
-                        <p className="text-xl font-bold text-red-400">${details.totalInterest.toFixed(2)}</p>
+                        <p className="text-xl font-bold text-red-400">{formatMoney(details.totalInterest)}</p>
                       </div>
                       <div className="text-center">
                         <p className="text-sm text-gray-400">Total Payment</p>
-                        <p className="text-xl font-bold text-gray-200">${details.totalPayment.toFixed(2)}</p>
+                        <p className="text-xl font-bold text-gray-200">{formatMoney(details.totalPayment)}</p>
                       </div>
                     </>
                   );
@@ -288,11 +289,11 @@ export const LoanComparisonTool: React.FC = () => {
                 return (
                   <tr key={loan.id} className="border-b border-gray-700">
                     <td className="py-2 font-medium">{loan.name}</td>
-                    <td className="text-right py-2">${details.monthlyPayment.toFixed(2)}</td>
-                    <td className="text-right py-2">${details.totalInterest.toFixed(2)}</td>
-                    <td className="text-right py-2">${details.totalPayment.toFixed(2)}</td>
+                    <td className="text-right py-2">{formatMoney(details.monthlyPayment)}</td>
+                    <td className="text-right py-2">{formatMoney(details.totalInterest)}</td>
+                    <td className="text-right py-2">{formatMoney(details.totalPayment)}</td>
                     <td className={`text-right py-2 ${savings === 0 ? 'text-green-400' : 'text-red-400'}`}>
-                      {savings === 0 ? 'Best Option' : `+$${savings.toFixed(2)}`}
+                      {savings === 0 ? 'Best Option' : `+${formatMoney(savings)}`}
                     </td>
                   </tr>
                 );

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { formatMoney } from '../../utils/format';
 import { Plus, Trash2, Edit, Save, ChevronUp, ChevronDown } from 'lucide-react';
 import { ExportButtons } from '../ExportButtons';
 import { saveToolData, loadToolData, clearToolData, saveToolDataWithAnalytics } from '../../utils/storageUtils';
@@ -111,16 +112,16 @@ ${milestones.map((milestone, index) => `
 ${index + 1}. ${milestone.title}
    ${milestone.description}
    Estimated Hours: ${milestone.hours}
-   Cost: $${milestone.cost.toFixed(2)}
+   Cost: ${formatMoney(milestone.cost)}
 `).join('')}
 
 INVESTMENT BREAKDOWN:
-Subtotal: $${totals.subtotal.toFixed(2)}
-Contingency (${contingencyPercentage}%): $${totals.contingency.toFixed(2)}
-Total Investment: $${totals.total.toFixed(2)}
+Subtotal: ${formatMoney(totals.subtotal)}
+Contingency (${contingencyPercentage}%): ${formatMoney(totals.contingency)}
+Total Investment: ${formatMoney(totals.total)}
 
 Total Estimated Hours: ${totals.totalHours}
-Average Hourly Rate: $${totals.averageHourlyRate.toFixed(2)}
+Average Hourly Rate: ${formatMoney(totals.averageHourlyRate)}
 
 PAYMENT TERMS:
 - 50% deposit required to begin work
@@ -352,11 +353,11 @@ This proposal is valid for 30 days from the date above.
         </div>
         <div className="bg-green-600 rounded-lg p-4 text-center">
           <h3 className="text-sm font-medium text-green-100">Subtotal</h3>
-          <p className="text-2xl font-bold">${totals.subtotal.toFixed(2)}</p>
+          <p className="text-2xl font-bold">{formatMoney(totals.subtotal)}</p>
         </div>
         <div className="bg-orange-600 rounded-lg p-4 text-center">
           <h3 className="text-sm font-medium text-orange-100">Contingency</h3>
-          <p className="text-2xl font-bold">${totals.contingency.toFixed(2)}</p>
+          <p className="text-2xl font-bold">{formatMoney(totals.contingency)}</p>
           {showVisualizations && (
             <div className="mt-2 flex justify-center">
               <ProgressRing 
@@ -370,7 +371,7 @@ This proposal is valid for 30 days from the date above.
         </div>
         <div className="bg-purple-600 rounded-lg p-4 text-center">
           <h3 className="text-sm font-medium text-purple-100">Total</h3>
-          <p className="text-2xl font-bold">${totals.total.toFixed(2)}</p>
+          <p className="text-2xl font-bold">{formatMoney(totals.total)}</p>
         </div>
       </div>
       )}
@@ -484,7 +485,7 @@ This proposal is valid for 30 days from the date above.
                 placeholder="Hourly Rate"
               />
               <div className="flex items-center justify-center">
-                <span className="text-xl font-bold text-green-400">${milestone.cost.toFixed(2)}</span>
+                <span className="text-xl font-bold text-green-400">{formatMoney(milestone.cost)}</span>
               </div>
             </div>
           </div>
