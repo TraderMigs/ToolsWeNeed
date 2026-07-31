@@ -217,7 +217,7 @@ const serviceDatabase: ServiceData = {
       {
         name: 'Rocket.Chat',
         type: 'Open Source',
-        price: 'Free self-hosted / paid plans vary',
+        price: 'Free up to 50 users / Pro $8 per user/month',
         matchPercentage: 85,
         features: ['Self-hosted option', 'End-to-end encryption', 'Customizable', 'API access'],
         pros: ['Open source', 'Self-hosting option', 'Privacy-focused'],

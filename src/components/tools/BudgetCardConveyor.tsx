@@ -99,9 +99,14 @@ export const BudgetCardConveyor: React.FC<BudgetCardConveyorProps> = ({ toolId }
   };
   const addItem = () => {
     if (newItem.category && newItem.description && newItem.amount > 0) {
+      // If the entry is obviously income but the type selector was left on the
+      // default, classify it as income so salaries don't land as expenses.
+      const looksLikeIncome = /salary|paycheck|income|wage|freelance|bonus|commission|dividend/i
+        .test(`${newItem.category} ${newItem.description}`);
       const item: BudgetItem = {
         id: Date.now().toString(),
-        ...newItem
+        ...newItem,
+        type: newItem.type === 'expense' && looksLikeIncome ? 'income' : newItem.type
       };
       setItems([...items, item]);
       setNewItem({

@@ -113,8 +113,8 @@ const calculateSelfEmploymentTax = (netSEEarnings: number, filingStatus: FilingS
   return socialSecurity + medicare + additionalMedicare;
 };
 
-// Main tax calculation function
-const calculateTaxes = (taxData: TaxData) => {
+// Main tax calculation function (exported for the automated test suite)
+export const calculateTaxes = (taxData: TaxData) => {
   try {
     const { incomes, deductions, filingStatus, selfEmployed,
             healthInsurance, retirementContributions, homeOfficeDeduction, 
@@ -143,7 +143,17 @@ const calculateTaxes = (taxData: TaxData) => {
 
     const standardDeduction = STANDARD_DEDUCTION[filingStatus];
     const adjustedGrossIncome = netIncome - seDeduction - retirementContributions;
-    const taxableIncome = Math.max(0, adjustedGrossIncome - standardDeduction);
+    const taxableBeforeQBI = Math.max(0, adjustedGrossIncome - standardDeduction);
+
+    // QBI (Section 199A) deduction, made permanent by OBBBA: 20% of qualified
+    // business income, limited to 20% of taxable income before QBI. Simplified —
+    // the SSTB/wage phase-outs above ~$200k are not modeled.
+    const qbiBase = Math.max(0, netSEEarnings - seDeduction - retirementContributions - healthInsurance);
+    const qbiDeduction = selfEmployed
+      ? Math.min(qbiBase * 0.20, taxableBeforeQBI * 0.20)
+      : 0;
+
+    const taxableIncome = Math.max(0, taxableBeforeQBI - qbiDeduction);
     let federalTax = calculateProgressiveTax(taxableIncome, filingStatus);
 
     // Child Tax Credit
@@ -182,6 +192,7 @@ const calculateTaxes = (taxData: TaxData) => {
       quarterlyPayment: totalTax / 4,
       monthlyPayment: totalTax / 12,
       seDeduction,
+      qbiDeduction,
       childCredit,
       remainingQuarterly
     };
@@ -208,6 +219,7 @@ const calculateTaxes = (taxData: TaxData) => {
       quarterlyPayment: 0,
       monthlyPayment: 0,
       seDeduction: 0,
+      qbiDeduction: 0,
       childCredit: 0,
       remainingQuarterly: 0
     };
@@ -1079,6 +1091,12 @@ export const SelfEmployedTaxEstimator: React.FC<SelfEmployedTaxEstimatorProps> =
               <span>Less: Standard Deduction:</span>
               <span>-{formatMoney(results.standardDeduction)}</span>
             </div>
+            {results.qbiDeduction > 0 && (
+              <div className="flex justify-between">
+                <span>Less: QBI Deduction (20% pass-through):</span>
+                <span>-{formatMoney(results.qbiDeduction)}</span>
+              </div>
+            )}
             <div className="flex justify-between font-medium">
               <span>Taxable Income:</span>
               <span>{formatMoney(results.taxableIncome)}</span>
