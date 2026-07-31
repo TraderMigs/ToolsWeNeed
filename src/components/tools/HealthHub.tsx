@@ -77,6 +77,7 @@ export const HealthHub: React.FC = () => {
     sodium: 2300
   });
 
+  const [foodSearch, setFoodSearch] = useState('');
   const [newEntry, setNewEntry] = useState({
     foodName: '',
     servingSize: '',
@@ -717,6 +718,65 @@ export const HealthHub: React.FC = () => {
           {/* Add Food Section */}
           <div className="bg-gray-800 rounded-lg p-6">
             <h3 className="text-lg font-semibold mb-4">Add Food</h3>
+
+            {/* Quick add from the built-in food database */}
+            <div className="mb-4">
+              <input
+                type="text"
+                placeholder="Search the food database (e.g., banana, chicken, oats)..."
+                value={foodSearch}
+                onChange={(e) => setFoodSearch(e.target.value)}
+                className="w-full px-3 py-2 bg-gray-700 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none"
+              />
+              {foodSearch.trim() && (
+                <div className="mt-2 max-h-64 divide-y divide-gray-700 overflow-y-auto rounded-lg border border-gray-700">
+                  {searchFoods(foodSearch).slice(0, 8).map(food => {
+                    const f = food.serving_size_grams / 100;
+                    return (
+                      <div key={food.id} className="flex items-center justify-between gap-2 bg-gray-900 px-3 py-2">
+                        <div className="min-w-0">
+                          <p className="truncate text-sm text-white">{food.name}</p>
+                          <p className="text-xs text-gray-500">
+                            {Math.round(food.calories_per_100g * f)} cal · {Math.round(food.protein_per_100g * f)}g protein · {food.common_serving_size}
+                          </p>
+                        </div>
+                        <button
+                          onClick={() => {
+                            const entry: NutritionEntry = {
+                              id: Date.now().toString(),
+                              foodId: food.id,
+                              foodName: food.name,
+                              quantity: 1,
+                              unit: food.common_serving_size,
+                              mealTag: 'Breakfast',
+                              calories: Math.round(food.calories_per_100g * f),
+                              protein: Math.round(food.protein_per_100g * f * 10) / 10,
+                              carbs: Math.round(food.carbs_per_100g * f * 10) / 10,
+                              fat: Math.round(food.fat_per_100g * f * 10) / 10,
+                              fiber: Math.round(food.fiber_per_100g * f * 10) / 10,
+                              sugar: Math.round(food.sugar_per_100g * f * 10) / 10,
+                              sodium: Math.round(food.sodium_per_100g * f),
+                              notes: '',
+                              timestamp: new Date().toISOString()
+                            };
+                            setNutritionEntries([...nutritionEntries, entry]);
+                            setFoodSearch('');
+                          }}
+                          className="shrink-0 rounded-lg bg-green-600 px-3 py-1.5 text-xs font-medium hover:bg-green-500 transition-colors"
+                        >
+                          Add
+                        </button>
+                      </div>
+                    );
+                  })}
+                  {searchFoods(foodSearch).length === 0 && (
+                    <p className="bg-gray-900 px-3 py-2 text-xs text-gray-500">No match in the database — enter it manually below.</p>
+                  )}
+                </div>
+              )}
+              <p className="mt-3 text-xs text-gray-500">Or enter a food manually:</p>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <input
                 type="text"

@@ -1,4 +1,5 @@
-// Comprehensive food database with nutritional information
+// Food database with per-100g nutritional values based on USDA FoodData
+// Central reference figures. Expanded July 2026 from 15 to 65 common foods.
 export interface FoodItem {
   id: string;
   name: string;
@@ -18,288 +19,103 @@ export interface FoodItem {
 }
 
 export const foodDatabase: FoodItem[] = [
-  // Proteins
-  {
-    id: "chicken-breast",
-    name: "Chicken Breast (skinless)",
-    category: "Protein",
-    calories_per_100g: 165,
-    protein_per_100g: 31,
-    carbs_per_100g: 0,
-    fat_per_100g: 3.6,
-    fiber_per_100g: 0,
-    sugar_per_100g: 0,
-    sodium_per_100g: 74,
-    low_glycemic: true,
-    heart_healthy: true,
-    diet_suitability: ["keto", "paleo", "low-carb"],
-    common_serving_size: "1 breast (174g)",
-    serving_size_grams: 174
-  },
-  {
-    id: "salmon",
-    name: "Atlantic Salmon",
-    category: "Protein",
-    calories_per_100g: 208,
-    protein_per_100g: 25,
-    carbs_per_100g: 0,
-    fat_per_100g: 12,
-    fiber_per_100g: 0,
-    sugar_per_100g: 0,
-    sodium_per_100g: 59,
-    low_glycemic: true,
-    heart_healthy: true,
-    diet_suitability: ["keto", "paleo", "mediterranean"],
-    common_serving_size: "1 fillet (150g)",
-    serving_size_grams: 150
-  },
-  {
-    id: "eggs",
-    name: "Large Eggs",
-    category: "Protein",
-    calories_per_100g: 155,
-    protein_per_100g: 13,
-    carbs_per_100g: 1.1,
-    fat_per_100g: 11,
-    fiber_per_100g: 0,
-    sugar_per_100g: 1.1,
-    sodium_per_100g: 124,
-    low_glycemic: true,
-    heart_healthy: true,
-    diet_suitability: ["keto", "paleo", "vegetarian"],
-    common_serving_size: "2 large eggs (100g)",
-    serving_size_grams: 100
-  },
-  
-  // Vegetables
-  {
-    id: "avocado",
-    name: "Avocado",
-    category: "Vegetables",
-    calories_per_100g: 160,
-    protein_per_100g: 2,
-    carbs_per_100g: 9,
-    fat_per_100g: 15,
-    fiber_per_100g: 7,
-    sugar_per_100g: 0.7,
-    sodium_per_100g: 7,
-    low_glycemic: true,
-    heart_healthy: true,
-    diet_suitability: ["keto", "paleo", "vegan", "mediterranean"],
-    common_serving_size: "1 medium (150g)",
-    serving_size_grams: 150
-  },
-  {
-    id: "spinach",
-    name: "Fresh Spinach",
-    category: "Vegetables",
-    calories_per_100g: 23,
-    protein_per_100g: 2.9,
-    carbs_per_100g: 3.6,
-    fat_per_100g: 0.4,
-    fiber_per_100g: 2.2,
-    sugar_per_100g: 0.4,
-    sodium_per_100g: 79,
-    low_glycemic: true,
-    heart_healthy: true,
-    diet_suitability: ["keto", "paleo", "vegan", "vegetarian"],
-    common_serving_size: "1 cup (30g)",
-    serving_size_grams: 30
-  },
-  {
-    id: "broccoli",
-    name: "Broccoli",
-    category: "Vegetables",
-    calories_per_100g: 34,
-    protein_per_100g: 2.8,
-    carbs_per_100g: 7,
-    fat_per_100g: 0.4,
-    fiber_per_100g: 2.6,
-    sugar_per_100g: 1.5,
-    sodium_per_100g: 33,
-    low_glycemic: true,
-    heart_healthy: true,
-    diet_suitability: ["keto", "paleo", "vegan", "vegetarian"],
-    common_serving_size: "1 cup chopped (91g)",
-    serving_size_grams: 91
-  },
-  
-  // Fruits
-  {
-    id: "blueberries",
-    name: "Blueberries",
-    category: "Fruits",
-    calories_per_100g: 57,
-    protein_per_100g: 0.7,
-    carbs_per_100g: 14,
-    fat_per_100g: 0.3,
-    fiber_per_100g: 2.4,
-    sugar_per_100g: 10,
-    sodium_per_100g: 1,
-    low_glycemic: true,
-    heart_healthy: true,
-    diet_suitability: ["paleo", "vegan", "vegetarian"],
-    common_serving_size: "1 cup (148g)",
-    serving_size_grams: 148
-  },
-  {
-    id: "apple",
-    name: "Apple (with skin)",
-    category: "Fruits",
-    calories_per_100g: 52,
-    protein_per_100g: 0.3,
-    carbs_per_100g: 14,
-    fat_per_100g: 0.2,
-    fiber_per_100g: 2.4,
-    sugar_per_100g: 10,
-    sodium_per_100g: 1,
-    low_glycemic: true,
-    heart_healthy: true,
-    diet_suitability: ["paleo", "vegan", "vegetarian"],
-    common_serving_size: "1 medium (182g)",
-    serving_size_grams: 182
-  },
-  
-  // Grains
-  {
-    id: "quinoa",
-    name: "Quinoa (cooked)",
-    category: "Grains",
-    calories_per_100g: 120,
-    protein_per_100g: 4.4,
-    carbs_per_100g: 22,
-    fat_per_100g: 1.9,
-    fiber_per_100g: 2.8,
-    sugar_per_100g: 0.9,
-    sodium_per_100g: 7,
-    low_glycemic: true,
-    heart_healthy: true,
-    diet_suitability: ["vegan", "vegetarian", "gluten-free"],
-    common_serving_size: "1 cup cooked (185g)",
-    serving_size_grams: 185
-  },
-  {
-    id: "brown-rice",
-    name: "Brown Rice (cooked)",
-    category: "Grains",
-    calories_per_100g: 111,
-    protein_per_100g: 2.6,
-    carbs_per_100g: 23,
-    fat_per_100g: 0.9,
-    fiber_per_100g: 1.8,
-    sugar_per_100g: 0.4,
-    sodium_per_100g: 5,
-    low_glycemic: false,
-    heart_healthy: true,
-    diet_suitability: ["vegan", "vegetarian", "gluten-free"],
-    common_serving_size: "1 cup cooked (195g)",
-    serving_size_grams: 195
-  },
-  
-  // Nuts & Seeds
-  {
-    id: "almonds",
-    name: "Almonds",
-    category: "Nuts & Seeds",
-    calories_per_100g: 579,
-    protein_per_100g: 21,
-    carbs_per_100g: 22,
-    fat_per_100g: 50,
-    fiber_per_100g: 12,
-    sugar_per_100g: 4.4,
-    sodium_per_100g: 1,
-    low_glycemic: true,
-    heart_healthy: true,
-    diet_suitability: ["keto", "paleo", "vegan", "vegetarian"],
-    common_serving_size: "1 oz (28g)",
-    serving_size_grams: 28
-  },
-  {
-    id: "chia-seeds",
-    name: "Chia Seeds",
-    category: "Nuts & Seeds",
-    calories_per_100g: 486,
-    protein_per_100g: 17,
-    carbs_per_100g: 42,
-    fat_per_100g: 31,
-    fiber_per_100g: 34,
-    sugar_per_100g: 0,
-    sodium_per_100g: 16,
-    low_glycemic: true,
-    heart_healthy: true,
-    diet_suitability: ["keto", "paleo", "vegan", "vegetarian"],
-    common_serving_size: "1 tbsp (12g)",
-    serving_size_grams: 12
-  },
-  
-  // Dairy
-  {
-    id: "greek-yogurt",
-    name: "Greek Yogurt (plain, nonfat)",
-    category: "Dairy",
-    calories_per_100g: 59,
-    protein_per_100g: 10,
-    carbs_per_100g: 3.6,
-    fat_per_100g: 0.4,
-    fiber_per_100g: 0,
-    sugar_per_100g: 3.6,
-    sodium_per_100g: 36,
-    low_glycemic: true,
-    heart_healthy: true,
-    diet_suitability: ["vegetarian", "low-carb"],
-    common_serving_size: "1 cup (245g)",
-    serving_size_grams: 245
-  },
-  
-  // Beverages
-  {
-    id: "green-tea",
-    name: "Green Tea (brewed)",
-    category: "Beverages",
-    calories_per_100g: 1,
-    protein_per_100g: 0,
-    carbs_per_100g: 0,
-    fat_per_100g: 0,
-    fiber_per_100g: 0,
-    sugar_per_100g: 0,
-    sodium_per_100g: 1,
-    low_glycemic: true,
-    heart_healthy: true,
-    diet_suitability: ["keto", "paleo", "vegan", "vegetarian"],
-    common_serving_size: "1 cup (240ml)",
-    serving_size_grams: 240
-  },
-  
-  // Fast-breaking foods
-  {
-    id: "bone-broth",
-    name: "Bone Broth",
-    category: "Beverages",
-    calories_per_100g: 31,
-    protein_per_100g: 6,
-    carbs_per_100g: 0.5,
-    fat_per_100g: 1.2,
-    fiber_per_100g: 0,
-    sugar_per_100g: 0,
-    sodium_per_100g: 343,
-    low_glycemic: true,
-    heart_healthy: true,
-    diet_suitability: ["keto", "paleo"],
-    common_serving_size: "1 cup (240ml)",
-    serving_size_grams: 240
-  }
+  // ---- Proteins ----
+  { id: "chicken-breast", name: "Chicken Breast (skinless)", category: "Protein", calories_per_100g: 165, protein_per_100g: 31, carbs_per_100g: 0, fat_per_100g: 3.6, fiber_per_100g: 0, sugar_per_100g: 0, sodium_per_100g: 74, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "paleo", "low-carb"], common_serving_size: "1 breast (174g)", serving_size_grams: 174 },
+  { id: "salmon", name: "Atlantic Salmon", category: "Protein", calories_per_100g: 208, protein_per_100g: 25, carbs_per_100g: 0, fat_per_100g: 12, fiber_per_100g: 0, sugar_per_100g: 0, sodium_per_100g: 59, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "paleo", "mediterranean"], common_serving_size: "1 fillet (150g)", serving_size_grams: 150 },
+  { id: "eggs", name: "Large Eggs", category: "Protein", calories_per_100g: 155, protein_per_100g: 13, carbs_per_100g: 1.1, fat_per_100g: 11, fiber_per_100g: 0, sugar_per_100g: 1.1, sodium_per_100g: 124, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "paleo", "vegetarian"], common_serving_size: "2 large eggs (100g)", serving_size_grams: 100 },
+  { id: "ground-beef-85", name: "Ground Beef (85% lean, cooked)", category: "Protein", calories_per_100g: 246, protein_per_100g: 25, carbs_per_100g: 0, fat_per_100g: 16, fiber_per_100g: 0, sugar_per_100g: 0, sodium_per_100g: 79, low_glycemic: true, heart_healthy: false, diet_suitability: ["keto", "paleo", "low-carb"], common_serving_size: "3 oz cooked (85g)", serving_size_grams: 85 },
+  { id: "turkey-breast", name: "Turkey Breast (roasted)", category: "Protein", calories_per_100g: 147, protein_per_100g: 30, carbs_per_100g: 0, fat_per_100g: 2.1, fiber_per_100g: 0, sugar_per_100g: 0, sodium_per_100g: 99, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "paleo", "low-carb"], common_serving_size: "3 oz (85g)", serving_size_grams: 85 },
+  { id: "tuna-canned", name: "Tuna (canned in water)", category: "Protein", calories_per_100g: 116, protein_per_100g: 26, carbs_per_100g: 0, fat_per_100g: 0.8, fiber_per_100g: 0, sugar_per_100g: 0, sodium_per_100g: 247, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "paleo", "low-carb", "mediterranean"], common_serving_size: "1 can drained (142g)", serving_size_grams: 142 },
+  { id: "shrimp", name: "Shrimp (cooked)", category: "Protein", calories_per_100g: 99, protein_per_100g: 24, carbs_per_100g: 0.2, fat_per_100g: 0.3, fiber_per_100g: 0, sugar_per_100g: 0, sodium_per_100g: 111, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "paleo", "low-carb", "mediterranean"], common_serving_size: "3 oz (85g)", serving_size_grams: 85 },
+  { id: "tilapia", name: "Tilapia (cooked)", category: "Protein", calories_per_100g: 128, protein_per_100g: 26, carbs_per_100g: 0, fat_per_100g: 2.7, fiber_per_100g: 0, sugar_per_100g: 0, sodium_per_100g: 56, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "paleo", "low-carb"], common_serving_size: "1 fillet (87g)", serving_size_grams: 87 },
+  { id: "pork-chop", name: "Pork Chop (lean, broiled)", category: "Protein", calories_per_100g: 196, protein_per_100g: 28, carbs_per_100g: 0, fat_per_100g: 8.6, fiber_per_100g: 0, sugar_per_100g: 0, sodium_per_100g: 59, low_glycemic: true, heart_healthy: false, diet_suitability: ["keto", "paleo", "low-carb"], common_serving_size: "1 chop (131g)", serving_size_grams: 131 },
+  { id: "tofu-firm", name: "Tofu (firm)", category: "Protein", calories_per_100g: 76, protein_per_100g: 8, carbs_per_100g: 1.9, fat_per_100g: 4.8, fiber_per_100g: 0.3, sugar_per_100g: 0.6, sodium_per_100g: 7, low_glycemic: true, heart_healthy: true, diet_suitability: ["vegan", "vegetarian", "low-carb"], common_serving_size: "1/2 block (126g)", serving_size_grams: 126 },
+  { id: "black-beans", name: "Black Beans (cooked)", category: "Protein", calories_per_100g: 132, protein_per_100g: 8.9, carbs_per_100g: 24, fat_per_100g: 0.5, fiber_per_100g: 8.7, sugar_per_100g: 0.3, sodium_per_100g: 2, low_glycemic: true, heart_healthy: true, diet_suitability: ["vegan", "vegetarian", "gluten-free"], common_serving_size: "1/2 cup (86g)", serving_size_grams: 86 },
+  { id: "chickpeas", name: "Chickpeas (cooked)", category: "Protein", calories_per_100g: 164, protein_per_100g: 8.9, carbs_per_100g: 27, fat_per_100g: 2.6, fiber_per_100g: 7.6, sugar_per_100g: 4.8, sodium_per_100g: 7, low_glycemic: true, heart_healthy: true, diet_suitability: ["vegan", "vegetarian", "mediterranean", "gluten-free"], common_serving_size: "1/2 cup (82g)", serving_size_grams: 82 },
+  { id: "lentils", name: "Lentils (cooked)", category: "Protein", calories_per_100g: 116, protein_per_100g: 9, carbs_per_100g: 20, fat_per_100g: 0.4, fiber_per_100g: 7.9, sugar_per_100g: 1.8, sodium_per_100g: 2, low_glycemic: true, heart_healthy: true, diet_suitability: ["vegan", "vegetarian", "gluten-free"], common_serving_size: "1/2 cup (99g)", serving_size_grams: 99 },
+  { id: "cottage-cheese", name: "Cottage Cheese (2% lowfat)", category: "Protein", calories_per_100g: 84, protein_per_100g: 11, carbs_per_100g: 4.3, fat_per_100g: 2.3, fiber_per_100g: 0, sugar_per_100g: 4.1, sodium_per_100g: 321, low_glycemic: true, heart_healthy: true, diet_suitability: ["vegetarian", "low-carb"], common_serving_size: "1/2 cup (113g)", serving_size_grams: 113 },
+  { id: "whey-protein", name: "Whey Protein Powder", category: "Protein", calories_per_100g: 400, protein_per_100g: 77, carbs_per_100g: 10, fat_per_100g: 5, fiber_per_100g: 1, sugar_per_100g: 4, sodium_per_100g: 350, low_glycemic: true, heart_healthy: true, diet_suitability: ["vegetarian", "low-carb"], common_serving_size: "1 scoop (30g)", serving_size_grams: 30 },
+
+  // ---- Vegetables ----
+  { id: "avocado", name: "Avocado", category: "Vegetables", calories_per_100g: 160, protein_per_100g: 2, carbs_per_100g: 9, fat_per_100g: 15, fiber_per_100g: 7, sugar_per_100g: 0.7, sodium_per_100g: 7, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "paleo", "vegan", "mediterranean"], common_serving_size: "1 medium (150g)", serving_size_grams: 150 },
+  { id: "spinach", name: "Fresh Spinach", category: "Vegetables", calories_per_100g: 23, protein_per_100g: 2.9, carbs_per_100g: 3.6, fat_per_100g: 0.4, fiber_per_100g: 2.2, sugar_per_100g: 0.4, sodium_per_100g: 79, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "paleo", "vegan", "vegetarian"], common_serving_size: "1 cup (30g)", serving_size_grams: 30 },
+  { id: "broccoli", name: "Broccoli", category: "Vegetables", calories_per_100g: 34, protein_per_100g: 2.8, carbs_per_100g: 7, fat_per_100g: 0.4, fiber_per_100g: 2.6, sugar_per_100g: 1.5, sodium_per_100g: 33, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "paleo", "vegan", "vegetarian"], common_serving_size: "1 cup chopped (91g)", serving_size_grams: 91 },
+  { id: "sweet-potato", name: "Sweet Potato (baked)", category: "Vegetables", calories_per_100g: 90, protein_per_100g: 2, carbs_per_100g: 21, fat_per_100g: 0.1, fiber_per_100g: 3.3, sugar_per_100g: 6.5, sodium_per_100g: 36, low_glycemic: false, heart_healthy: true, diet_suitability: ["paleo", "vegan", "vegetarian", "gluten-free"], common_serving_size: "1 medium (114g)", serving_size_grams: 114 },
+  { id: "potato", name: "Potato (baked, with skin)", category: "Vegetables", calories_per_100g: 93, protein_per_100g: 2.5, carbs_per_100g: 21, fat_per_100g: 0.1, fiber_per_100g: 2.2, sugar_per_100g: 1.2, sodium_per_100g: 10, low_glycemic: false, heart_healthy: true, diet_suitability: ["vegan", "vegetarian", "gluten-free"], common_serving_size: "1 medium (173g)", serving_size_grams: 173 },
+  { id: "carrots", name: "Carrots (raw)", category: "Vegetables", calories_per_100g: 41, protein_per_100g: 0.9, carbs_per_100g: 10, fat_per_100g: 0.2, fiber_per_100g: 2.8, sugar_per_100g: 4.7, sodium_per_100g: 69, low_glycemic: true, heart_healthy: true, diet_suitability: ["paleo", "vegan", "vegetarian"], common_serving_size: "1 medium (61g)", serving_size_grams: 61 },
+  { id: "tomato", name: "Tomato (raw)", category: "Vegetables", calories_per_100g: 18, protein_per_100g: 0.9, carbs_per_100g: 3.9, fat_per_100g: 0.2, fiber_per_100g: 1.2, sugar_per_100g: 2.6, sodium_per_100g: 5, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "paleo", "vegan", "mediterranean"], common_serving_size: "1 medium (123g)", serving_size_grams: 123 },
+  { id: "cucumber", name: "Cucumber (with peel)", category: "Vegetables", calories_per_100g: 15, protein_per_100g: 0.7, carbs_per_100g: 3.6, fat_per_100g: 0.1, fiber_per_100g: 0.5, sugar_per_100g: 1.7, sodium_per_100g: 2, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "paleo", "vegan", "vegetarian"], common_serving_size: "1/2 cup sliced (52g)", serving_size_grams: 52 },
+  { id: "bell-pepper", name: "Red Bell Pepper", category: "Vegetables", calories_per_100g: 31, protein_per_100g: 1, carbs_per_100g: 6, fat_per_100g: 0.3, fiber_per_100g: 2.1, sugar_per_100g: 4.2, sodium_per_100g: 4, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "paleo", "vegan", "mediterranean"], common_serving_size: "1 medium (119g)", serving_size_grams: 119 },
+  { id: "onion", name: "Onion (raw)", category: "Vegetables", calories_per_100g: 40, protein_per_100g: 1.1, carbs_per_100g: 9.3, fat_per_100g: 0.1, fiber_per_100g: 1.7, sugar_per_100g: 4.2, sodium_per_100g: 4, low_glycemic: true, heart_healthy: true, diet_suitability: ["paleo", "vegan", "vegetarian"], common_serving_size: "1 medium (110g)", serving_size_grams: 110 },
+  { id: "kale", name: "Kale (raw)", category: "Vegetables", calories_per_100g: 49, protein_per_100g: 4.3, carbs_per_100g: 9, fat_per_100g: 0.9, fiber_per_100g: 3.6, sugar_per_100g: 2.3, sodium_per_100g: 38, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "paleo", "vegan", "vegetarian"], common_serving_size: "1 cup chopped (67g)", serving_size_grams: 67 },
+  { id: "cauliflower", name: "Cauliflower", category: "Vegetables", calories_per_100g: 25, protein_per_100g: 1.9, carbs_per_100g: 5, fat_per_100g: 0.3, fiber_per_100g: 2, sugar_per_100g: 1.9, sodium_per_100g: 30, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "paleo", "vegan", "vegetarian"], common_serving_size: "1 cup chopped (107g)", serving_size_grams: 107 },
+  { id: "zucchini", name: "Zucchini", category: "Vegetables", calories_per_100g: 17, protein_per_100g: 1.2, carbs_per_100g: 3.1, fat_per_100g: 0.3, fiber_per_100g: 1, sugar_per_100g: 2.5, sodium_per_100g: 8, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "paleo", "vegan", "vegetarian"], common_serving_size: "1 medium (196g)", serving_size_grams: 196 },
+  { id: "green-beans", name: "Green Beans", category: "Vegetables", calories_per_100g: 31, protein_per_100g: 1.8, carbs_per_100g: 7, fat_per_100g: 0.2, fiber_per_100g: 2.7, sugar_per_100g: 3.3, sodium_per_100g: 6, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "paleo", "vegan", "vegetarian"], common_serving_size: "1 cup (100g)", serving_size_grams: 100 },
+  { id: "mushrooms", name: "White Mushrooms", category: "Vegetables", calories_per_100g: 22, protein_per_100g: 3.1, carbs_per_100g: 3.3, fat_per_100g: 0.3, fiber_per_100g: 1, sugar_per_100g: 2, sodium_per_100g: 5, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "paleo", "vegan", "vegetarian"], common_serving_size: "1 cup sliced (70g)", serving_size_grams: 70 },
+  { id: "romaine", name: "Romaine Lettuce", category: "Vegetables", calories_per_100g: 17, protein_per_100g: 1.2, carbs_per_100g: 3.3, fat_per_100g: 0.3, fiber_per_100g: 2.1, sugar_per_100g: 1.2, sodium_per_100g: 8, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "paleo", "vegan", "vegetarian"], common_serving_size: "2 cups shredded (94g)", serving_size_grams: 94 },
+  { id: "asparagus", name: "Asparagus", category: "Vegetables", calories_per_100g: 20, protein_per_100g: 2.2, carbs_per_100g: 3.9, fat_per_100g: 0.1, fiber_per_100g: 2.1, sugar_per_100g: 1.9, sodium_per_100g: 2, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "paleo", "vegan", "vegetarian"], common_serving_size: "6 spears (90g)", serving_size_grams: 90 },
+  { id: "corn", name: "Sweet Corn (cooked)", category: "Vegetables", calories_per_100g: 96, protein_per_100g: 3.4, carbs_per_100g: 21, fat_per_100g: 1.5, fiber_per_100g: 2.4, sugar_per_100g: 4.5, sodium_per_100g: 1, low_glycemic: false, heart_healthy: true, diet_suitability: ["vegan", "vegetarian", "gluten-free"], common_serving_size: "1 ear (90g)", serving_size_grams: 90 },
+
+  // ---- Fruits ----
+  { id: "blueberries", name: "Blueberries", category: "Fruits", calories_per_100g: 57, protein_per_100g: 0.7, carbs_per_100g: 14, fat_per_100g: 0.3, fiber_per_100g: 2.4, sugar_per_100g: 10, sodium_per_100g: 1, low_glycemic: true, heart_healthy: true, diet_suitability: ["paleo", "vegan", "vegetarian"], common_serving_size: "1 cup (148g)", serving_size_grams: 148 },
+  { id: "apple", name: "Apple (with skin)", category: "Fruits", calories_per_100g: 52, protein_per_100g: 0.3, carbs_per_100g: 14, fat_per_100g: 0.2, fiber_per_100g: 2.4, sugar_per_100g: 10, sodium_per_100g: 1, low_glycemic: true, heart_healthy: true, diet_suitability: ["paleo", "vegan", "vegetarian"], common_serving_size: "1 medium (182g)", serving_size_grams: 182 },
+  { id: "banana", name: "Banana", category: "Fruits", calories_per_100g: 89, protein_per_100g: 1.1, carbs_per_100g: 23, fat_per_100g: 0.3, fiber_per_100g: 2.6, sugar_per_100g: 12, sodium_per_100g: 1, low_glycemic: false, heart_healthy: true, diet_suitability: ["paleo", "vegan", "vegetarian"], common_serving_size: "1 medium (118g)", serving_size_grams: 118 },
+  { id: "orange", name: "Orange", category: "Fruits", calories_per_100g: 47, protein_per_100g: 0.9, carbs_per_100g: 12, fat_per_100g: 0.1, fiber_per_100g: 2.4, sugar_per_100g: 9.4, sodium_per_100g: 0, low_glycemic: true, heart_healthy: true, diet_suitability: ["paleo", "vegan", "vegetarian"], common_serving_size: "1 medium (131g)", serving_size_grams: 131 },
+  { id: "strawberries", name: "Strawberries", category: "Fruits", calories_per_100g: 32, protein_per_100g: 0.7, carbs_per_100g: 7.7, fat_per_100g: 0.3, fiber_per_100g: 2, sugar_per_100g: 4.9, sodium_per_100g: 1, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "paleo", "vegan", "vegetarian"], common_serving_size: "1 cup halves (152g)", serving_size_grams: 152 },
+  { id: "grapes", name: "Grapes", category: "Fruits", calories_per_100g: 69, protein_per_100g: 0.7, carbs_per_100g: 18, fat_per_100g: 0.2, fiber_per_100g: 0.9, sugar_per_100g: 16, sodium_per_100g: 2, low_glycemic: false, heart_healthy: true, diet_suitability: ["paleo", "vegan", "vegetarian"], common_serving_size: "1 cup (92g)", serving_size_grams: 92 },
+  { id: "watermelon", name: "Watermelon", category: "Fruits", calories_per_100g: 30, protein_per_100g: 0.6, carbs_per_100g: 7.6, fat_per_100g: 0.2, fiber_per_100g: 0.4, sugar_per_100g: 6.2, sodium_per_100g: 1, low_glycemic: false, heart_healthy: true, diet_suitability: ["paleo", "vegan", "vegetarian"], common_serving_size: "1 cup diced (152g)", serving_size_grams: 152 },
+  { id: "pineapple", name: "Pineapple", category: "Fruits", calories_per_100g: 50, protein_per_100g: 0.5, carbs_per_100g: 13, fat_per_100g: 0.1, fiber_per_100g: 1.4, sugar_per_100g: 9.9, sodium_per_100g: 1, low_glycemic: false, heart_healthy: true, diet_suitability: ["paleo", "vegan", "vegetarian"], common_serving_size: "1 cup chunks (165g)", serving_size_grams: 165 },
+  { id: "mango", name: "Mango", category: "Fruits", calories_per_100g: 60, protein_per_100g: 0.8, carbs_per_100g: 15, fat_per_100g: 0.4, fiber_per_100g: 1.6, sugar_per_100g: 14, sodium_per_100g: 1, low_glycemic: false, heart_healthy: true, diet_suitability: ["paleo", "vegan", "vegetarian"], common_serving_size: "1 cup pieces (165g)", serving_size_grams: 165 },
+  { id: "peach", name: "Peach", category: "Fruits", calories_per_100g: 39, protein_per_100g: 0.9, carbs_per_100g: 9.5, fat_per_100g: 0.3, fiber_per_100g: 1.5, sugar_per_100g: 8.4, sodium_per_100g: 0, low_glycemic: true, heart_healthy: true, diet_suitability: ["paleo", "vegan", "vegetarian"], common_serving_size: "1 medium (150g)", serving_size_grams: 150 },
+  { id: "kiwi", name: "Kiwifruit", category: "Fruits", calories_per_100g: 61, protein_per_100g: 1.1, carbs_per_100g: 15, fat_per_100g: 0.5, fiber_per_100g: 3, sugar_per_100g: 9, sodium_per_100g: 3, low_glycemic: true, heart_healthy: true, diet_suitability: ["paleo", "vegan", "vegetarian"], common_serving_size: "1 medium (69g)", serving_size_grams: 69 },
+
+  // ---- Grains & Carbs ----
+  { id: "quinoa", name: "Quinoa (cooked)", category: "Grains", calories_per_100g: 120, protein_per_100g: 4.4, carbs_per_100g: 22, fat_per_100g: 1.9, fiber_per_100g: 2.8, sugar_per_100g: 0.9, sodium_per_100g: 7, low_glycemic: true, heart_healthy: true, diet_suitability: ["vegan", "vegetarian", "gluten-free"], common_serving_size: "1 cup cooked (185g)", serving_size_grams: 185 },
+  { id: "brown-rice", name: "Brown Rice (cooked)", category: "Grains", calories_per_100g: 111, protein_per_100g: 2.6, carbs_per_100g: 23, fat_per_100g: 0.9, fiber_per_100g: 1.8, sugar_per_100g: 0.4, sodium_per_100g: 5, low_glycemic: false, heart_healthy: true, diet_suitability: ["vegan", "vegetarian", "gluten-free"], common_serving_size: "1 cup cooked (195g)", serving_size_grams: 195 },
+  { id: "white-rice", name: "White Rice (cooked)", category: "Grains", calories_per_100g: 130, protein_per_100g: 2.7, carbs_per_100g: 28, fat_per_100g: 0.3, fiber_per_100g: 0.4, sugar_per_100g: 0.1, sodium_per_100g: 1, low_glycemic: false, heart_healthy: false, diet_suitability: ["vegan", "vegetarian", "gluten-free"], common_serving_size: "1 cup cooked (158g)", serving_size_grams: 158 },
+  { id: "oats", name: "Oats (dry, rolled)", category: "Grains", calories_per_100g: 389, protein_per_100g: 16.9, carbs_per_100g: 66, fat_per_100g: 6.9, fiber_per_100g: 10.6, sugar_per_100g: 0.9, sodium_per_100g: 2, low_glycemic: true, heart_healthy: true, diet_suitability: ["vegan", "vegetarian"], common_serving_size: "1/2 cup dry (40g)", serving_size_grams: 40 },
+  { id: "whole-wheat-bread", name: "Whole Wheat Bread", category: "Grains", calories_per_100g: 247, protein_per_100g: 13, carbs_per_100g: 41, fat_per_100g: 3.4, fiber_per_100g: 6, sugar_per_100g: 5.6, sodium_per_100g: 450, low_glycemic: false, heart_healthy: true, diet_suitability: ["vegan", "vegetarian"], common_serving_size: "1 slice (32g)", serving_size_grams: 32 },
+  { id: "white-bread", name: "White Bread", category: "Grains", calories_per_100g: 265, protein_per_100g: 9, carbs_per_100g: 49, fat_per_100g: 3.2, fiber_per_100g: 2.7, sugar_per_100g: 5, sodium_per_100g: 490, low_glycemic: false, heart_healthy: false, diet_suitability: ["vegetarian"], common_serving_size: "1 slice (29g)", serving_size_grams: 29 },
+  { id: "pasta", name: "Pasta (cooked)", category: "Grains", calories_per_100g: 158, protein_per_100g: 5.8, carbs_per_100g: 31, fat_per_100g: 0.9, fiber_per_100g: 1.8, sugar_per_100g: 0.6, sodium_per_100g: 1, low_glycemic: false, heart_healthy: false, diet_suitability: ["vegan", "vegetarian"], common_serving_size: "1 cup cooked (140g)", serving_size_grams: 140 },
+  { id: "flour-tortilla", name: "Flour Tortilla", category: "Grains", calories_per_100g: 297, protein_per_100g: 8, carbs_per_100g: 49, fat_per_100g: 7.6, fiber_per_100g: 3.5, sugar_per_100g: 3.7, sodium_per_100g: 599, low_glycemic: false, heart_healthy: false, diet_suitability: ["vegetarian"], common_serving_size: "1 medium (45g)", serving_size_grams: 45 },
+
+  // ---- Nuts & Seeds ----
+  { id: "almonds", name: "Almonds", category: "Nuts & Seeds", calories_per_100g: 579, protein_per_100g: 21, carbs_per_100g: 22, fat_per_100g: 50, fiber_per_100g: 12, sugar_per_100g: 4.4, sodium_per_100g: 1, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "paleo", "vegan", "vegetarian"], common_serving_size: "1 oz (28g)", serving_size_grams: 28 },
+  { id: "chia-seeds", name: "Chia Seeds", category: "Nuts & Seeds", calories_per_100g: 486, protein_per_100g: 17, carbs_per_100g: 42, fat_per_100g: 31, fiber_per_100g: 34, sugar_per_100g: 0, sodium_per_100g: 16, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "paleo", "vegan", "vegetarian"], common_serving_size: "1 tbsp (12g)", serving_size_grams: 12 },
+  { id: "walnuts", name: "Walnuts", category: "Nuts & Seeds", calories_per_100g: 654, protein_per_100g: 15, carbs_per_100g: 14, fat_per_100g: 65, fiber_per_100g: 6.7, sugar_per_100g: 2.6, sodium_per_100g: 2, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "paleo", "vegan", "mediterranean"], common_serving_size: "1 oz (28g)", serving_size_grams: 28 },
+  { id: "cashews", name: "Cashews", category: "Nuts & Seeds", calories_per_100g: 553, protein_per_100g: 18, carbs_per_100g: 30, fat_per_100g: 44, fiber_per_100g: 3.3, sugar_per_100g: 5.9, sodium_per_100g: 12, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "paleo", "vegan", "vegetarian"], common_serving_size: "1 oz (28g)", serving_size_grams: 28 },
+  { id: "peanuts", name: "Peanuts (dry roasted)", category: "Nuts & Seeds", calories_per_100g: 587, protein_per_100g: 24, carbs_per_100g: 21, fat_per_100g: 50, fiber_per_100g: 8.4, sugar_per_100g: 4.9, sodium_per_100g: 6, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "vegan", "vegetarian"], common_serving_size: "1 oz (28g)", serving_size_grams: 28 },
+  { id: "peanut-butter", name: "Peanut Butter (natural)", category: "Nuts & Seeds", calories_per_100g: 588, protein_per_100g: 25, carbs_per_100g: 20, fat_per_100g: 50, fiber_per_100g: 6, sugar_per_100g: 9, sodium_per_100g: 17, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "vegan", "vegetarian"], common_serving_size: "2 tbsp (32g)", serving_size_grams: 32 },
+  { id: "sunflower-seeds", name: "Sunflower Seeds", category: "Nuts & Seeds", calories_per_100g: 584, protein_per_100g: 21, carbs_per_100g: 20, fat_per_100g: 51, fiber_per_100g: 8.6, sugar_per_100g: 2.6, sodium_per_100g: 9, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "paleo", "vegan", "vegetarian"], common_serving_size: "1 oz (28g)", serving_size_grams: 28 },
+
+  // ---- Dairy ----
+  { id: "greek-yogurt", name: "Greek Yogurt (plain, nonfat)", category: "Dairy", calories_per_100g: 59, protein_per_100g: 10, carbs_per_100g: 3.6, fat_per_100g: 0.4, fiber_per_100g: 0, sugar_per_100g: 3.6, sodium_per_100g: 36, low_glycemic: true, heart_healthy: true, diet_suitability: ["vegetarian", "low-carb"], common_serving_size: "1 cup (245g)", serving_size_grams: 245 },
+  { id: "whole-milk", name: "Whole Milk", category: "Dairy", calories_per_100g: 61, protein_per_100g: 3.2, carbs_per_100g: 4.8, fat_per_100g: 3.3, fiber_per_100g: 0, sugar_per_100g: 5.1, sodium_per_100g: 43, low_glycemic: true, heart_healthy: false, diet_suitability: ["vegetarian"], common_serving_size: "1 cup (244g)", serving_size_grams: 244 },
+  { id: "milk-2", name: "Milk (2% reduced fat)", category: "Dairy", calories_per_100g: 50, protein_per_100g: 3.3, carbs_per_100g: 4.8, fat_per_100g: 2, fiber_per_100g: 0, sugar_per_100g: 5.1, sodium_per_100g: 47, low_glycemic: true, heart_healthy: true, diet_suitability: ["vegetarian"], common_serving_size: "1 cup (244g)", serving_size_grams: 244 },
+  { id: "cheddar", name: "Cheddar Cheese", category: "Dairy", calories_per_100g: 403, protein_per_100g: 25, carbs_per_100g: 1.3, fat_per_100g: 33, fiber_per_100g: 0, sugar_per_100g: 0.5, sodium_per_100g: 621, low_glycemic: true, heart_healthy: false, diet_suitability: ["keto", "vegetarian", "low-carb"], common_serving_size: "1 oz (28g)", serving_size_grams: 28 },
+  { id: "mozzarella", name: "Mozzarella (part-skim)", category: "Dairy", calories_per_100g: 254, protein_per_100g: 24, carbs_per_100g: 3, fat_per_100g: 16, fiber_per_100g: 0, sugar_per_100g: 1.1, sodium_per_100g: 619, low_glycemic: true, heart_healthy: false, diet_suitability: ["keto", "vegetarian", "low-carb"], common_serving_size: "1 oz (28g)", serving_size_grams: 28 },
+  { id: "butter", name: "Butter (salted)", category: "Dairy", calories_per_100g: 717, protein_per_100g: 0.9, carbs_per_100g: 0.1, fat_per_100g: 81, fiber_per_100g: 0, sugar_per_100g: 0.1, sodium_per_100g: 643, low_glycemic: true, heart_healthy: false, diet_suitability: ["keto", "vegetarian", "low-carb"], common_serving_size: "1 tbsp (14g)", serving_size_grams: 14 },
+
+  // ---- Beverages & Other ----
+  { id: "green-tea", name: "Green Tea (brewed)", category: "Beverages", calories_per_100g: 1, protein_per_100g: 0, carbs_per_100g: 0, fat_per_100g: 0, fiber_per_100g: 0, sugar_per_100g: 0, sodium_per_100g: 1, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "paleo", "vegan", "vegetarian"], common_serving_size: "1 cup (240ml)", serving_size_grams: 240 },
+  { id: "coffee", name: "Coffee (black, brewed)", category: "Beverages", calories_per_100g: 1, protein_per_100g: 0.1, carbs_per_100g: 0, fat_per_100g: 0, fiber_per_100g: 0, sugar_per_100g: 0, sodium_per_100g: 2, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "paleo", "vegan", "vegetarian"], common_serving_size: "1 cup (240ml)", serving_size_grams: 240 },
+  { id: "orange-juice", name: "Orange Juice", category: "Beverages", calories_per_100g: 45, protein_per_100g: 0.7, carbs_per_100g: 10, fat_per_100g: 0.2, fiber_per_100g: 0.2, sugar_per_100g: 8.4, sodium_per_100g: 1, low_glycemic: false, heart_healthy: true, diet_suitability: ["vegan", "vegetarian"], common_serving_size: "1 cup (248g)", serving_size_grams: 248 },
+  { id: "bone-broth", name: "Bone Broth", category: "Beverages", calories_per_100g: 31, protein_per_100g: 6, carbs_per_100g: 0.5, fat_per_100g: 1.2, fiber_per_100g: 0, sugar_per_100g: 0, sodium_per_100g: 343, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "paleo"], common_serving_size: "1 cup (240ml)", serving_size_grams: 240 },
+  { id: "olive-oil", name: "Olive Oil (extra virgin)", category: "Other", calories_per_100g: 884, protein_per_100g: 0, carbs_per_100g: 0, fat_per_100g: 100, fiber_per_100g: 0, sugar_per_100g: 0, sodium_per_100g: 2, low_glycemic: true, heart_healthy: true, diet_suitability: ["keto", "paleo", "vegan", "mediterranean"], common_serving_size: "1 tbsp (14g)", serving_size_grams: 14 },
+  { id: "honey", name: "Honey", category: "Other", calories_per_100g: 304, protein_per_100g: 0.3, carbs_per_100g: 82, fat_per_100g: 0, fiber_per_100g: 0.2, sugar_per_100g: 82, sodium_per_100g: 4, low_glycemic: false, heart_healthy: false, diet_suitability: ["paleo", "vegetarian"], common_serving_size: "1 tbsp (21g)", serving_size_grams: 21 },
+  { id: "dark-chocolate", name: "Dark Chocolate (70-85%)", category: "Other", calories_per_100g: 598, protein_per_100g: 7.8, carbs_per_100g: 46, fat_per_100g: 43, fiber_per_100g: 11, sugar_per_100g: 24, sodium_per_100g: 20, low_glycemic: true, heart_healthy: true, diet_suitability: ["vegetarian"], common_serving_size: "1 oz (28g)", serving_size_grams: 28 },
 ];
 
 export const getFastBreakingFoods = (): FoodItem[] => {
-  return foodDatabase.filter(food => 
-    food.low_glycemic && 
+  return foodDatabase.filter(food =>
+    food.low_glycemic &&
     (food.heart_healthy || food.category === "Protein" || food.name.includes("Broth"))
   );
 };
 
 export const searchFoods = (query: string): FoodItem[] => {
   if (!query.trim()) return foodDatabase;
-  
+
   const lowercaseQuery = query.toLowerCase();
   return foodDatabase.filter(food =>
     food.name.toLowerCase().includes(lowercaseQuery) ||

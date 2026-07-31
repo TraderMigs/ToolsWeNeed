@@ -41,7 +41,7 @@ const serviceDatabase: ServiceData = {
       {
         name: 'Canva Pro',
         type: 'Paid',
-        price: '$12.99/month',
+        price: '$15/month ($120/yr annual)',
         matchPercentage: 75,
         features: ['Templates', 'Brand kit', 'Background remover', 'Magic resize'],
         pros: ['User-friendly', 'Great templates', 'Collaboration features'],
@@ -70,7 +70,7 @@ const serviceDatabase: ServiceData = {
       {
         name: 'LanguageTool',
         type: 'Freemium',
-        price: '$4.92/month',
+        price: 'From $4.99/month (annual)',
         matchPercentage: 88,
         features: ['Grammar checking', 'Style suggestions', '25+ languages', 'Browser extension'],
         pros: ['Multilingual support', 'Privacy-focused', 'Cheaper pricing'],
@@ -82,7 +82,7 @@ const serviceDatabase: ServiceData = {
       {
         name: 'Hemingway Editor',
         type: 'Paid',
-        price: '$19.99 (one-time)',
+        price: 'Free web / $19.99 desktop (one-time)',
         matchPercentage: 70,
         features: ['Readability analysis', 'Writing suggestions', 'Offline desktop app'],
         pros: ['One-time payment', 'Focus on clarity', 'Offline capability'],
@@ -94,7 +94,7 @@ const serviceDatabase: ServiceData = {
       {
         name: 'ProWritingAid',
         type: 'Freemium',
-        price: '$6.58/month',
+        price: '$10/month (billed annually)',
         matchPercentage: 85,
         features: ['Grammar & style', 'Plagiarism checker', 'Writing reports', 'Integrations'],
         pros: ['Comprehensive analysis', 'Lifetime option available', 'Detailed reports'],
@@ -111,7 +111,7 @@ const serviceDatabase: ServiceData = {
       {
         name: 'YouTube Music',
         type: 'Freemium',
-        price: '$9.99/month',
+        price: '$11.99/month',
         matchPercentage: 90,
         features: ['Ad-free music', 'Offline downloads', 'YouTube integration', 'Podcasts'],
         pros: ['Huge music library', 'YouTube content', 'Same price point'],
@@ -123,7 +123,7 @@ const serviceDatabase: ServiceData = {
       {
         name: 'Apple Music',
         type: 'Paid',
-        price: '$9.99/month',
+        price: '$10.99/month',
         matchPercentage: 88,
         features: ['High-quality audio', 'Exclusive content', 'Spatial audio', 'Radio shows'],
         pros: ['High audio quality', 'Apple ecosystem integration', 'Exclusive releases'],
@@ -135,7 +135,7 @@ const serviceDatabase: ServiceData = {
       {
         name: 'Tidal',
         type: 'Paid',
-        price: '$9.99/month',
+        price: '$11.99/month',
         matchPercentage: 82,
         features: ['Hi-Fi audio', 'Exclusive content', 'Music videos', 'Artist-owned'],
         pros: ['Superior audio quality', 'Artist-friendly', 'Exclusive content'],
@@ -152,7 +152,7 @@ const serviceDatabase: ServiceData = {
       {
         name: 'Google Workspace',
         type: 'Freemium',
-        price: 'Free / $6/month',
+        price: 'Free personal / $7 per user/month',
         matchPercentage: 85,
         features: ['Docs, Sheets, Slides', 'Real-time collaboration', 'Cloud storage', 'Mobile apps'],
         pros: ['Free tier available', 'Excellent collaboration', 'Cloud-native'],
@@ -176,7 +176,7 @@ const serviceDatabase: ServiceData = {
       {
         name: 'Notion',
         type: 'Freemium',
-        price: 'Free / $8/month',
+        price: 'Free / $10/month (annual)',
         matchPercentage: 70,
         features: ['All-in-one workspace', 'Databases', 'Templates', 'Collaboration'],
         pros: ['Versatile platform', 'Great for teams', 'Template library'],
@@ -193,7 +193,7 @@ const serviceDatabase: ServiceData = {
       {
         name: 'Discord',
         type: 'Freemium',
-        price: 'Free / $9.99/month',
+        price: 'Free / Nitro $9.99/month',
         matchPercentage: 75,
         features: ['Voice & video calls', 'Screen sharing', 'File sharing', 'Bots & integrations'],
         pros: ['Free tier generous', 'Great voice quality', 'Gaming-friendly'],
@@ -205,7 +205,7 @@ const serviceDatabase: ServiceData = {
       {
         name: 'Microsoft Teams',
         type: 'Freemium',
-        price: 'Free / $4/month',
+        price: 'Free / $4 per user/month',
         matchPercentage: 90,
         features: ['Chat & channels', 'Video meetings', 'File collaboration', 'Office integration'],
         pros: ['Office integration', 'Enterprise features', 'Lower cost'],
@@ -217,7 +217,7 @@ const serviceDatabase: ServiceData = {
       {
         name: 'Rocket.Chat',
         type: 'Open Source',
-        price: 'Free / $3/month',
+        price: 'Free self-hosted / paid plans vary',
         matchPercentage: 85,
         features: ['Self-hosted option', 'End-to-end encryption', 'Customizable', 'API access'],
         pros: ['Open source', 'Self-hosting option', 'Privacy-focused'],
@@ -327,8 +327,11 @@ const SubscriptionSwapFinder: React.FC = () => {
       <div className="text-center space-y-4">
         <h1 className="text-3xl font-bold text-white">Smart Switch Finder</h1>
         <p className="text-lg text-gray-400 max-w-3xl mx-auto">
-          Find free or cheaper alternatives to your current subscriptions and paid software. 
+          Find free or cheaper alternatives to your current subscriptions and paid software.
           Save money without sacrificing functionality.
+        </p>
+        <p className="text-xs text-gray-500">
+          Alternative prices verified July 2026 — confirm current pricing on each provider's site before switching.
         </p>
       </div>
 
